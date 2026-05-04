@@ -45,5 +45,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             NEXT_PUBLIC_APP_URL=${{ vars.NEXT_PUBLIC_APP_URL }}
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_PONDER_URL=${{ vars.NEXT_PUBLIC_PONDER_URL }}
             NEXT_PUBLIC_WAGMI_ID=${{ secrets.NEXT_PUBLIC_WAGMI_ID }}
             NEXT_PUBLIC_RPC_KEY=${{ secrets.NEXT_PUBLIC_RPC_KEY }}
