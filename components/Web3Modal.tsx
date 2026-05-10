@@ -22,18 +22,21 @@ createAppKit({
 	},
 });
 
+const DARK_THEME_VARS = { "--w3m-color-mix": "#15102A", "--w3m-color-mix-strength": 20, "--w3m-accent": "#8B5CF6" } as const;
+const LIGHT_THEME_VARS = { "--w3m-color-mix": "#ffffff", "--w3m-color-mix-strength": 40, "--w3m-accent": "#6D28D9" } as const;
+
 function AppKitThemeSync() {
 	const [mode] = useTheme();
 	const { setThemeMode, setThemeVariables } = useAppKitTheme();
 
 	useEffect(() => {
 		setThemeMode(mode);
-		setThemeVariables(
-			mode === "dark"
-				? { "--w3m-color-mix": "#15102A", "--w3m-color-mix-strength": 20, "--w3m-accent": "#8B5CF6" }
-				: { "--w3m-color-mix": "#ffffff", "--w3m-color-mix-strength": 40, "--w3m-accent": "#6D28D9" }
-		);
-	}, [mode, setThemeMode, setThemeVariables]);
+		setThemeVariables(mode === "dark" ? DARK_THEME_VARS : LIGHT_THEME_VARS);
+		// setThemeMode/setThemeVariables are recreated on every render by
+		// useAppKitTheme; including them here would loop with AppKit's
+		// internal theme subscription.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [mode]);
 
 	return null;
 }
