@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import BorrowTable from "@components/PageBorrow/BorrowTable";
+import MintStatStrip from "@components/PageBorrow/MintStatStrip";
 import { useEffect } from "react";
 import { store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
@@ -19,11 +20,14 @@ export default function Borrow() {
 				<title>Frankencoin - Borrow</title>
 			</Head>
 
-			<AppTitle title="Borrow Frankencoins">
-				<div className="text-text-secondary">
-					Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Borrow"
+				title="Borrow Frankencoins"
+				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
+			/>
+
+			<MintStatStrip />
 
 			<AppHeroSteps
 				steps={[
@@ -45,7 +49,7 @@ export default function Borrow() {
 				]}
 			/>
 
-			<div className="mt-8">
+			<div className="mt-2">
 				<BorrowTable />
 			</div>
 

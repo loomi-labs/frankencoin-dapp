@@ -89,15 +89,15 @@ export default function BorrowRow({ headers, tab, position, vchfBridge, hideMyWa
 			</div>
 
 			<div className="flex flex-col gap-2">
-				<div className="col-span-2 text-md">{isVCHF ? "Swap 1:1" : `${formatCurrency(nominalLTV, 2, 2)}%`}</div>
+				<div className="col-span-2 text-md font-mono">{isVCHF ? "Swap 1:1" : `${formatCurrency(nominalLTV, 2, 2)}%`}</div>
 			</div>
 
 			<div className="flex flex-col gap-2">
-				<div className="col-span-2 text-md">{`${formatCurrency(effectiveInterest, 2, 2)}%`}</div>
+				<div className="col-span-2 text-md font-mono">{`${formatCurrency(effectiveInterest, 2, 2)}%`}</div>
 			</div>
 
 			<div className="flex flex-col gap-2">
-				<div className={`col-span-2 text-md ${isPending ? "font-bold" : ""}`}>
+				<div className={`col-span-2 text-md font-mono ${isPending ? "font-bold" : ""}`}>
 					{isPending ? "Available Soon" : expirationString}
 				</div>
 			</div>

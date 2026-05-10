@@ -1,6 +1,7 @@
 import Link from "next/link";
 import WalletConnect from "./WalletConnect";
 import NavButton from "./NavButton";
+import ThemeToggle from "./ThemeToggle";
 import { CONFIG } from "../app.config";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
@@ -123,8 +124,9 @@ export default function Navbar() {
 					</div>
 
 					{/* Right: desktop wallet / mobile hamburger */}
-					<div className="flex justify-end items-center">
-						<div className="hidden md:flex">
+					<div className="flex justify-end items-center gap-2">
+						<div className="hidden md:flex items-center gap-2">
+							<ThemeToggle />
 							<WalletConnect />
 						</div>
 						<button onClick={() => setIsNavBarOpen(true)} className="md:hidden p-2 cursor-pointer flex items-center">

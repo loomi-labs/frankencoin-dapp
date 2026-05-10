@@ -28,12 +28,17 @@ export default function AppButtonSecondary({
 	warning,
 	note,
 }: Props) {
-	const sizeClass = size === "small" ? "px-2 py-1 md:px-3 md:py-1 text-sm" : size === "medium" ? "px-3 py-2 md:px-3 md:py-3" : "py-3";
+	const sizeClass =
+		size === "small"
+			? "px-3 py-1 md:px-4 md:py-1.5 text-sm"
+			: size === "medium"
+			? "px-4 py-2 md:px-5 md:py-2.5"
+			: "py-3";
 
 	const btnClass = `btn ${className ?? ""} ${sizeClass} ${
 		disabled || isLoading
 			? "cursor-not-allowed bg-button-disabled text-button-textdisabled"
-			: "bg-transparent border-2 border-button-disabled text-text-primary hover:border-button-hover hover:bg-button-hover hover:text-white"
+			: "bg-transparent border border-brand-300 dark:border-brand-700 text-text-active hover:bg-brand-50 dark:hover:bg-brand-900/30"
 	} ${width ?? "w-full"}`.trim();
 
 	const button = to ? (

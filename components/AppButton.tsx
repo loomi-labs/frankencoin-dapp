@@ -34,7 +34,12 @@ export default function AppButton({
 	note,
 }: Props) {
 	const busy = isLoading || loading;
-	const sizeClass = size === "small" ? "px-2 py-1 md:px-3 md:py-1 text-sm" : size === "medium" ? "px-3 py-2 md:px-3 md:py-3" : "py-3";
+	const sizeClass =
+		size === "small"
+			? "px-3 py-1 md:px-4 md:py-1.5 text-sm"
+			: size === "medium"
+			? "px-4 py-2 md:px-5 md:py-2.5"
+			: "py-3";
 
 	const btnClass = `btn ${className ?? ""} ${sizeClass} ${
 		disabled || busy

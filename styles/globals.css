@@ -2,145 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Avenir Fonts */
+/* === Theme tokens (light) === */
+:root {
+	color-scheme: light;
 
-/* Avenir-Book-01.ttf
-Avenir-BookOblique-02.ttf
-Avenir-Black-03.ttf
-Avenir-BlackOblique-04.ttf
-Avenir-Heavy-05.ttf
-Avenir-HeavyOblique-06
-Avenir-Light-07.ttf
-Avenir-LightOblique-08.ttf
-Avenir-Medium-09.ttf
-Avenir-MediumOblique-10.ttf
-Avenir-Oblique-11.ttf
-Avenir-Roman-12.ttf */
+	--layout-primary: #FBFAFF;
+	--layout-secondary: #FFFFFF;
+	--layout-footer: #1E1B4B;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Book-01.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+	--menu-text: #1E1B4B;
+	--menu-textactive: #6D28D9;
+	--menu-active: #F3E8FF;
+	--menu-hover: #FAF5FF;
+	--menu-back: #FBFAFF;
+	--menu-separator: #EDE9FE;
+
+	--card-input-label: #71717A;
+	--card-input-disabled: #FAFAFA;
+	--card-input-empty: #A1A1AA;
+	--card-input-focus: #6D28D9;
+	--card-input-error: #DC2626;
+	--card-input-border: #F4F4F5;
+	--card-input-hover: #5B21B6;
+	--card-input-min: #6D28D9;
+	--card-input-max: #6D28D9;
+	--card-input-reset: #6D28D9;
+
+	--card-body-primary: #FFFFFF;
+	--card-body-secondary: #FAF5FF;
+	--card-body-seperator: #EDE9FE;
+
+	--card-content-primary: #FAFAFA;
+	--card-content-secondary: #FFFFFF;
+	--card-content-highlight: #DC2626;
+
+	--text-header: #71717A;
+	--text-subheader: #71717A;
+	--text-active: #6D28D9;
+	--text-primary: #1E1B4B;
+	--text-secondary: #71717A;
+	--text-warning: #DC2626;
+	--text-success: #16A34A;
+
+	--table-header-primary: #FFFFFF;
+	--table-header-secondary: #FAFAFA;
+	--table-row-primary: #FFFFFF;
+	--table-row-secondary: #FAFAFA;
+	--table-row-hover: #FBFAFF;
+
+	--button-default: #6D28D9;
+	--button-hover: #5B21B6;
+	--button-disabled: #F4F4F5;
+	--button-textdisabled: #A1A1AA;
 }
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-BookOblique-02.ttf") format("truetype");
-	font-weight: 400;
-	font-style: italic;
-	font-display: swap;
-}
+/* === Theme tokens (dark) === */
+.dark {
+	color-scheme: dark;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Black-03.ttf") format("truetype");
-	font-weight: 900;
-	font-style: normal;
-	font-display: swap;
-}
+	--layout-primary: #0B0717;
+	--layout-secondary: #100A1F;
+	--layout-footer: #0B0717;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-BlackOblique-04.ttf") format("truetype");
-	font-weight: 900;
-	font-style: italic;
-	font-display: swap;
-}
+	--menu-text: #C4B5FD;
+	--menu-textactive: #DDD6FE;
+	--menu-active: rgba(139, 92, 246, 0.15);
+	--menu-hover: rgba(139, 92, 246, 0.08);
+	--menu-back: #100A1F;
+	--menu-separator: #28213B;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Heavy-05.ttf") format("truetype");
-	font-weight: 800;
-	font-style: normal;
-	font-display: swap;
-}
+	--card-input-label: #A1A1AA;
+	--card-input-disabled: #1A1432;
+	--card-input-empty: #71717A;
+	--card-input-focus: #C4B5FD;
+	--card-input-error: #EF4444;
+	--card-input-border: #28213B;
+	--card-input-hover: #A78BFA;
+	--card-input-min: #C4B5FD;
+	--card-input-max: #C4B5FD;
+	--card-input-reset: #C4B5FD;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-HeavyOblique-06.ttf") format("truetype");
-	font-weight: 800;
-	font-style: italic;
-	font-display: swap;
-}
+	--card-body-primary: #15102A;
+	--card-body-secondary: #1A1432;
+	--card-body-seperator: #28213B;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Light-07.ttf") format("truetype");
-	font-weight: 300;
-	font-style: normal;
-	font-display: swap;
-}
+	--card-content-primary: #1A1432;
+	--card-content-secondary: #15102A;
+	--card-content-highlight: #EF4444;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-LightOblique-08.ttf") format("truetype");
-	font-weight: 300;
-	font-style: italic;
-	font-display: swap;
-}
+	--text-header: #A1A1AA;
+	--text-subheader: #A1A1AA;
+	--text-active: #C4B5FD;
+	--text-primary: #F5F3FF;
+	--text-secondary: #A1A1AA;
+	--text-warning: #EF4444;
+	--text-success: #22C55E;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Medium-09.ttf") format("truetype");
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
+	--table-header-primary: #15102A;
+	--table-header-secondary: #1A1432;
+	--table-row-primary: #15102A;
+	--table-row-secondary: #1A1432;
+	--table-row-hover: #1A1432;
 
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-MediumOblique-10.ttf") format("truetype");
-	font-weight: 500;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Oblique-11.ttf") format("truetype");
-	font-weight: 400;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Avenir";
-	src: url("/fonts/Avenir-Roman-12.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+	--button-default: #8B5CF6;
+	--button-hover: #A78BFA;
+	--button-disabled: #1A1432;
+	--button-textdisabled: #71717A;
 }
 
 @layer components {
 	.btn {
-		@apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-lg select-none ease-in duration-200 border border-transparent px-3 py-2 md:px-3 md:py-3;
+		@apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-full select-none transition-colors ease-out duration-150 border border-transparent px-4 py-2 md:px-5 md:py-3 font-medium;
 	}
 
 	.btn-nav {
-		@apply hover:text-rose-400 px-5 py-5 md:px-3 md:py-3;
+		@apply hover:text-text-active px-5 py-5 md:px-3 md:py-3;
 	}
 
 	.btn-primary {
-		@apply text-white hover:opacity-60 bg-rose-400;
+		@apply text-white hover:opacity-90 bg-button-default;
 	}
 
 	.btn-secondary {
-		@apply text-black border-black hover:bg-neutral-200 bg-rose-400 border-0;
+		@apply text-text-active border-brand-300 dark:border-brand-700 bg-transparent border;
 	}
 
 	.btn-small {
-		@apply text-sm px-2 py-1 md:px-3 md:py-1;
+		@apply text-sm px-3 py-1 md:px-3 md:py-1;
 	}
 
 	.btn-disabled {
-		@apply cursor-not-allowed bg-neutral-700 text-slate-800 pointer-events-none;
+		@apply cursor-not-allowed bg-button-disabled text-button-textdisabled pointer-events-none;
 	}
 }
 
 body {
-	@apply antialiased;
+	@apply antialiased font-default;
+	transition: background-color 200ms ease-out, color 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body,
+	* {
+		transition-duration: 0ms !important;
+	}
+}
+
+.font-mono {
+	font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
 .text-link,
@@ -152,7 +161,7 @@ p > a {
 }
 
 * {
-	@apply outline-neutral-200;
+	@apply outline-brand-200;
 }
 
 p + * {
@@ -160,7 +169,7 @@ p + * {
 }
 
 ::selection {
-	@apply bg-neutral-200;
+	@apply bg-brand-200 text-brand-900;
 }
 
 svg#preloader {
@@ -170,13 +179,22 @@ svg#preloader {
 
 svg #plug,
 svg #socket {
-	fill: #4f46e5;
+	fill: #6D28D9;
+}
+
+.dark svg #plug,
+.dark svg #socket {
+	fill: #A78BFA;
 }
 
 svg #loop-normal {
 	fill: none;
-	stroke: #4f46e5;
+	stroke: #6D28D9;
 	stroke-width: 12;
+}
+
+.dark svg #loop-normal {
+	stroke: #A78BFA;
 }
 
 svg #loop-offset {
@@ -243,9 +261,11 @@ button[data-testid="component-big-button"] {
 
 /* Toast Styles */
 .Toastify__toast {
-	border: 1px rgb(51 65 85) solid;
-	background-color: transparent !important;
-	backdrop-filter: blur(10px);
+	border: 1px solid var(--card-input-border);
+	background-color: var(--card-body-primary) !important;
+	color: var(--text-primary);
+	border-radius: 16px;
+	box-shadow: 0 12px 32px rgba(30, 27, 75, 0.12);
 }
 .Toastify__toast .Toastify__toast-body {
 	align-items: flex-start;
