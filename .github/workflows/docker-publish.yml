@@ -49,3 +49,23 @@ jobs:
             NEXT_PUBLIC_PONDER_URL=${{ vars.NEXT_PUBLIC_PONDER_URL }}
             NEXT_PUBLIC_WAGMI_ID=${{ secrets.NEXT_PUBLIC_WAGMI_ID }}
             NEXT_PUBLIC_RPC_KEY=${{ secrets.NEXT_PUBLIC_RPC_KEY }}
+
+  deploy:
+    needs: build-and-push
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262
+        with:
+          host: ${{ vars.DEPLOY_HOST }}
+          username: deploy
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fingerprint: ${{ vars.DEPLOY_HOST_FINGERPRINT }}
+          port: 22
+          script_stop: true
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker pull ghcr.io/${{ github.repository }}:latest
+            cd "${{ vars.FRANKENCOIN_DAPP_DIR }}"
+            docker stack deploy --detach=false --with-registry-auth -c frankencoin-dapp.yml frankencoin-dapp
