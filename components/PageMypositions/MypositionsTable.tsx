@@ -145,7 +145,7 @@ export default function MypositionsTable() {
 				<div className="mb-4 flex justify-end gap-2">
 					<button
 						onClick={handleGoogleCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
+						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-input hover:bg-menu-hover transition-colors"
 						title="Add expiration reminder to Google Calendar"
 					>
 						<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
@@ -153,7 +153,7 @@ export default function MypositionsTable() {
 					</button>
 					<button
 						onClick={handleDownloadCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
+						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-input hover:bg-menu-hover transition-colors"
 						title="Download expiration alerts calendar"
 					>
 						<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />

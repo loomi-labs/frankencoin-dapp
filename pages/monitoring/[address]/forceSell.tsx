@@ -163,7 +163,7 @@ export default function MonitoringForceSell() {
 
 			<section className="mx-auto max-w-2xl sm:px-8 md:mt-8">
 				<AppCard>
-					<div className="text-lg font-bold text-center mt-3">Force to Sell and Buy {position.collateralSymbol}</div>
+					<div className="text-base font-display font-semibold text-text-primary mt-3">Force to Sell and Buy {position.collateralSymbol}</div>
 
 					<div className="">
 						<TokenInput

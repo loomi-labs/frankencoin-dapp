@@ -30,21 +30,26 @@ export default function Governance() {
 				<title>Frankencoin - Governance</title>
 			</Head>
 
-			<AppTitle title="New Positions">
-				<div className="text-text-secondary">
-					Participants should carefully review newly proposed position types and deny them if they think they pose a risk to the
-					stability of the Frankencoin. There is also a{" "}
-					<AppLink
-						label={"github forum"}
-						href="https://github.com/Frankencoin-ZCHF/FrankenCoin/discussions/categories/acceptable-collaterals?discussions_q=is%3Aopen+category%3A%22Acceptable+Collaterals%22"
-						external={true}
-						className="pr-2"
-					/>
-					{"and a "}
-					<AppLink label={"telegram group"} href={SOCIAL.Telegram} external={true} className="pr-2" />
-					to discuss eligible collaterals and their parameters.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Governance"
+				title="New Positions"
+				subtitle={
+					<>
+						Participants should carefully review newly proposed position types and deny them if they think they pose a risk to
+						the stability of the Frankencoin. There is also a{" "}
+						<AppLink
+							label={"github forum"}
+							href="https://github.com/Frankencoin-ZCHF/FrankenCoin/discussions/categories/acceptable-collaterals?discussions_q=is%3Aopen+category%3A%22Acceptable+Collaterals%22"
+							external={true}
+							className="pr-2"
+						/>
+						{"and a "}
+						<AppLink label={"telegram group"} href={SOCIAL.Telegram} external={true} className="pr-2" />
+						to discuss eligible collaterals and their parameters.
+					</>
+				}
+			/>
 
 			<GovernancePositionsTable />
 

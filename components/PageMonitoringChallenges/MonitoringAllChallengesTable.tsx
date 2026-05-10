@@ -3,6 +3,7 @@ import { RootState } from "../../redux/redux.store";
 import MonitoringAllChallengesRow from "./MonitoringAllChallengesRow";
 import { useMemo } from "react";
 import { BidsQueryItem, ChallengesQueryItem } from "@frankencoin/api";
+import AppCard from "@components/AppCard";
 
 export default function MonitoringAllChallengesTable() {
 	const challenges = useSelector((state: RootState) => state.challenges.list.list);
@@ -16,7 +17,7 @@ export default function MonitoringAllChallengesTable() {
 
 	if (sorted.length === 0) {
 		return (
-			<div className="bg-card-body-primary rounded-lg p-8 text-center text-text-secondary">No challenges have been recorded yet.</div>
+			<AppCard className="p-8 text-center text-text-secondary">No challenges have been recorded yet.</AppCard>
 		);
 	}
 

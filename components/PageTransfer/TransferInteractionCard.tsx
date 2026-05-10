@@ -130,7 +130,7 @@ export default function TransferInteractionCard() {
 	return (
 		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
 			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Transfer Parameters</div>
+				<div className="mt-4 text-base font-display font-semibold text-text-primary">Transfer Parameters</div>
 
 				<AddressInputChain label="Sender" disabled={true} value={address} chain={chain?.name} onChangeChain={onChangeChain} />
 

@@ -22,7 +22,7 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 
 	return (
 		<AppCard>
-			<div className="md:mt-4 text-lg font-bold text-center">Outcome</div>
+			<div className="md:mt-4 text-base font-display font-semibold text-text-primary">Outcome</div>
 			<div className="p-4 flex flex-col gap-2">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Sender</div>
@@ -39,7 +39,7 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 					<div className="">{chain?.name}</div>
 				</div>
 
-				<div className="md:mt-4 text-lg font-bold text-center"></div>
+				<div className="md:mt-4 text-base font-display font-semibold text-text-primary"></div>
 
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Recipient</div>
@@ -57,7 +57,7 @@ export default function TransferDetailsCard({ senderAddress, recipientAddress, c
 				</div>
 			</div>
 
-			<div className="md:mt-8 text-lg font-bold text-center">CCIP Details</div>
+			<div className="md:mt-8 text-base font-display font-semibold text-text-primary">CCIP Details</div>
 			<div className="p-4 flex flex-col gap-2">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Bridging ZCHF</div>

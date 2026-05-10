@@ -16,11 +16,12 @@ export default function LogsPage() {
 				<title>Frankencoin - Logs</title>
 			</Head>
 
-			<AppTitle title="Transaction Log">
-				<div className="text-text-secondary">
-					Track protocol activity, ZCHF metrics, and earnings across the Frankencoin ecosystem. Numbers accounted in ZCHF.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Logs"
+				title="Transaction Log"
+				subtitle="Track protocol activity, ZCHF metrics, and earnings across the Frankencoin ecosystem. Numbers accounted in ZCHF."
+			/>
 
 			<div className="mt-6">
 				<LogsTable />

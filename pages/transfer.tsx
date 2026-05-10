@@ -11,12 +11,17 @@ export default function TransferPage() {
 				<title>Frankencoin - Transfer</title>
 			</Head>
 
-			<AppTitle title="Transfer">
-				<div className="text-text-secondary">
-					Transfer Frankencoins with a reference or across chains using the{" "}
-					<AppLink label={"CCIP bridge"} href={"https://app.transporter.io/"} external={true} className="" />.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Transfer"
+				title="Transfer"
+				subtitle={
+					<>
+						Transfer Frankencoins with a reference or across chains using the{" "}
+						<AppLink label={"CCIP bridge"} href={"https://app.transporter.io/"} external={true} className="" />.
+					</>
+				}
+			/>
 
 			<div className="md:mt-8">
 				<TransferInteractionCard />

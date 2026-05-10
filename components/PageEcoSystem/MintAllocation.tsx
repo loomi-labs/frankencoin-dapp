@@ -64,7 +64,7 @@ export default function MintAllocation() {
 
 	return (
 		<AppCard>
-			<div className="mt-4 text-lg font-bold text-center">Frankencoins by Origin</div>
+			<div className="mt-4 text-base font-display font-semibold text-text-primary">Frankencoins by Origin</div>
 
 			<div className="grid md:grid-cols-2 gap-4">
 				<div className="pr-2 my-auto">

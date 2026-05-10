@@ -212,7 +212,7 @@ export default function PositionChallenge() {
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<AppCard>
-						<div className="text-lg font-bold text-center mt-3">Launch A Challenge</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Launch A Challenge</div>
 						<TokenInput
 							symbol={position.collateralSymbol}
 							min={BigInt(position.minimumCollateral)}
@@ -297,7 +297,7 @@ export default function PositionChallenge() {
 					</AppCard>
 
 					<AppCard>
-						<div className="text-lg font-bold text-center mt-3 text-text-primary">How does it work?</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3 text-text-primary">How does it work?</div>
 						<div className="flex-1 mt-4 text-text-secondary">
 							<p>A challenge is divided into two phases:</p>
 							<ol className="flex flex-col gap-y-2 pl-6 [&>li]:list-decimal">

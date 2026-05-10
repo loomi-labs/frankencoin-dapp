@@ -9,10 +9,7 @@ export default function PageCollateral() {
 				<title>Frankencoin - Collaterals</title>
 			</Head>
 
-			<AppTitle title={`Accepted Collateral Assets`}>
-				<div className="text-text-secondary">
-				</div>
-			</AppTitle>
+			<AppTitle hero eyebrow="Collateral" title="Accepted Collateral Assets" />
 
 			<div className="my-[2rem]">
 				<CollateralAndPositionsOverview />

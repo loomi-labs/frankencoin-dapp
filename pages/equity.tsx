@@ -24,13 +24,23 @@ export default function Equity() {
 				<title>Frankencoin - Invest</title>
 			</Head>
 
-			<AppTitle title={`Invest`}>
-				<div className="text-text-secondary">
-					Invest in or redeem your{" "}
-					<AppLink className="" label="Frankencoin Pool Shares" href={ContractUrl(ADDRESS[mainnet.id].equity)} external={true} />{" "}
-					(FPS) — the governance token of the Frankencoin Ecosystem.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Invest"
+				title="Invest"
+				subtitle={
+					<>
+						Invest in or redeem your{" "}
+						<AppLink
+							className=""
+							label="Frankencoin Pool Shares"
+							href={ContractUrl(ADDRESS[mainnet.id].equity)}
+							external={true}
+						/>{" "}
+						(FPS) — the governance token of the Frankencoin Ecosystem.
+					</>
+				}
+			/>
 
 			<AppHeroSteps
 				steps={[

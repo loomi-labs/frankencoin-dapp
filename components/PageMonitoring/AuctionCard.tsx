@@ -4,6 +4,7 @@ import { formatCurrency, formatDate, normalizeAddress } from "@utils";
 import { useRouter as useNavigation } from "next/navigation";
 import AppButton from "@components/AppButton";
 import StatRow from "./StatRow";
+import AppCard from "@components/AppCard";
 
 interface Props {
 	position: PositionQuery;
@@ -20,7 +21,7 @@ export default function AuctionCard({ position, challenge }: Props) {
 	const liqPrice = formatCurrency(formatUnits(challenge.liqPrice, priceDigit), 2, 2);
 
 	return (
-		<div className="rounded-lg bg-card-content-primary p-3 flex flex-col gap-2">
+		<AppCard className="p-3 flex flex-col gap-2">
 			<div className="text-sm font-semibold text-text-primary">Auction #{String(challenge.number)}</div>
 
 			<StatRow label="Remaining">
@@ -30,7 +31,7 @@ export default function AuctionCard({ position, challenge }: Props) {
 			<StatRow label="Started">{formatDate(Number(challenge.start))}</StatRow>
 
 			<div className="h-1.5 rounded-full bg-table-header-secondary overflow-hidden">
-				<div className="h-full rounded-full bg-red-400 transition-all" style={{ width: `${fillPct}%` }} />
+				<div className="h-full rounded-full bg-red-500 transition-all" style={{ width: `${fillPct}%` }} />
 			</div>
 			<div className="text-xs text-text-secondary">{formatCurrency(fillPct, 1, 1)}% filled</div>
 
@@ -40,6 +41,6 @@ export default function AuctionCard({ position, challenge }: Props) {
 			>
 				Place Bid
 			</AppButton>
-		</div>
+		</AppCard>
 	);
 }

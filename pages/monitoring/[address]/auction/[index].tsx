@@ -194,7 +194,7 @@ export default function ChallengePlaceBid() {
 			<div className="md:mt-8">
 				<section className="mx-auto max-w-2xl sm:px-8">
 					<AppCard>
-						<div className="text-lg font-bold text-center mt-3">Buy {position.collateralSymbol} in Auction</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Buy {position.collateralSymbol} in Auction</div>
 
 						<div className="">
 							<TokenInput

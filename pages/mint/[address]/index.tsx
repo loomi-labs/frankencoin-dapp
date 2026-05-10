@@ -280,8 +280,8 @@ export default function PositionBorrow({}) {
 				subtitle="Deposit collateral and borrow new Frankencoins"
 				badges={[
 					{ label: positionStatus.label, className: positionStatus.cls },
-					{ label: `V${position.version}`, className: "bg-blue-500/20 text-blue-400" },
-					...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/20 text-purple-400" }] : []),
+					{ label: `V${position.version}`, className: "bg-blue-500/15 text-blue-600 dark:text-blue-400" },
+					...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/15 text-purple-600 dark:text-purple-400" }] : []),
 				]}
 				actions={
 					<div className="flex flex-wrap gap-4 text-sm">
@@ -300,7 +300,7 @@ export default function PositionBorrow({}) {
 
 			<div className="mt-8">
 				<AppCard>
-					<div className="text-lg font-bold text-center">Borrow Frankencoins</div>
+					<div className="text-base font-display font-semibold text-text-primary">Borrow Frankencoins</div>
 					<div className="grid md:grid-cols-2 gap-4">
 						<TokenInput
 							label="Deposit"
@@ -522,7 +522,7 @@ export default function PositionBorrow({}) {
 				<div className="grid gap-4 mt-8">
 					{hasAlternatives && (
 						<AppCard>
-							<div className="text-lg font-bold text-center mt-3">Alternative Terms</div>
+							<div className="text-base font-display font-semibold text-text-primary mt-3">Alternative Terms</div>
 							<div className="flex-1 mt-4">
 								<div className="grid grid-cols-3 text-xs text-text-secondary pb-1 border-b border-gray-200 mb-1">
 									<div>Term</div>

@@ -54,7 +54,7 @@ export default function HealthRatio() {
 	};
 
 	const barPct = Math.min(currentPct / 3, 100);
-	const healthColor = currentPct >= 150 ? "text-green-500" : currentPct >= 100 ? "text-amber-500" : "text-red-500";
+	const healthColor = currentPct >= 150 ? "text-text-success" : currentPct >= 100 ? "text-amber-600 dark:text-amber-400" : "text-text-warning";
 	const barColor = currentPct >= 150 ? "bg-green-500" : currentPct >= 100 ? "bg-amber-500" : "bg-red-500";
 
 	return (

@@ -141,17 +141,22 @@ export default function ReportPage() {
 				<title>Frankencoin - Report</title>
 			</Head>
 
-			<AppTitle title={`Frankencoin Wealth and Income Report`}>
-				<div className="text-text-secondary">
-					Track the yearly wealth, income, debt, and costs attributable to a given address. For the current year, the values
-					reflect the accrued amounts up to the current date. All data is provided on a &apos;best effort&apos; basis without any
-					guarantee of accuracy. The contents of this page are also available as{" "}
-					<span className="text-card-input-min hover:text-card-input-hover cursor-pointer" onClick={handlePDFCreation}>
-						pdf download
-					</span>
-					.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Report"
+				title="Frankencoin Wealth and Income Report"
+				subtitle={
+					<>
+						Track the yearly wealth, income, debt, and costs attributable to a given address. For the current year, the values
+						reflect the accrued amounts up to the current date. All data is provided on a &apos;best effort&apos; basis without
+						any guarantee of accuracy. The contents of this page are also available as{" "}
+						<span className="text-card-input-min hover:text-card-input-hover cursor-pointer" onClick={handlePDFCreation}>
+							pdf download
+						</span>
+						.
+					</>
+				}
+			/>
 
 			<AppCard>
 				<div className="grid md:gap-8 md:grid-cols-3 items-center -mb-4">

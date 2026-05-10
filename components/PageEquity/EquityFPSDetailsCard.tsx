@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { formatUnits, parseEther } from "viem";
 import DisplayOutputAlignedRight from "@components/DisplayOutputAlignedRight";
+import AppCard from "@components/AppCard";
 import { mainnet } from "viem/chains";
 import { TabInput } from "@components/Input/TabInput";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -56,7 +57,7 @@ export default function EquityFPSDetailsCard() {
 	const returnOnEquity = equityAvg > 0n ? (((netIncome * parseEther("1")) / equityAvg) * oneYearMs) / timestampDiff : 0n;
 
 	return (
-		<div className="bg-card-body-primary rounded-lg p-4 grid grid-cols-1 gap-2">
+		<AppCard className="p-4 grid grid-cols-1 gap-2">
 			<div id="chart-timeline">
 				<TabInput tabs={TypeCharts} tab={typechart} setTab={setTypechart} />
 
@@ -66,7 +67,7 @@ export default function EquityFPSDetailsCard() {
 						options={{
 							theme: {
 								monochrome: {
-									color: "#092f62",
+									color: "#7C3AED",
 									enabled: true,
 								},
 							},
@@ -136,8 +137,7 @@ export default function EquityFPSDetailsCard() {
 								gradient: {
 									shadeIntensity: 0,
 									opacityTo: 0.2,
-									shade: "#e7e7ea",
-									gradientToColors: ["#092f62"],
+									gradientToColors: ["#7C3AED"],
 								},
 							},
 						}}
@@ -212,6 +212,6 @@ export default function EquityFPSDetailsCard() {
 					<DisplayOutputAlignedRight amount={returnOnEquity * 100n} unit="%" />
 				</AppBox>
 			</div>
-		</div>
+		</AppCard>
 	);
 }

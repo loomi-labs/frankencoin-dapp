@@ -92,7 +92,7 @@ export default function GovernanceDelegation() {
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 			{/* Left Card — Support List */}
 			<AppCard>
-				<div className="mt-2 text-lg font-bold text-center">Voting Support</div>
+				<div className="mt-2 text-base font-display font-semibold text-text-primary">Voting Support</div>
 
 				{/* Header */}
 				<div className="grid grid-cols-2 text-sm font-semibold text-text-secondary border-b border-card-input-border pb-1">
@@ -155,7 +155,7 @@ export default function GovernanceDelegation() {
 			<AppCard>
 				<div className="flex flex-col gap-4">
 					{/* Delegate to address */}
-					<div className="mt-2 text-lg font-bold text-center">Support an Address</div>
+					<div className="mt-2 text-base font-display font-semibold text-text-primary">Support an Address</div>
 
 					<AddressInput
 						label="Supported Address"
@@ -172,7 +172,7 @@ export default function GovernanceDelegation() {
 					<div className="border-t border-card-input-border" />
 
 					{/* Sync votes to chain */}
-					<div className="text-lg font-bold text-center">Sync Votes to Chain</div>
+					<div className="text-base font-display font-semibold text-text-primary">Sync Votes to Chain</div>
 
 					<ChainSyncedVotes
 						label="Votes on Target Chain"

@@ -14,6 +14,7 @@ import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { WAGMI_CONFIG } from "../app.config";
 import AppCard from "@components/AppCard";
+import AppTitle from "@components/AppTitle";
 import { ADDRESS, FrankencoinABI, StablecoinBridgeABI } from "@frankencoin/zchf";
 import AppLink from "@components/AppLink";
 import { mainnet } from "viem/chains";
@@ -226,10 +227,12 @@ export default function Swap() {
 				<title>Frankencoin - Swap</title>
 			</Head>
 
+			<AppTitle hero eyebrow="Swap" title="Swap" />
+
 			<div className="md:mt-8">
 				<section className="mx-auto max-w-2xl sm:px-8">
 					<AppCard>
-						<div className="mt-4 text-lg font-bold text-center">Swap {swapStats.otherSymbol} and ZCHF</div>
+						<div className="mt-4 text-base font-display font-semibold text-text-primary">Swap {swapStats.otherSymbol} and ZCHF</div>
 
 						<div className="mt-8">
 							The <AppLink className="" label="swap module" href={bridgeUrl} external={true} /> enables 1:1 conversion between

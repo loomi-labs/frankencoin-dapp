@@ -104,7 +104,7 @@ export default function GovernanceMintersPropose({}: Props) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Proposal Process</div>
+				<div className="mt-4 text-base font-display font-semibold text-text-primary">Proposal Process</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 					<TokenInput
@@ -149,7 +149,7 @@ export default function GovernanceMintersPropose({}: Props) {
 
 			<AppCard>
 				<div className="flex flex-col gap-4">
-					<div className="mt-4 text-lg font-bold text-center">Propose a new Module on {chain.name}</div>
+					<div className="mt-4 text-base font-display font-semibold text-text-primary">Propose a new Module on {chain.name}</div>
 
 					<AddressInput
 						label="Address"

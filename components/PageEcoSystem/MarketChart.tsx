@@ -35,7 +35,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 							},
-							colors: ["#092f62", "#0F80F0"],
+							colors: ["#7C3AED", "#A78BFA"],
 							stroke: {
 								curve: "smooth",
 								width: 2,
@@ -129,7 +129,7 @@ export default function MarketChart() {
 									enabled: false,
 								},
 							},
-							colors: ["#092f62", "#0F80F0"],
+							colors: ["#7C3AED", "#A78BFA"],
 							stroke: {
 								width: 0,
 							},

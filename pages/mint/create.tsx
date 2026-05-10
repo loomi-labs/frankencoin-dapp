@@ -420,12 +420,12 @@ export default function PositionCreate({}) {
 				<title>Frankencoin - Propose Position</title>
 			</Head>
 
-			<AppTitle title="Propose New Position"></AppTitle>
+			<AppTitle hero eyebrow="Borrow" title="Propose New Position" />
 
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<AppCard>
-						<div className="text-lg font-bold justify-center mt-3 flex">Proposal Process</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Proposal Process</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 							<TokenInput
 								label="Proposal Fee"
@@ -462,7 +462,7 @@ export default function PositionCreate({}) {
 
 					{/* Collateral */}
 					<AppCard>
-						<div className="text-lg font-bold justify-center mt-3 flex">Collateral</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Collateral</div>
 
 						<AddressInput
 							label="Contract Address"
@@ -511,7 +511,7 @@ export default function PositionCreate({}) {
 					</AppCard>
 
 					<AppCard>
-						<div className="text-lg font-bold text-center mt-3">Financial Terms</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Financial Terms</div>
 						<TokenInput
 							label="Global Minting Limit"
 							hideMaxLabel
@@ -547,7 +547,7 @@ export default function PositionCreate({}) {
 					</AppCard>
 
 					<AppCard>
-						<div className="text-lg font-bold text-center mt-3">Liquidation</div>
+						<div className="text-base font-display font-semibold text-text-primary mt-3">Liquidation</div>
 						<TokenInput
 							label="Liquidation Price"
 							symbol="ZCHF"

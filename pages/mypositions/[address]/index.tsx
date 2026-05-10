@@ -408,8 +408,8 @@ export default function PositionAdjust() {
 						: isCooldown
 						? { label: "Cooldown", className: "bg-amber-500/20 text-amber-400" }
 						: { label: "Active", className: "bg-green-500/20 text-green-400" },
-					{ label: `V${position.version}`, className: "bg-blue-500/20 text-blue-400" },
-					...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/20 text-purple-400" }] : []),
+					{ label: `V${position.version}`, className: "bg-blue-500/15 text-blue-600 dark:text-blue-400" },
+					...(position.isClone ? [{ label: "Clone", className: "bg-purple-500/15 text-purple-600 dark:text-purple-400" }] : []),
 				]}
 				actions={
 					<div className="flex flex-wrap gap-4 text-sm">
@@ -422,7 +422,7 @@ export default function PositionAdjust() {
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<AppCard>
-						<div className="text-lg font-bold text-center">Adjustment</div>
+						<div className="text-base font-display font-semibold text-text-primary">Adjustment</div>
 						<div className="space-y-8">
 							<TokenInput
 								label="Amount"
@@ -523,7 +523,7 @@ export default function PositionAdjust() {
 
 					<div className="flex flex-col gap-4">
 						<AppCard>
-							<div className="text-lg font-bold text-center mt-3">Connected Wallet</div>
+							<div className="text-base font-display font-semibold text-text-primary mt-3">Connected Wallet</div>
 							<div className="flex-1 mt-4">
 								<div className="flex">
 									<div className="flex-1 text-text-secondary">
@@ -544,7 +544,7 @@ export default function PositionAdjust() {
 						</AppCard>
 
 						<AppCard>
-							<div className="text-lg font-bold text-center mt-3">Adjustment Outcome</div>
+							<div className="text-base font-display font-semibold text-text-primary mt-3">Adjustment Outcome</div>
 							<div className="flex-1 mt-4">
 								<div className="flex">
 									<div className="flex-1 text-text-secondary">

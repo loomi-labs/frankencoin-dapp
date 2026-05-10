@@ -18,12 +18,12 @@ export default function PageChallengesOverview() {
 				<title>Frankencoin - Challenges Overview</title>
 			</Head>
 
-			<AppTitle title="Challenges & Bids">
-				<div className="text-text-secondary">
-					A complete overview of all challenges that have occurred, both averted and succeeded, along with their bids. This track
-					record helps market participants assess the protocol&apos;s history and resilience.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Challenges"
+				title="Challenges & Bids"
+				subtitle="A complete overview of all challenges that have occurred, both averted and succeeded, along with their bids. This track record helps market participants assess the protocol's history and resilience."
+			/>
 
 			<div className="md:mt-8">
 				<MonitoringAllChallengesTable />

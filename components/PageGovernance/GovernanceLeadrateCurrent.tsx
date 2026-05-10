@@ -197,7 +197,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Historical Rates</div>
+				<div className="mt-4 text-base font-display font-semibold text-text-primary">Historical Rates</div>
 
 				<div className="-m-4 pr-2">
 					<ApexChart
@@ -208,7 +208,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									enabled: false,
 								},
 							},
-							colors: ["#092f62", "#0F80F0"],
+							colors: ["#7C3AED", "#A78BFA"],
 							stroke: {
 								curve: "linestep",
 								width: 3,
@@ -295,7 +295,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 
 			<AppCard>
 				<div className="flex flex-col gap-4">
-					<div className="mt-4 text-lg font-bold text-center">Propose a new Rate</div>
+					<div className="mt-4 text-base font-display font-semibold text-text-primary">Propose a new Rate</div>
 
 					<NormalInput
 						symbol="%"

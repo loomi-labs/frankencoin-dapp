@@ -36,13 +36,12 @@ export default function Positions() {
 				<title>Frankencoin - Monitoring</title>
 			</Head>
 
-			<AppTitle title="Monitoring">
-				<div className="text-text-secondary">
-					Monitor the health of the Frankencoin protocol. Spot undercollateralized positions, earn a 2% reward by challenging
-					them, and buy collateral from active auctions at a discount. Track reserves, supply distribution, and system
-					collateralization over time.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Monitoring"
+				title="Monitoring"
+				subtitle="Monitor the health of the Frankencoin protocol. Spot undercollateralized positions, earn a 2% reward by challenging them, and buy collateral from active auctions at a discount. Track reserves, supply distribution, and system collateralization over time."
+			/>
 
 			<PageTabInput
 				tabs={[

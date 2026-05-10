@@ -61,7 +61,7 @@ export default function ReserveCosts() {
 	return (
 		<div className="grid md:grid-cols-2 gap-4">
 			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Current reserve allocation</div>
+				<div className="mt-4 text-base font-display font-semibold text-text-primary">Current reserve allocation</div>
 
 				<div className="-m-4 pr-2">
 					<ApexChart
@@ -108,7 +108,7 @@ export default function ReserveCosts() {
 			</AppCard>
 
 			<AppCard>
-				<div className="mt-4 text-lg font-bold text-center">Current reserve by collateral</div>
+				<div className="mt-4 text-base font-display font-semibold text-text-primary">Current reserve by collateral</div>
 
 				<div className="mt-4 space-y-1">
 					{labels.map((label, idx) => (
