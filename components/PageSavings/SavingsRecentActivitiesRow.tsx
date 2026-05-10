@@ -23,9 +23,9 @@ export default function SavingsRecentActivitiesRow({ headers, tab, item }: Props
 
 				<div className="flex flex-col">{item.kind == "InterestCollected" ? "Interest Collected" : item.kind}</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.amount), 18))} ZCHF</div>
+				<div className="flex flex-col font-mono">{formatCurrency(formatUnits(BigInt(item.amount), 18))} ZCHF</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.balance), 18))} ZCHF</div>
+				<div className="flex flex-col font-mono">{formatCurrency(formatUnits(BigInt(item.balance), 18))} ZCHF</div>
 			</TableRow>
 		</>
 	);

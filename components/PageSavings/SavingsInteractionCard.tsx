@@ -181,7 +181,9 @@ export default function SavingsInteractionCard() {
 	return (
 		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
 			<AppCard>
-				<div className="text-lg font-bold text-center">{!onbehalfToggle ? "Adjustment" : "Save on behalf"}</div>
+				<div className="text-base font-display font-semibold text-text-primary">
+					{!onbehalfToggle ? "Adjustment" : "Save on behalf"}
+				</div>
 
 				<div className="mt-8">
 					<TokenInputChain
@@ -255,9 +257,9 @@ export default function SavingsInteractionCard() {
 				</div>
 
 				{newReferrer ? (
-					<div className="flex mt-8">
-						<div className={`flex-1 text-text-secondary`}>
-							<span className="font-semibold">Notice: </span>
+					<div className="mt-6">
+						<div className="bg-brand-50 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-900 rounded-step p-4 text-text-secondary text-sm leading-relaxed">
+							<span className="font-semibold text-text-primary">Notice: </span>
 							You are about to set a referrer{" "}
 							<AppLink
 								className="pr-2"

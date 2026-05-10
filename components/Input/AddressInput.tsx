@@ -50,7 +50,7 @@ export default function AddressInput({
 					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
 				} focus-within:!border-card-input-focus ${
 					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1`}
+				} text-text-secondary border rounded-input px-3 py-1`}
 				onClick={handleClick}
 			>
 				{label && <div className="flex text-card-input-label my-1">{label}</div>}
@@ -79,7 +79,7 @@ export default function AddressInput({
 
 						{!disabled && own != undefined && own != value && (
 							<div
-								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-semibold"
 								onClick={() => {
 									if (own !== undefined) {
 										onChange(own.toString());
@@ -92,7 +92,7 @@ export default function AddressInput({
 						)}
 						{!disabled && reset != undefined && reset != value && reset != own && (
 							<div
-								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-semibold"
 								onClick={() => {
 									if (reset !== undefined) {
 										onChange(reset.toString());

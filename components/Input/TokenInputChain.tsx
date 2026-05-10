@@ -81,7 +81,7 @@ export default function TokenInputChain({
 					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
 				} focus-within:!border-card-input-focus ${
 					error ? "!border-card-input-error" : ""
-				} text-text-secondary border-2 rounded-lg px-3 py-1`}
+				} text-text-secondary border rounded-input px-3 py-1`}
 				onClick={handleClick}
 			>
 				{label && <div className="flex text-card-input-label my-1">{label}</div>}
@@ -93,11 +93,11 @@ export default function TokenInputChain({
 						}`}
 					>
 						{output ? (
-							<div className={`text-3xl py-0 bg-transparent`}>{output}</div>
+							<div className={`text-3xl font-mono py-0 bg-transparent`}>{output}</div>
 						) : (
 							<BigNumberInput
 								inputRefChild={inputRef}
-								className={`w-full px-0 py-0 text-3xl ${disabled ? "bg-card-input-disabled" : ""}`}
+								className={`w-full px-0 py-0 text-3xl font-mono ${disabled ? "bg-card-input-disabled" : ""}`}
 								decimals={Number(digit)}
 								placeholder={placeholder}
 								value={value || ""}
@@ -137,7 +137,7 @@ export default function TokenInputChain({
 
 						{!disabled && min != undefined && min != BigInt(value) && min != max && (
 							<div
-								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-min cursor-pointer hover:text-card-input-focus font-semibold"
 								onClick={() => {
 									if (min !== undefined) {
 										onChange(min.toString());
@@ -150,7 +150,7 @@ export default function TokenInputChain({
 						)}
 						{!disabled && reset != undefined && reset != BigInt(value) && reset != min && reset != max && (
 							<div
-								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-reset cursor-pointer hover:text-card-input-focus font-semibold"
 								onClick={() => {
 									if (reset !== undefined) {
 										onChange(reset.toString());
@@ -163,7 +163,7 @@ export default function TokenInputChain({
 						)}
 						{!disabled && max != undefined && max != BigInt(value) && (
 							<div
-								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-extrabold"
+								className="text-card-input-max cursor-pointer hover:text-card-input-focus font-semibold"
 								onClick={() => {
 									if (max !== undefined) {
 										onChange(max.toString());

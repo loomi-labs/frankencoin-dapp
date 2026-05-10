@@ -1,4 +1,3 @@
-import SavingsGlobalCard from "@components/PageSavings/SavingsGlobalCard";
 import SavingsInteractionCard from "@components/PageSavings/SavingsInteractionCard";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -6,7 +5,6 @@ import { RootState, store } from "../redux/redux.store";
 import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
 import { useAccount, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
-import SavingsRankedBalancesTable from "@components/PageSavings/SavingsRankedBalancesTable";
 import AppLink from "@components/AppLink";
 import AppHeroSteps from "@components/AppHeroSteps";
 import SavingsRecentActivitiesTable from "@components/PageSavings/SavingsRecentActivitiesTable";
@@ -68,12 +66,14 @@ export default function SavingsPage() {
 				<title>Frankencoin - Earn</title>
 			</Head>
 
-			<AppTitle title={`Earn`}>
-				<div className={`text-text-secondary`}>
-					Earn interest on your Frankencoins - supported on all eight chains. Already more than {" "}
-					{Math.floor(totalBalance / 1000000)} million ZCHF saved.
-				</div>
-			</AppTitle>
+			<AppTitle
+				hero
+				eyebrow="Earn"
+				title="Earn"
+				subtitle={`Earn interest on your Frankencoins - supported on all eight chains. Already more than ${Math.floor(
+					totalBalance / 1_000_000
+				)} million ZCHF saved.`}
+			/>
 
 			<AppHeroSteps
 				steps={[
@@ -97,7 +97,7 @@ export default function SavingsPage() {
 
 			<SavingsInteractionCard />
 
-			<div className="text-text-secondary">
+			<div className="text-text-secondary mt-2">
 				Alternatively, you can also earn a yield by lending on
 				<AppLink
 					label={" Morpho"}
@@ -121,7 +121,4 @@ export default function SavingsPage() {
 			<SavingsRecentActivitiesTable />
 		</>
 	);
-}
-function setError(arg0: string) {
-	throw new Error("Function not implemented.");
 }

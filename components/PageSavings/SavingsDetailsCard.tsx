@@ -50,29 +50,29 @@ export default function SavingsDetailsCard({
 
 	return (
 		<AppCard>
-			<div className="text-lg font-bold text-center">Outcome</div>
+			<div className="text-base font-display font-semibold text-text-primary">Outcome</div>
 			<div className="p-4 flex flex-col gap-2">
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Your total balance</div>
-					<div className="text-text-secondary">{formatCurrency(formatUnits(totalBalance, 18))} ZCHF</div>
+					<div className="text-text-secondary font-mono">{formatCurrency(formatUnits(totalBalance, 18))} ZCHF</div>
 				</div>
 				{...inactiveBalance.map((i, idx) => <SavingsSavedItem savings={i} key={`SavingsSavedItem_${idx}`} />)}
 
 				<div className="flex mt-4">
 					<div className="flex-1 text-text-secondary">Your current balance</div>
-					<div className="">{formatCurrency(formatUnits(balance, 18))} ZCHF</div>
+					<div className="font-mono">{formatCurrency(formatUnits(balance, 18))} ZCHF</div>
 				</div>
 
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">Interest to be collected</div>
-					<div className="">{formatCurrency(formatUnits(interest, 18))} ZCHF</div>
+					<div className="font-mono">{formatCurrency(formatUnits(interest, 18))} ZCHF</div>
 				</div>
 
 				<div className="flex">
 					<div className="flex-1 text-text-secondary">
 						{direction ? "To be added from your wallet" : "Withdrawn to your wallet"}
 					</div>
-					<div className="">
+					<div className="font-mono">
 						{change < 0n ? "-" : ""}{" "}
 						{formatCurrency(formatUnits((change < 0n ? -change : change) - (referrer != zeroAddress ? referralFees : 0n), 18))}{" "}
 						ZCHF
@@ -85,15 +85,15 @@ export default function SavingsDetailsCard({
 							Pay out to <AppLink className="pr-2" label="referrer" href={ContractUrl(referrer, chain)} external={true} />(
 							{Math.round(Number(referralFeePPM / 1000n)) / 10}%)
 						</div>
-						<div className="">- {formatCurrency(formatUnits(referralFees, 18))} ZCHF</div>
+						<div className="font-mono">- {formatCurrency(formatUnits(referralFees, 18))} ZCHF</div>
 					</div>
 				) : null}
 
-				<hr className="border-slate-700 border-dashed" />
+				<hr className="border-card-input-border border-dashed my-2" />
 
-				<div className="flex font-bold">
-					<div className="flex-1 text-text-secondary">Resulting balance</div>
-					<div className="">{formatCurrency(formatUnits(balance + change + interest, 18))} ZCHF</div>
+				<div className="flex font-display font-semibold text-text-primary">
+					<div className="flex-1">Resulting balance</div>
+					<div className="font-mono">{formatCurrency(formatUnits(balance + change + interest, 18))} ZCHF</div>
 				</div>
 
 				<div className="flex mt-8">
