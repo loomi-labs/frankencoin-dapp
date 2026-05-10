@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { track } from "@hooks";
 
 export interface TabInputInterface {
 	tabs?: string[];
@@ -15,7 +16,10 @@ export function TabInput({ tabs = [], tab = "", setTab = () => {} }: TabInputInt
 				<button
 					key={"key_" + ts}
 					type="button"
-					onClick={() => setTab(ts)}
+					onClick={() => {
+						track("tab_" + ts.toLowerCase().replace(/\s+/g, "_"));
+						setTab(ts);
+					}}
 					className={`flex-1 px-4 max-md:px-2 py-1.5 text-sm rounded-full transition-colors ${
 						ts == tab
 							? "bg-card-body-primary text-text-active font-semibold shadow-card dark:shadow-none"

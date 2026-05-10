@@ -5,7 +5,7 @@ import ThemeToggle from "./ThemeToggle";
 import { CONFIG } from "../app.config";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 
 const MAIN_ITEMS = [
 	{ to: "/mint", name: "Borrow" },
@@ -84,7 +84,7 @@ export function NavItems({ items }: { items: typeof MAIN_ITEMS }) {
 
 export default function Navbar() {
 	const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-	const { address } = useAccount();
+	const { address } = useConnection();
 
 	let mainItems = MAIN_ITEMS;
 	if (!address) {
@@ -99,7 +99,7 @@ export default function Navbar() {
 				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full">
 					{/* Left: logo */}
 					<div className="flex items-center md:pl-4">
-						<Link href={CONFIG.landing}>
+						<Link href={CONFIG.landing} data-umami-event="nav_home">
 							<picture>
 								<img className="h-9 transition" src="/coin/zchf.png" alt="Logo" />
 							</picture>

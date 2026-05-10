@@ -3,7 +3,7 @@ import AppButton from "@components/AppButton";
 import NormalInput from "@components/Input/NormalInput";
 import AppCard from "@components/AppCard";
 import { useEffect, useState } from "react";
-import { useAccount, useChainId } from "wagmi";
+import { useConnection, useChainId } from "wagmi";
 import { CONFIG, WAGMI_CHAINS, WAGMI_CONFIG } from "../../app.config";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { ADDRESS, ChainId, ChainIdMain, ChainIdSide, EquityABI, FrankencoinABI } from "@frankencoin/zchf";
@@ -24,7 +24,7 @@ interface Props {}
 export default function GovernanceMintersPropose({}: Props) {
 	const userBal = useUserBalance();
 	const [isHandling, setHandling] = useState<boolean>(false);
-	const account = useAccount();
+	const account = useConnection();
 	const chainId = useChainId();
 	const [period, setPeriod] = useState<string>("14");
 	const [module, setModule] = useState<string>("");
@@ -38,7 +38,7 @@ export default function GovernanceMintersPropose({}: Props) {
 	useEffect(() => {
 		if (
 			Number(period) < 14 || chainId == mainnet.id
-				? userBal[chainId as ChainIdMain].frankencoin
+				? userBal[chainId as ChainIdMain].frankencoin < parseEther("1000")
 				: userBal[chainId as ChainIdSide].frankencoin < parseEther("1000") || !isAddress(module) || comment.length == 0
 		)
 			setDisabled(true);
@@ -144,7 +144,6 @@ export default function GovernanceMintersPropose({}: Props) {
 					<AppLink label="community" href={SOCIAL.Telegram} external={true} className="" /> before proposing it to increase the
 					probability of passing the decentralized governance process.
 				</div>
-	
 			</AppCard>
 
 			<AppCard>
@@ -162,7 +161,7 @@ export default function GovernanceMintersPropose({}: Props) {
 					<AddressInput label="Comment" placeholder={`Enter the comment here`} value={comment} onChange={setComment} />
 
 					<GuardSupportedChain disabled={isDisabled || isHidden} chain={chain}>
-<AppButton
+						<AppButton
 							className="max-md:h-10 md:h-12"
 							disabled={isDisabled || isHidden}
 							isLoading={isHandling}
