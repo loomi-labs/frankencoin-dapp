@@ -95,7 +95,7 @@ export default function Navbar() {
 
 	return (
 		<>
-			<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b-2 border-menu-separator/80 bg-menu-back/80">
+			<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-menu-separator bg-menu-back/80">
 				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full">
 					{/* Left: logo */}
 					<div className="flex items-center md:pl-4">

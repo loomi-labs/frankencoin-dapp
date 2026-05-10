@@ -141,37 +141,38 @@ export default function TokenInputSelect({
 								},
 							}}
 							styles={{
-								indicatorSeparator: () => ({
-									display: "none",
+								indicatorSeparator: () => ({ display: "none" }),
+								dropdownIndicator: (base) => ({ ...base, color: "var(--text-secondary)" }),
+								control: (base, state) => ({
+									...base,
+									backgroundColor: "var(--card-body-primary)",
+									borderColor: state.isFocused ? "var(--card-input-focus)" : "var(--card-input-border)",
+									borderWidth: "1px",
+									borderRadius: "0.625rem",
+									boxShadow: "none",
+									minHeight: "2.5rem",
+									":hover": { borderColor: "var(--card-input-hover)" },
 								}),
-								dropdownIndicator: (baseStyles) => ({
-									...baseStyles,
-									color: "#272B38",
+								option: (base, state) => ({
+									...base,
+									backgroundColor: state.isSelected
+										? "var(--menu-active)"
+										: state.isFocused
+										? "var(--menu-hover)"
+										: "transparent",
+									color: "var(--text-primary)",
+									cursor: "pointer",
 								}),
-								control: (baseStyles, state) => ({
-									...baseStyles,
-									backgroundColor: state.isFocused ? "#EAEBF0" : "#FFFFFF", // background of container
-									borderRadius: "0.5rem", // This makes the main control round
-									borderColor: state.isFocused ? "#DFE0E6" : "#F0F1F5",
-									borderWidth: "0.1rem",
-									boxShadow: "0 1px 4px rgba(0, 0, 0, 0.04)",
-								}),
-								option: (baseStyles, state) => ({
-									...baseStyles,
-									backgroundColor: state.isFocused ? "#F5F6F9" : "transparent", // single option in option menu
-									color: state.isFocused ? "#092f62" : "#092f62", // text color from option menu
-								}),
-								singleValue: (baseStyles) => ({
-									...baseStyles,
-									color: "#272B38", // text color of selected value in control container
-									borderRadius: "0.5rem", // This makes the main control rounder
-									boxShadow: "2", // Remove the focus shadow
-								}),
-								menu: (baseStyles) => ({
-									...baseStyles,
-									backgroundColor: "#FFFFFF",
-									borderRadius: "0.5rem", // This rounds the dropdown menu
-									overflow: "hidden", // This ensures the content doesn't overflow the rounded corners
+								singleValue: (base) => ({ ...base, color: "var(--text-primary)" }),
+								placeholder: (base) => ({ ...base, color: "var(--card-input-empty)" }),
+								input: (base) => ({ ...base, color: "var(--text-primary)" }),
+								menu: (base) => ({
+									...base,
+									backgroundColor: "var(--card-body-primary)",
+									border: "1px solid var(--card-input-border)",
+									borderRadius: "0.75rem",
+									overflow: "hidden",
+									boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
 								}),
 							}}
 						/>

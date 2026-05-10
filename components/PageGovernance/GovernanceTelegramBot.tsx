@@ -1,5 +1,5 @@
 import AppCard from "@components/AppCard";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SOCIAL } from "@utils";
 import Image from "next/image";
@@ -22,19 +22,19 @@ export default function GovernanceTelegramBot() {
 					<div className="grid grid-cols-1 w-full my-4 md:ml-6 max-md:ml-2">
 						<ul className="flex flex-col gap-4">
 							<li className="flex justify-left items-center">
-								<FontAwesomeIcon icon={faCircleCheck} className="w-8 h-8 text-card-body-secondary" />
+								<FontAwesomeIcon icon={faCircleCheck} className="w-7 h-7 text-brand-500 dark:text-brand-400" />
 								<span className="ml-5 text-center">New Minter Proposal and Vetoed</span>
 							</li>
 							<li className="flex justify-left items-center">
-								<FontAwesomeIcon icon={faCircleCheck} className="w-8 h-8 text-card-body-secondary" />
+								<FontAwesomeIcon icon={faCircleCheck} className="w-7 h-7 text-brand-500 dark:text-brand-400" />
 								<span className="ml-5 text-center">New Leadrate Proposal and Changes</span>
 							</li>
 							<li className="flex justify-left items-center">
-								<FontAwesomeIcon icon={faCircleCheck} className="w-8 h-8 text-card-body-secondary" />
+								<FontAwesomeIcon icon={faCircleCheck} className="w-7 h-7 text-brand-500 dark:text-brand-400" />
 								<span className="ml-5 text-center">New Position Proposal and Expiring</span>
 							</li>
 							<li className="flex justify-left items-center">
-								<FontAwesomeIcon icon={faCircleCheck} className="w-8 h-8 text-card-body-secondary" />
+								<FontAwesomeIcon icon={faCircleCheck} className="w-7 h-7 text-brand-500 dark:text-brand-400" />
 								<span className="ml-5 text-center">Challenge Started and Bid Taken</span>
 							</li>
 						</ul>
@@ -45,26 +45,26 @@ export default function GovernanceTelegramBot() {
 					<div className="grid grid-cols-1 w-full my-4 md:ml-6 max-md:ml-2">
 						<ul className="flex flex-col gap-4">
 							<li className="flex justify-left items-center">
-								<FontAwesomeIcon
-									icon={faCircleCheck}
-									className="w-8 h-8 bg-card-body-secondary rounded-full border-card-body-secondary border-2"
-									inverse
-								/>
+								<span className="w-7 h-7 rounded-full bg-brand-600 dark:bg-brand-500 flex items-center justify-center">
+									<FontAwesomeIcon icon={faCheck} className="w-3.5 h-3.5 text-white" />
+								</span>
 								<span className="ml-5 text-center">New Minting Updates</span>
 							</li>
 						</ul>
 					</div>
 				</div>
 
-				<div className="">
-					<Image
-						className="cursor-pointer"
-						src="/assets/telegram-qr.png"
-						alt="Logo"
-						width={1000}
-						height={1000}
-						onClick={openExplorer}
-					/>
+				<div className="flex items-center justify-center">
+					<div className="bg-white p-4 rounded-card">
+						<Image
+							className="cursor-pointer"
+							src="/assets/telegram-qr.png"
+							alt="Telegram QR code"
+							width={1000}
+							height={1000}
+							onClick={openExplorer}
+						/>
+					</div>
 				</div>
 			</div>
 		</AppCard>

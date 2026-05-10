@@ -86,7 +86,7 @@ export function SubmitIssue() {
 	const isTestnet = process.env.NEXT_PUBLIC_PROFILE == "testnet";
 
 	return (
-		<ul className="flex items-center gap-8 text-layout-primary">
+		<ul className="flex items-center gap-8 text-white">
 			<li>
 				<FooterButton link={SOCIAL.Github_dapp_new_issue} text="Submit an Issue" icon={faGithub} />
 			</li>

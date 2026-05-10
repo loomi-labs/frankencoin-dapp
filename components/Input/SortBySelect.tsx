@@ -36,34 +36,38 @@ export default function SortBySelect({ headers, tab, reverse = false, tabOnChang
 				value={active}
 				onChange={handleOnChange}
 				styles={{
-					indicatorSeparator: () => ({
-						display: "none",
+					indicatorSeparator: () => ({ display: "none" }),
+					dropdownIndicator: (base) => ({ ...base, color: "var(--text-secondary)" }),
+					control: (base, state) => ({
+						...base,
+						backgroundColor: "var(--card-body-primary)",
+						borderColor: state.isFocused ? "var(--card-input-focus)" : "var(--card-input-border)",
+						borderWidth: "1px",
+						borderRadius: "0.625rem",
+						boxShadow: "none",
+						minHeight: "2.5rem",
+						":hover": { borderColor: "var(--card-input-hover)" },
 					}),
-					dropdownIndicator: (baseStyles) => ({
-						...baseStyles,
-						color: "#272B38",
+					option: (base, state) => ({
+						...base,
+						backgroundColor: state.data.value == tab
+							? "var(--menu-active)"
+							: state.isFocused
+							? "var(--menu-hover)"
+							: "transparent",
+						color: "var(--text-primary)",
+						cursor: "pointer",
 					}),
-					control: (baseStyles, state) => ({
-						...baseStyles,
-						backgroundColor: "#F5F6F9",
-						borderRadius: "0.5rem", // This makes the main control rounder
-						borderWidth: "0",
-						boxShadow: "none", // Remove the focus shadow
-					}),
-					option: (baseStyles, state) => ({
-						...baseStyles,
-						backgroundColor: state.data.value == tab ? "#EAEBF0" : "transparent",
-						color: state.data.value == tab ? "#272B38" : "#272B38", // text color from option menu
-					}),
-					singleValue: (baseStyles) => ({
-						...baseStyles,
-						color: "#272B38", // text color of selected value
-					}),
-					menu: (baseStyles) => ({
-						...baseStyles,
-						backgroundColor: "#ffffff",
-						borderRadius: "0.5rem", // This rounds the dropdown menu
-						overflow: "hidden", // This ensures the content doesn't overflow the rounded corners
+					singleValue: (base) => ({ ...base, color: "var(--text-primary)" }),
+					placeholder: (base) => ({ ...base, color: "var(--card-input-empty)" }),
+					input: (base) => ({ ...base, color: "var(--text-primary)" }),
+					menu: (base) => ({
+						...base,
+						backgroundColor: "var(--card-body-primary)",
+						border: "1px solid var(--card-input-border)",
+						borderRadius: "0.75rem",
+						overflow: "hidden",
+						boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
 					}),
 				}}
 				components={{

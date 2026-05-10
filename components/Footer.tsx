@@ -29,7 +29,7 @@ const DynamicDocs = (): string => {
 
 export default function Footer() {
 	return (
-		<div className="md:flex md:grid-rows-2 justify-items-center md:px-12 md:pb-[25px] max-md:pb-[25px] pt-8 bg-layout-footer text-layout-primary">
+		<div className="md:flex md:grid-rows-2 justify-items-center md:px-12 md:pb-[25px] max-md:pb-[25px] pt-8 bg-layout-footer text-white">
 			<div className="md:flex-1 max-md:flex justify-center">
 				<SubmitIssue />
 			</div>
