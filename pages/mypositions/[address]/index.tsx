@@ -15,6 +15,7 @@ import {
 	shortenAddress,
 } from "@utils";
 import AppButton from "@components/AppButton";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import { useConnection, useBlockNumber, useChainId } from "wagmi";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { toast } from "react-toastify";
@@ -599,22 +600,14 @@ export default function PositionAdjust() {
 						</AppCard>
 						{!position.closed && !position.denied && (
 							<div className="flex justify-end gap-2">
-								<button
-									onClick={handleGoogleCalendar}
-									className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-									title="Add expiration reminder to Google Calendar"
-								>
+								<AppButtonSecondary size="small" width="w-auto" onClick={handleGoogleCalendar}>
 									<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
 									Add to Google Calendar
-								</button>
-								<button
-									onClick={handleDownloadCalendar}
-									className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-700 transition-colors"
-									title="Download expiration alert calendar for this position"
-								>
+								</AppButtonSecondary>
+								<AppButtonSecondary size="small" width="w-auto" onClick={handleDownloadCalendar}>
 									<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />
 									Download Calendar
-								</button>
+								</AppButtonSecondary>
 							</div>
 						)}
 					</div>
