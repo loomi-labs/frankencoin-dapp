@@ -13,7 +13,6 @@ export default function TransferPage() {
 
 			<AppTitle
 				hero
-				eyebrow="Transfer"
 				title="Transfer"
 				subtitle={
 					<>

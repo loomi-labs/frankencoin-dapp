@@ -143,7 +143,6 @@ export default function ReportPage() {
 
 			<AppTitle
 				hero
-				eyebrow="Report"
 				title="Frankencoin Wealth and Income Report"
 				subtitle={
 					<>

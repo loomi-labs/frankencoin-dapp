@@ -96,7 +96,6 @@ export default function Positions() {
 			{/* Section Positions */}
 			<AppTitle
 				hero
-				eyebrow="My Positions"
 				title="Owned Positions"
 				subtitle={<DisplayWarningMessage overwrite={overwrite} />}
 			/>

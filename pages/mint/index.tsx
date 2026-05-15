@@ -21,7 +21,6 @@ export default function Borrow() {
 
 			<AppTitle
 				hero
-				eyebrow="Borrow"
 				title="Borrow Frankencoins"
 				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
 			/>

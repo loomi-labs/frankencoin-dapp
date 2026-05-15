@@ -23,7 +23,6 @@ interface Props {
 	subtitle?: string | React.ReactNode;
 	actions?: React.ReactNode;
 	hero?: boolean;
-	eyebrow?: string;
 	children?: React.ReactElement | React.ReactElement[];
 }
 
@@ -40,7 +39,6 @@ export default function AppTitle({
 	subtitle,
 	actions,
 	hero,
-	eyebrow,
 	children,
 }: Props) {
 	const hasHeader = symbol || icon || url || title;
@@ -58,9 +56,6 @@ export default function AppTitle({
 			{(hasHeader || actions) && (
 				<div className={actions ? "flex flex-col md:flex-row md:items-center justify-between gap-3" : undefined}>
 					<div>
-						{eyebrow && (
-							<div className="text-xs uppercase tracking-[0.14em] font-medium text-text-active mb-3">{eyebrow}</div>
-						)}
 						{hasHeader && (
 							<div className="flex items-center gap-2 flex-wrap">
 								{symbol && <TokenLogo currency={symbol} />}

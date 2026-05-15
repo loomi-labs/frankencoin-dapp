@@ -420,7 +420,7 @@ export default function PositionCreate({}) {
 				<title>Frankencoin - Propose Position</title>
 			</Head>
 
-			<AppTitle hero eyebrow="Borrow" title="Propose New Position" />
+			<AppTitle hero title="Propose New Position" />
 
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">

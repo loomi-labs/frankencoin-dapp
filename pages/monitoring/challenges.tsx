@@ -20,7 +20,6 @@ export default function PageChallengesOverview() {
 
 			<AppTitle
 				hero
-				eyebrow="Challenges"
 				title="Challenges & Bids"
 				subtitle="A complete overview of all challenges that have occurred, both averted and succeeded, along with their bids. This track record helps market participants assess the protocol's history and resilience."
 			/>
