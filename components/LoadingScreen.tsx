@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { SOCIAL } from "../utils/constant";
 import AppLink from "./AppLink";
-import { version } from "../package.json";
-import { faCodeCommit } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
 
@@ -83,19 +81,10 @@ export default function LoadingScreen({ title = "Frankencoin is loading...", loa
 }
 
 export function SubmitIssue() {
-	const isTestnet = process.env.NEXT_PUBLIC_PROFILE == "testnet";
-
 	return (
 		<ul className="flex items-center gap-8 text-white">
 			<li>
 				<FooterButton link={SOCIAL.Github_dapp_new_issue} text="Submit an Issue" icon={faGithub} />
-			</li>
-			<li>
-				<FooterButton
-					link={SOCIAL.Github_dapp}
-					text={`${version} - ${isTestnet ? "Development" : "Production"}`}
-					icon={faCodeCommit}
-				/>
 			</li>
 		</ul>
 	);
