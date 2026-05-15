@@ -68,7 +68,6 @@ export default function SavingsPage() {
 
 			<AppTitle
 				hero
-				eyebrow="Earn"
 				title="Earn"
 				subtitle={`Earn interest on your Frankencoins - supported on all eight chains. Already more than ${Math.floor(
 					totalBalance / 1_000_000

@@ -18,7 +18,6 @@ export default function LogsPage() {
 
 			<AppTitle
 				hero
-				eyebrow="Logs"
 				title="Transaction Log"
 				subtitle="Track protocol activity, ZCHF metrics, and earnings across the Frankencoin ecosystem. Numbers accounted in ZCHF."
 			/>

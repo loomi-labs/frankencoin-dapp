@@ -32,7 +32,6 @@ export default function Governance() {
 
 			<AppTitle
 				hero
-				eyebrow="Governance"
 				title="New Positions"
 				subtitle={
 					<>

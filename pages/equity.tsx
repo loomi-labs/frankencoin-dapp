@@ -34,7 +34,6 @@ export default function Equity() {
 
 			<AppTitle
 				hero
-				eyebrow="Invest"
 				title="Invest"
 				subtitle={
 					<>

@@ -248,7 +248,7 @@ export default function Swap() {
 				<title>Frankencoin - Swap</title>
 			</Head>
 
-			<AppTitle hero eyebrow="Swap" title="Swap" />
+			<AppTitle hero title="Swap" />
 
 			<div className="md:mt-8">
 				<section className="mx-auto max-w-2xl sm:px-8">

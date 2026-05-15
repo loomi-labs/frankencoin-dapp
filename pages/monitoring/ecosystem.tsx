@@ -16,7 +16,6 @@ export default function Overview() {
 
 			<AppTitle
 				hero
-				eyebrow="Ecosystem"
 				title="Frankencoin Holders"
 				subtitle="This section provides an overview of how the total ZCHF supply is distributed among different holders. The circulating supply reflects tokens held in uncategorized wallets, while other portions are allocated to protocol reserves, centralized & decentralized exchanges, and external integrations such as Morpho."
 			/>

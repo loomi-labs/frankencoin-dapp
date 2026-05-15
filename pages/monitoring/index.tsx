@@ -39,7 +39,6 @@ export default function Positions() {
 
 			<AppTitle
 				hero
-				eyebrow="Monitoring"
 				title="Monitoring"
 				subtitle="Monitor the health of the Frankencoin protocol. Spot undercollateralized positions, earn a 2% reward by challenging them, and buy collateral from active auctions at a discount. Track reserves, supply distribution, and system collateralization over time."
 			/>
