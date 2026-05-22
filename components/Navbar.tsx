@@ -102,7 +102,7 @@ export default function Navbar() {
 					<div className="flex items-center md:pl-4">
 						<Link href={CONFIG.landing} onClick={() => track("nav_home")}>
 							<picture>
-								<img className="h-9 transition" src="/coin/zchf.svg" alt="Logo" />
+								<img className="h-9 transition" src="/assets/zchf-brand.svg" alt="Logo" />
 							</picture>
 						</Link>
 					</div>
