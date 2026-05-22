@@ -13,6 +13,7 @@ import AppToggle from "@components/AppToggle";
 import AppBox from "@components/AppBox";
 import AppCard from "@components/AppCard";
 import AppHeroSteps from "@components/AppHeroSteps";
+import { Icon } from "@iconify/react";
 import DisplayAmount from "@components/DisplayAmount";
 import DisplayLabel from "@components/DisplayLabel";
 import LoadingSpin from "@components/LoadingSpin";
@@ -165,9 +166,9 @@ function LayoutTab() {
 			<DemoSection title="AppHeroSteps">
 				<AppHeroSteps
 					steps={[
-						{ icon: 1, title: "First Step", description: "Provide collateral to open a position." },
-						{ icon: 2, title: "Second Step", description: "Mint ZCHF against your collateral." },
-						{ icon: 3, title: "Third Step", description: "Repay anytime to recover collateral." },
+						{ icon: <Icon icon="solar:wallet-linear" />, title: "First Step", description: "Provide collateral to open a position." },
+						{ icon: <Icon icon="solar:checklist-minimalistic-linear" />, title: "Second Step", description: "Mint ZCHF against your collateral." },
+						{ icon: <Icon icon="solar:hand-money-linear" />, title: "Third Step", description: "Repay anytime to recover collateral." },
 					]}
 				/>
 			</DemoSection>

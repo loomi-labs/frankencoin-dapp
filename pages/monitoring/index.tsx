@@ -11,8 +11,7 @@ import MarketChart from "@components/PageEcoSystem/MarketChart";
 import { useSelector } from "react-redux";
 import PageTabInput from "@components/Input/PageTabInput";
 import AppHeroSteps from "@components/AppHeroSteps";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGavel, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "@iconify/react";
 import FrankencoinAllocation from "@components/PageEcoSystem/FrankencoinAllocation";
 import CollateralOverviewTable from "@components/PageMonitoring/CollateralOverviewTable";
 import CollateralRiskTable from "@components/PageMonitoring/CollateralRiskTable";
@@ -58,13 +57,13 @@ export default function Positions() {
 												title: "Earn rewards by protecting the protocol",
 												description:
 													"Find undercollateralized positions below, challenge them by putting up your own collateral, and earn 2% of the auction proceeds if the challenge succeeds.",
-												icon: <FontAwesomeIcon icon={faTrophy} />,
+												icon: <Icon icon="solar:cup-star-linear" />,
 											},
 											{
 												title: "Acquire collateral from auctions",
 												description:
 													"When positions are challenged, their collateral goes to auction. Pay ZCHF to receive the collateral tokens. In Phase 1 at a fixed price, in Phase 2 at a declining price.",
-												icon: <FontAwesomeIcon icon={faGavel} />,
+												icon: <Icon icon="solar:hammer-linear" />,
 											},
 										]}
 									/>

@@ -6,6 +6,7 @@ import { useEquityTrades, useFPSBalanceHistory, useFPSEarningsHistory } from "@h
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import AppHeroSteps from "@components/AppHeroSteps";
+import { Icon } from "@iconify/react";
 import EquityFPSDetailsCard from "@components/PageEquity/EquityFPSDetailsCard";
 import EquityInteractionCard from "@components/PageEquity/EquityInteractionCard";
 import EquityTradesTable from "@components/PageEquity/EquityTradesTable";
@@ -52,17 +53,17 @@ export default function Equity() {
 			<AppHeroSteps
 				steps={[
 					{
-						icon: 1,
+						icon: <Icon icon="solar:pie-chart-2-linear" />,
 						title: "Get Pool Shares",
 						description: "Add ZCHF to the Frankencoin reserve pool and get newly minted pool shares in return.",
 					},
 					{
-						icon: 2,
+						icon: <Icon icon="solar:graph-up-linear" />,
 						title: "Participate",
 						description: "FPS's fundamental value climbs (or falls) with Frankencoin's success (or decline).",
 					},
 					{
-						icon: 3,
+						icon: <Icon icon="solar:scale-linear" />,
 						title: "Govern",
 						description: "Team up with others to veto protocol extensions or collaterals you don't like.",
 					},
