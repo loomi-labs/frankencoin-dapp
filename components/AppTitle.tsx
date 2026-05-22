@@ -82,11 +82,11 @@ export default function AppTitle({
 	if (hero) {
 		return (
 			<div className={`${className ?? ""} pt-6`}>
-				<div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-brand-50 to-[#F5F0FF] dark:from-[#1E1233] dark:to-[#15102A] px-7 py-10 md:px-12 md:py-14">
+				<div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-brand-50 to-[#FFEDE9] dark:from-[#331212] dark:to-[#1A0907] px-7 py-10 md:px-12 md:py-14">
 					<div
 						aria-hidden
 						className="pointer-events-none absolute -top-20 -right-16 w-72 h-72 rounded-full"
-						style={{ background: "radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%)" }}
+						style={{ background: "radial-gradient(circle, rgba(218,41,28,0.18), transparent 70%)" }}
 					/>
 					<div className="relative">{headerBlock}</div>
 				</div>

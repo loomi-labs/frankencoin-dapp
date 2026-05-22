@@ -7,6 +7,7 @@ import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import AppHeroSteps from "@components/AppHeroSteps";
+import { Icon } from "@iconify/react";
 import SavingsRecentActivitiesTable from "@components/PageSavings/SavingsRecentActivitiesTable";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
@@ -77,17 +78,17 @@ export default function SavingsPage() {
 			<AppHeroSteps
 				steps={[
 					{
-						icon: 1,
+						icon: <Icon icon="solar:safe-2-linear" />,
 						title: "Deposit Frankencoins",
 						description: "Your Frankencoins stay in the savings module.",
 					},
 					{
-						icon: 2,
+						icon: <Icon icon="solar:graph-up-linear" />,
 						title: `${formatCurrency(saveRate)}% interest`,
 						description: "Interest accrues as time passes.",
 					},
 					{
-						icon: 3,
+						icon: <Icon icon="solar:hand-money-linear" />,
 						title: "Withdraw anytime",
 						description: "Withdraw your Frankencoins plus interest at any time.",
 					},

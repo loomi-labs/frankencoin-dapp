@@ -22,8 +22,8 @@ createAppKit({
 	},
 });
 
-const DARK_THEME_VARS = { "--w3m-color-mix": "#15102A", "--w3m-color-mix-strength": 20, "--w3m-accent": "#8B5CF6" } as const;
-const LIGHT_THEME_VARS = { "--w3m-color-mix": "#ffffff", "--w3m-color-mix-strength": 40, "--w3m-accent": "#6D28D9" } as const;
+const DARK_THEME_VARS = { "--w3m-color-mix": "#10161D", "--w3m-color-mix-strength": 20, "--w3m-accent": "#E0584D" } as const;
+const LIGHT_THEME_VARS = { "--w3m-color-mix": "#ffffff", "--w3m-color-mix-strength": 40, "--w3m-accent": "#DA291C" } as const;
 
 function AppKitThemeSync() {
 	const [mode] = useTheme();

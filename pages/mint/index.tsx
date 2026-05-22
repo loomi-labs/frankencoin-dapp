@@ -7,6 +7,8 @@ import { fetchPositionsList } from "../../redux/slices/positions.slice";
 import AppTitle from "@components/AppTitle";
 import AppHeroSteps from "@components/AppHeroSteps";
 import AppButtonSecondary from "@components/AppButtonSecondary";
+import { Icon } from "@iconify/react";
+import HandMoneyIcon from "@components/icons/HandMoneyIcon";
 
 export default function Borrow() {
 	useEffect(() => {
@@ -28,17 +30,17 @@ export default function Borrow() {
 			<AppHeroSteps
 				steps={[
 					{
-						icon: 1,
+						icon: <Icon icon="solar:wallet-linear" />,
 						title: "Choose a collateral",
 						description: "Choose a crypto asset to use as collateral.",
 					},
 					{
-						icon: 2,
+						icon: <Icon icon="solar:checklist-minimalistic-linear" />,
 						title: "Define terms",
 						description: "Adjust amount, maturity, and liquidation price to your liking.",
 					},
 					{
-						icon: 3,
+						icon: <HandMoneyIcon />,
 						title: "Receive Frankencoins",
 						description: "Fresh Frankencoins are minted directly into your wallet.",
 					},

@@ -208,7 +208,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 									enabled: false,
 								},
 							},
-							colors: ["#7C3AED", "#A78BFA"],
+							colors: ["#DA291C", "#2F4356"],
 							stroke: {
 								curve: "linestep",
 								width: 3,

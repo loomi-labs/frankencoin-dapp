@@ -90,7 +90,7 @@ export default function BorrowTable() {
 	};
 
 	return (
-		<Table>
+		<Table borderless>
 			<TableHeadSearchable
 				headers={headers}
 				tab={tab}
