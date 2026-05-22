@@ -25,27 +25,28 @@ export default function Borrow() {
 				hero
 				title="Borrow Frankencoins"
 				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
-			/>
-
-			<AppHeroSteps
-				steps={[
-					{
-						icon: <Icon icon="solar:wallet-linear" />,
-						title: "Choose a collateral",
-						description: "Choose a crypto asset to use as collateral.",
-					},
-					{
-						icon: <Icon icon="solar:checklist-minimalistic-linear" />,
-						title: "Define terms",
-						description: "Adjust amount, maturity, and liquidation price to your liking.",
-					},
-					{
-						icon: <HandMoneyIcon />,
-						title: "Receive Frankencoins",
-						description: "Fresh Frankencoins are minted directly into your wallet.",
-					},
-				]}
-			/>
+			>
+				<AppHeroSteps
+					nested
+					steps={[
+						{
+							icon: <Icon icon="solar:wallet-linear" />,
+							title: "Choose a collateral",
+							description: "Choose a crypto asset to use as collateral.",
+						},
+						{
+							icon: <Icon icon="solar:checklist-minimalistic-linear" />,
+							title: "Define terms",
+							description: "Adjust amount, maturity, and liquidation price to your liking.",
+						},
+						{
+							icon: <HandMoneyIcon />,
+							title: "Receive Frankencoins",
+							description: "Fresh Frankencoins are minted directly into your wallet.",
+						},
+					]}
+				/>
+			</AppTitle>
 
 			<div className="mt-2">
 				<BorrowTable />

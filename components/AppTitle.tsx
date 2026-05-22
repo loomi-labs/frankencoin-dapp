@@ -51,7 +51,7 @@ export default function AppTitle({
 		? "mt-3 text-text-secondary text-base max-w-prose leading-relaxed"
 		: "mt-1 text-text-secondary text-sm";
 
-	const headerBlock = (
+	const headerInner = (
 		<>
 			{(hasHeader || actions) && (
 				<div className={actions ? "flex flex-col md:flex-row md:items-center justify-between gap-3" : undefined}>
@@ -75,24 +75,24 @@ export default function AppTitle({
 					{actions && <div>{actions}</div>}
 				</div>
 			)}
-			{children ?? null}
 		</>
 	);
 
 	if (hero) {
 		return (
 			<div className={`${className ?? ""} pt-6`}>
-				<div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-brand-50 to-[#FFEDE9] dark:from-[#331212] dark:to-[#1A0907] px-7 py-10 md:px-12 md:py-14">
-					<div
-						aria-hidden
-						className="pointer-events-none absolute -top-20 -right-16 w-72 h-72 rounded-full"
-						style={{ background: "radial-gradient(circle, rgba(218,41,28,0.18), transparent 70%)" }}
-					/>
-					<div className="relative">{headerBlock}</div>
+				<div className="rounded-card bg-card-body-secondary px-7 py-10 md:px-12 md:py-14">
+					{headerInner}
+					{children && <div className="mt-6 md:mt-8">{children}</div>}
 				</div>
 			</div>
 		);
 	}
 
-	return <div className={`${className ?? ""} pt-6`}>{headerBlock}</div>;
+	return (
+		<div className={`${className ?? ""} pt-6`}>
+			{headerInner}
+			{children ?? null}
+		</div>
+	);
 }

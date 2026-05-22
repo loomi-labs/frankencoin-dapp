@@ -9,16 +9,15 @@ interface HeroStep {
 interface Props {
 	steps: HeroStep[];
 	className?: string;
+	nested?: boolean;
 }
 
-export default function AppHeroSteps({ steps, className }: Props) {
+export default function AppHeroSteps({ steps, className, nested = false }: Props) {
+	const cardClass = "flex flex-col gap-3 bg-card-body-primary rounded-card p-6 border border-card-input-border shadow-card dark:shadow-none";
 	return (
 		<div className={`grid grid-cols-1 md:grid-cols-${steps.length} gap-4 ${className ?? ""}`}>
 			{steps.map((step, i) => (
-				<div
-					key={i}
-					className="flex flex-col gap-3 bg-card-body-primary rounded-card p-6 border border-card-input-border shadow-card dark:shadow-none"
-				>
+				<div key={i} className={cardClass}>
 					<div className="text-text-primary text-3xl leading-none flex items-center h-8">{step.icon}</div>
 					<div className="flex flex-col gap-1">
 						<span className="font-display font-bold text-lg text-text-active">{step.title}</span>

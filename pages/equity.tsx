@@ -48,27 +48,28 @@ export default function Equity() {
 						(FPS) — the governance token of the Frankencoin Ecosystem.
 					</>
 				}
-			/>
-
-			<AppHeroSteps
-				steps={[
-					{
-						icon: <Icon icon="solar:pie-chart-2-linear" />,
-						title: "Get Pool Shares",
-						description: "Add ZCHF to the Frankencoin reserve pool and get newly minted pool shares in return.",
-					},
-					{
-						icon: <Icon icon="solar:graph-up-linear" />,
-						title: "Participate",
-						description: "FPS's fundamental value climbs (or falls) with Frankencoin's success (or decline).",
-					},
-					{
-						icon: <Icon icon="solar:scale-linear" />,
-						title: "Govern",
-						description: "Team up with others to veto protocol extensions or collaterals you don't like.",
-					},
-				]}
-			/>
+			>
+				<AppHeroSteps
+					nested
+					steps={[
+						{
+							icon: <Icon icon="solar:pie-chart-2-linear" />,
+							title: "Get Pool Shares",
+							description: "Add ZCHF to the Frankencoin reserve pool and get newly minted pool shares in return.",
+						},
+						{
+							icon: <Icon icon="solar:graph-up-linear" />,
+							title: "Participate",
+							description: "FPS's fundamental value climbs (or falls) with Frankencoin's success (or decline).",
+						},
+						{
+							icon: <Icon icon="solar:scale-linear" />,
+							title: "Govern",
+							description: "Team up with others to veto protocol extensions or collaterals you don't like.",
+						},
+					]}
+				/>
+			</AppTitle>
 
 			<div className="md:mt-8">
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">

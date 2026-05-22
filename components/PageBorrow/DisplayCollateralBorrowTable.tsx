@@ -37,7 +37,7 @@ export default function DisplayCollateralBorrowTable({
 	return (
 		<div className={`md:-ml-12 flex items-center ${className}`}>
 			<div className="mr-4">
-				<TokenLogo currency={symbol} />
+				<TokenLogo currency={symbol} size={12} />
 			</div>
 
 			<div className="flex flex-col">

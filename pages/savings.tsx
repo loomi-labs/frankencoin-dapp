@@ -73,27 +73,28 @@ export default function SavingsPage() {
 				subtitle={`Earn interest on your Frankencoins - supported on all eight chains. Already more than ${Math.floor(
 					totalBalance / 1_000_000
 				)} million ZCHF saved.`}
-			/>
-
-			<AppHeroSteps
-				steps={[
-					{
-						icon: <Icon icon="solar:safe-2-linear" />,
-						title: "Deposit Frankencoins",
-						description: "Your Frankencoins stay in the savings module.",
-					},
-					{
-						icon: <Icon icon="solar:graph-up-linear" />,
-						title: `${formatCurrency(saveRate)}% interest`,
-						description: "Interest accrues as time passes.",
-					},
-					{
-						icon: <Icon icon="solar:hand-money-linear" />,
-						title: "Withdraw anytime",
-						description: "Withdraw your Frankencoins plus interest at any time.",
-					},
-				]}
-			/>
+			>
+				<AppHeroSteps
+					nested
+					steps={[
+						{
+							icon: <Icon icon="solar:safe-2-linear" />,
+							title: "Deposit Frankencoins",
+							description: "Your Frankencoins stay in the savings module.",
+						},
+						{
+							icon: <Icon icon="solar:graph-up-linear" />,
+							title: `${formatCurrency(saveRate)}% interest`,
+							description: "Interest accrues as time passes.",
+						},
+						{
+							icon: <Icon icon="solar:hand-money-linear" />,
+							title: "Withdraw anytime",
+							description: "Withdraw your Frankencoins plus interest at any time.",
+						},
+					]}
+				/>
+			</AppTitle>
 
 			<SavingsInteractionCard />
 
