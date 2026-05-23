@@ -111,6 +111,21 @@
 }
 
 @layer components {
+	.checkbox-filter {
+		@apply w-4 h-4 rounded cursor-pointer;
+		appearance: none;
+		border: 1px solid var(--card-input-border);
+		background-color: var(--card-body-primary);
+		color: var(--button-default);
+	}
+	.checkbox-filter:hover {
+		border-color: var(--button-default);
+	}
+	.checkbox-filter:checked {
+		background-color: var(--button-default);
+		border-color: var(--button-default);
+	}
+
 	.btn {
 		@apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-full select-none transition-colors ease-out duration-150 border border-transparent px-4 py-2 md:px-5 md:py-3 font-medium;
 	}

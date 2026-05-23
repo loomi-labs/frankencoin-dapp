@@ -104,7 +104,7 @@ export default function TableHeadSearchable({
 			{/* Search / toggle / filter bar */}
 			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-7 xl:px-11 py-4 border-b border-card-input-border gap-3">
 				{/* Search input */}
-				<div className="flex flex-1 items-center gap-2 text-text-secondary bg-card-content-primary rounded-input px-3 py-2 md:max-w-md">
+				<div className="flex flex-1 items-center gap-2 text-text-secondary bg-card-body-primary rounded-full border border-card-input-border focus-within:border-text-active px-4 py-2 md:max-w-md transition-colors">
 					<FontAwesomeIcon icon={faMagnifyingGlass} className="w-4 h-4 text-text-secondary" />
 					<input
 						type="text"
@@ -140,7 +140,7 @@ export default function TableHeadSearchable({
 					</div>
 
 					{/* Filter button + dropdown */}
-					<div className="relative" ref={filterRef}>
+					<div className={`relative ${filterOptions.length === 0 && (!customCategories || customCategories.length === 0) ? "hidden" : ""}`} ref={filterRef}>
 						<button
 							onClick={() => setFilterOpen((prev) => !prev)}
 							className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors border ${
@@ -176,7 +176,7 @@ export default function TableHeadSearchable({
 													type="checkbox"
 													checked={activeFilters.includes(opt.value)}
 													onChange={() => toggleFilter(opt.value)}
-													className="w-4 h-4 rounded active:bg-button-default"
+													className="checkbox-filter"
 												/>
 												<span className="text-sm text-text-primary">{opt.label}</span>
 											</label>
@@ -200,7 +200,7 @@ export default function TableHeadSearchable({
 													type="checkbox"
 													checked={activeCustomCategories.includes(category)}
 													onChange={() => toggleCustomCategory(category)}
-													className="w-4 h-4 rounded active:bg-button-default"
+													className="checkbox-filter"
 												/>
 												<span className="text-sm text-text-primary">{category}</span>
 											</label>
@@ -219,8 +219,8 @@ export default function TableHeadSearchable({
 					{headers.map((header, i) => (
 						<div className={`${i > 0 ? "text-right" : ""}`} key={`th-${i}`} onClick={() => handleTabClick(header)}>
 							<span
-								className={`text-xs uppercase tracking-[0.08em] font-medium ${!!tab ? "cursor-pointer" : ""} ${
-									tab === header ? "text-text-active" : "text-text-header"
+								className={`text-[11px] uppercase tracking-[0.12em] font-medium ${!!tab ? "cursor-pointer" : ""} ${
+									tab === header ? "text-text-primary" : "text-text-header"
 								}`}
 							>
 								{header}

@@ -9,10 +9,14 @@ import { PositionQueryV2, PriceQueryObjectArray } from "@frankencoin/api";
 import { Address, erc20Abi, formatUnits, zeroAddress } from "viem";
 import { useMemo, useState } from "react";
 import { useConnection, useReadContracts } from "wagmi";
-import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
+import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, getCategoriesForCollateral, normalizeAddress } from "@utils";
 import { useBorrowPositions, useSwapCHFAUStats, SwapVCHFStatsReturn } from "@hooks";
 
-const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
+const STABLECOIN_CATEGORY: CollateralCategory = "Stablecoins";
+const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.filter((c) => c !== STABLECOIN_CATEGORY).map((c) => ({
+	label: c,
+	value: c,
+}));
 
 export default function BorrowTable() {
 	const headers: string[] = ["Collateral", "Loan-to-Value", "Interest", "Maturity"];
@@ -34,12 +38,16 @@ export default function BorrowTable() {
 		[normalizeAddress(chfauBridge.bridgeAddress)]: chfauBridge,
 	};
 
-	const sorted: PositionQueryV2[] = sortPositions(
+	const sortedAll: PositionQueryV2[] = sortPositions(
 		[...uniquePositions, chfauBridge.asBorrowPosition],
 		coingecko,
 		headers,
 		tab,
 		reverse
+	);
+
+	const sorted: PositionQueryV2[] = sortedAll.filter(
+		(pos) => !getCategoriesForCollateral(pos.collateral).includes(STABLECOIN_CATEGORY)
 	);
 
 	// Wallet balance detection for "In my wallet" toggle

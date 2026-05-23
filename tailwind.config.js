@@ -6,7 +6,7 @@ module.exports = {
 			pattern: /grid-cols-/,
 			variants: ["sm", "md", "lg", "xl", "2xl"],
 		},
-		{ pattern: /^(w|h)-(5|6|8|10|12)$/ },
+		{ pattern: /^(w|h)-(5|6|8|9|10|12)$/ },
 	],
 	theme: {
 		fontFamily: {

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import BorrowTable from "@components/PageBorrow/BorrowTable";
+import StablecoinBridges from "@components/PageBorrow/StablecoinBridges";
 import { useEffect } from "react";
 import { store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
@@ -18,12 +19,12 @@ export default function Borrow() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Borrow</title>
+				<title>Frankencoin - Get ZCHF</title>
 			</Head>
 
 			<AppTitle
 				hero
-				title="Borrow Frankencoins"
+				title="Get Frankencoins"
 				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
 			>
 				<AppHeroSteps
@@ -48,11 +49,23 @@ export default function Borrow() {
 				/>
 			</AppTitle>
 
+			<AppTitle
+				title="Stablecoin bridges"
+				subtitle="1:1 swaps between ZCHF and other Swiss-franc stablecoins."
+			/>
+
+			<StablecoinBridges />
+
+			<AppTitle
+				title="Collaterals"
+				subtitle="Mint Frankencoins against crypto, tokenized securities, or commodities."
+			/>
+
 			<div className="mt-2">
 				<BorrowTable />
 			</div>
 
-			<div className="flex items-center justify-center">
+			<div className="flex items-center justify-center mt-6">
 				<Link href={"mint/create"}>
 					<AppButtonSecondary>Propose New Position or Collateral</AppButtonSecondary>
 				</Link>
