@@ -102,7 +102,7 @@ export default function TableHeadSearchable({
 	return (
 		<div className="bg-table-header-primary">
 			{/* Search / toggle / filter bar */}
-			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-7 xl:px-11 py-4 border-b border-card-input-border gap-3">
+			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-8 xl:px-10 py-4 border-b border-card-input-border gap-3">
 				{/* Search input */}
 				<div className="flex flex-1 items-center gap-2 text-text-secondary bg-card-body-primary rounded-full border border-card-input-border focus-within:border-text-active px-4 py-2 md:max-w-md transition-colors">
 					<FontAwesomeIcon icon={faMagnifyingGlass} className="w-4 h-4 text-text-secondary" />
@@ -116,7 +116,7 @@ export default function TableHeadSearchable({
 				</div>
 
 				{/* Divider between search and controls — mobile only */}
-				<div className="md:hidden border-t border-card-input-border -mx-7" />
+				<div className="md:hidden border-t border-card-input-border -mx-8" />
 
 				{/* Right controls */}
 				<div className="flex items-center justify-end gap-5">
@@ -214,8 +214,8 @@ export default function TableHeadSearchable({
 			</div>
 
 			{/* Column headers — desktop */}
-			<div className="items-center justify-between py-4 px-8 md:flex xl:px-12">
-				<div className={`max-md:hidden pl-8 flex-grow grid-cols-2 md:grid md:grid-cols-${colSpan || headers.length}`}>
+			<div className="items-center justify-between py-4 px-8 md:flex xl:px-10">
+				<div className={`max-md:hidden flex-grow grid-cols-2 md:grid md:grid-cols-${colSpan || headers.length}`}>
 					{headers.map((header, i) => (
 						<div className={`${i > 0 ? "text-right" : ""}`} key={`th-${i}`} onClick={() => handleTabClick(header)}>
 							<span
