@@ -8,6 +8,7 @@ import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import AppHeroSteps from "@components/AppHeroSteps";
 import { Icon } from "@iconify/react";
+import HandMoneyIcon from "@components/icons/HandMoneyIcon";
 import SavingsRecentActivitiesTable from "@components/PageSavings/SavingsRecentActivitiesTable";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
@@ -78,7 +79,7 @@ export default function SavingsPage() {
 					nested
 					steps={[
 						{
-							icon: <Icon icon="solar:safe-2-linear" />,
+							icon: <Icon icon="solar:money-bag-linear" />,
 							title: "Deposit Frankencoins",
 							description: "Your Frankencoins stay in the savings module.",
 						},
@@ -88,7 +89,7 @@ export default function SavingsPage() {
 							description: "Interest accrues as time passes.",
 						},
 						{
-							icon: <Icon icon="solar:hand-money-linear" />,
+							icon: <HandMoneyIcon />,
 							title: "Withdraw anytime",
 							description: "Withdraw your Frankencoins plus interest at any time.",
 						},
