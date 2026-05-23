@@ -25,7 +25,12 @@ export default function Borrow() {
 			<AppTitle
 				hero
 				title="Get Frankencoins"
-				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
+				subtitle={
+					<>
+						<p>Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins.</p>
+						<p className="mt-2">Or swap 1:1 against another Swiss-franc stablecoin via the bridges below.</p>
+					</>
+				}
 			>
 				<AppHeroSteps
 					nested
@@ -50,14 +55,14 @@ export default function Borrow() {
 			</AppTitle>
 
 			<AppTitle
-				title="Stablecoin bridges"
+				title="Swap a stablecoin"
 				subtitle="1:1 swaps between ZCHF and other Swiss-franc stablecoins."
 			/>
 
 			<StablecoinBridges />
 
 			<AppTitle
-				title="Collaterals"
+				title="Mint against collateral"
 				subtitle="Mint Frankencoins against crypto, tokenized securities, or commodities."
 			/>
 

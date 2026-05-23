@@ -9,7 +9,7 @@ import { PositionQueryV2, PriceQueryObjectArray } from "@frankencoin/api";
 import { Address, erc20Abi, formatUnits, zeroAddress } from "viem";
 import { useMemo, useState } from "react";
 import { useConnection, useReadContracts } from "wagmi";
-import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, getCategoriesForCollateral, normalizeAddress } from "@utils";
+import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, formatCurrency, getCategoriesForCollateral, normalizeAddress } from "@utils";
 import { useBorrowPositions, useSwapCHFAUStats, SwapVCHFStatsReturn } from "@hooks";
 
 const STABLECOIN_CATEGORY: CollateralCategory = "Stablecoins";
@@ -88,6 +88,14 @@ export default function BorrowTable() {
 		});
 	}, [sorted, searchQuery, activeCategories, inMyWallet, walletAddress, walletBalanceMap]);
 
+	const effectiveInterest = (p: PositionQueryV2) =>
+		(p.annualInterestPPM / 1e6) / (1 - p.reserveContribution / 1e6) * 100;
+	const interests = sorted.map(effectiveInterest).filter((n) => isFinite(n) && n > 0);
+	const minI = interests.length ? Math.min(...interests) : 0;
+	const maxI = interests.length ? Math.max(...interests) : 0;
+	const sameI = minI === maxI;
+	const hasStats = sorted.length > 0 && interests.length > 0;
+
 	const handleTabOnChange = function (e: string) {
 		if (tab === e) {
 			setReverse(!reverse);
@@ -99,6 +107,35 @@ export default function BorrowTable() {
 
 	return (
 		<Table borderless>
+			<div className="grid grid-cols-2 border-b border-card-input-border">
+				<div className="px-8 xl:px-10 py-4 border-r border-card-input-border">
+					<div className="text-[11px] uppercase tracking-[0.12em] text-text-header mb-1">Collaterals</div>
+					<div className="font-display font-semibold text-2xl tracking-tight text-text-primary">
+						{hasStats ? sorted.length : "—"}
+					</div>
+				</div>
+				<div className="px-8 xl:px-10 py-4">
+					<div className="text-[11px] uppercase tracking-[0.12em] text-text-header mb-1">Interest range</div>
+					<div className="font-display font-semibold text-2xl tracking-tight text-text-primary">
+						{hasStats ? (
+							<>
+								{sameI ? (
+									<>{formatCurrency(minI, 2, 2)}%</>
+								) : (
+									<>
+										{formatCurrency(minI, 2, 2)}
+										<span className="text-text-secondary mx-1.5">–</span>
+										{formatCurrency(maxI, 2, 2)}%
+									</>
+								)}
+								<span className="text-sm font-mono text-text-secondary ml-1.5">p.a.</span>
+							</>
+						) : (
+							"—"
+						)}
+					</div>
+				</div>
+			</div>
 			<TableHeadSearchable
 				headers={headers}
 				tab={tab}
