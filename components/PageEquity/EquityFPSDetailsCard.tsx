@@ -92,7 +92,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 						options={{
 							theme: {
 								monochrome: {
-									color: "#7C3AED",
+									color: "#2F4356",
 									enabled: true,
 								},
 							},
@@ -162,7 +162,7 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 								gradient: {
 									shadeIntensity: 0,
 									opacityTo: 0.2,
-									gradientToColors: ["#7C3AED"],
+									gradientToColors: ["#2F4356"],
 								},
 							},
 							annotations: {

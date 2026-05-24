@@ -97,7 +97,7 @@ export default function ReportsFPSYearlyTable({ address, fpsHistory, fpsEarnings
 	};
 
 	return (
-		<Table>
+		<Table borderless>
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} />
 			<TableBody>
 				{list.length == 0 ? (

@@ -63,7 +63,7 @@ export default function Equity() {
 							description: "FPS's fundamental value climbs (or falls) with Frankencoin's success (or decline).",
 						},
 						{
-							icon: <Icon icon="solar:scale-linear" />,
+							icon: <Icon icon="solar:flag-2-linear" />,
 							title: "Govern",
 							description: "Team up with others to veto protocol extensions or collaterals you don't like.",
 						},
