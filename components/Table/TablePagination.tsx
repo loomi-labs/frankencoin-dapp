@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	currentPage: number;
@@ -21,6 +22,19 @@ export default function TablePagination({
 	onPageSizeChange,
 }: Props) {
 	const showPageSize = pageSize !== undefined && pageSizeOptions && pageSizeOptions.length > 0 && onPageSizeChange !== undefined;
+
+	const [sizeOpen, setSizeOpen] = useState(false);
+	const sizeRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		function handleClickOutside(e: MouseEvent) {
+			if (sizeRef.current && !sizeRef.current.contains(e.target as Node)) {
+				setSizeOpen(false);
+			}
+		}
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 
 	if (totalPages <= 1 && !showPageSize) return null;
 
@@ -50,21 +64,54 @@ export default function TablePagination({
 				)}
 
 				{showPageSize && (
-					<label className="flex items-center gap-2 text-sm text-text-secondary">
-						<span className="hidden md:inline">Rows:</span>
-						<select
-							value={pageSize}
-							onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
-							className="bg-card-body-primary border border-card-input-border rounded-full text-sm text-text-primary px-3 py-1 focus:outline-none focus:border-text-active cursor-pointer"
+					<div className="relative" ref={sizeRef}>
+						<button
+							type="button"
+							onClick={() => setSizeOpen((prev) => !prev)}
+							aria-haspopup="listbox"
+							aria-expanded={sizeOpen}
 							aria-label="Rows per page"
+							className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors border ${
+								sizeOpen
+									? "border-brand-300 dark:border-brand-700 text-text-active bg-brand-50 dark:bg-brand-900/20"
+									: "border-card-input-border text-text-secondary hover:bg-menu-hover"
+							}`}
 						>
-							{pageSizeOptions!.map((opt) => (
-								<option key={opt} value={opt}>
-									{opt}
-								</option>
-							))}
-						</select>
-					</label>
+							<span className="hidden md:inline">Rows:</span>
+							<span className="text-text-primary font-medium">{pageSize}</span>
+							<FontAwesomeIcon icon={faChevronDown} className="w-3 h-3" />
+						</button>
+
+						{sizeOpen && (
+							<div
+								role="listbox"
+								className="absolute left-0 bottom-full mb-2 z-50 w-28 rounded-card bg-card-body-primary shadow-card border border-card-input-border py-2"
+							>
+								{pageSizeOptions!.map((opt) => {
+									const active = opt === pageSize;
+									return (
+										<button
+											key={opt}
+											type="button"
+											role="option"
+											aria-selected={active}
+											onClick={() => {
+												onPageSizeChange?.(opt);
+												setSizeOpen(false);
+											}}
+											className={`w-full text-left px-4 py-1.5 text-sm transition-colors ${
+												active
+													? "text-text-active bg-brand-50 dark:bg-brand-900/20 font-semibold"
+													: "text-text-primary hover:bg-table-row-hover"
+											}`}
+										>
+											{opt}
+										</button>
+									);
+								})}
+							</div>
+						)}
+					</div>
 				)}
 			</div>
 

@@ -12,15 +12,18 @@ import { useChainId } from "wagmi";
 import { ADDRESS, ChainId } from "@frankencoin/zchf";
 import { normalizeAddress } from "../../utils/format";
 import { mainnet } from "viem/chains";
+import { useLocalStorage } from "@hooks";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+const PAGE_SIZE_STORAGE_KEY = "frankencoin.pageSize";
 
 export default function SavingsRecentActivitiesTable() {
 	const headers: string[] = ["Date", "Kind", "Amount", "Balance"];
 	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 	const [page, setPage] = useState<number>(0);
-	const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
+	const [storedPageSize, setStoredPageSize] = useLocalStorage(PAGE_SIZE_STORAGE_KEY);
+	const pageSize = PAGE_SIZE_OPTIONS.includes(storedPageSize as number) ? (storedPageSize as number) : PAGE_SIZE_OPTIONS[0];
 	const chainId = useChainId() as ChainId;
 
 	const activities = useSelector((state: RootState) => state.savings.savingsActivity);
@@ -67,7 +70,7 @@ export default function SavingsRecentActivitiesTable() {
 				pageSizeOptions={PAGE_SIZE_OPTIONS}
 				onPageChange={setPage}
 				onPageSizeChange={(size) => {
-					setPageSize(size);
+					setStoredPageSize(size);
 					setPage(0);
 				}}
 			/>
