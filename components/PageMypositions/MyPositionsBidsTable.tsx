@@ -55,7 +55,7 @@ export default function MyPositionsBidsTable() {
 	};
 
 	return (
-		<Table>
+		<Table borderless>
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} actionCol />
 			<TableBody>
 				{list.length == 0 ? (

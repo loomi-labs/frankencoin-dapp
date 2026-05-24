@@ -1,4 +1,4 @@
-import TableHeader from "../Table/TableHead";
+import TableHeader from "../Table/TableHeadSearchable";
 import TableBody from "../Table/TableBody";
 import Table from "../Table";
 import TableRowEmpty from "../Table/TableRowEmpty";

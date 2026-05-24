@@ -9,8 +9,8 @@ import { useConnection } from "wagmi";
 import { track } from "../hooks/useAnalytics";
 
 const MAIN_ITEMS = [
-	{ to: "/mint", name: "Borrow" },
-	{ to: "/mypositions", name: "My Positions" },
+	{ to: "/mypositions", name: "Dashboard" },
+	{ to: "/mint", name: "Get ZCHF" },
 	{ to: "/savings", name: "Earn" },
 	{ to: "/equity", name: "Invest" },
 ];
@@ -40,8 +40,10 @@ function MoreDropdown() {
 		<div ref={ref} className="relative">
 			<button
 				onClick={() => setOpen((v) => !v)}
-				className={`flex items-center gap-1 md:btn md:btn-nav md:py-2 font-medium hover:bg-menu-hover hover:text-menu-text rounded-lg px-3 ${
-					isActive ? "text-menu-textactive bg-menu-active font-semibold" : "text-menu-text"
+				className={`flex items-center gap-1 hover:text-accent-500 transition-colors ${
+					isActive
+						? "font-bold text-accent-500 underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
+						: "font-medium text-menu-text"
 				}`}
 			>
 				More
@@ -96,20 +98,20 @@ export default function Navbar() {
 
 	return (
 		<>
-			<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-menu-separator bg-menu-back/80">
+			<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur bg-menu-back/80">
 				<header className="grid grid-cols-[1fr,auto,1fr] items-center md:py-4 py-3 px-4 w-full">
 					{/* Left: logo */}
 					<div className="flex items-center md:pl-4">
 						<Link href={CONFIG.landing} onClick={() => track("nav_home")}>
 							<picture>
-								<img className="h-9 transition" src="/coin/zchf.svg" alt="Logo" />
+								<img className="h-9 transition" src="/assets/zchf-brand.svg" alt="Logo" />
 							</picture>
 						</Link>
 					</div>
 
 					{/* Center: desktop nav / mobile wallet */}
 					<div className="flex justify-center">
-						<ul className="hidden md:flex gap-2 lg:gap-3">
+						<ul className="hidden md:flex gap-6 lg:gap-8">
 							{mainItems.map((item) => (
 								<li key={item.to}>
 									<NavButton to={item.to} name={item.name} />

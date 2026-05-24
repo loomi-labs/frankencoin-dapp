@@ -3,16 +3,24 @@ import TableHeadSearchable, { FilterOption } from "../Table/TableHeadSearchable"
 import TableBody from "../Table/TableBody";
 import Table from "../Table";
 import TableRowEmpty from "../Table/TableRowEmpty";
+import TablePagination from "../Table/TablePagination";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { PositionQueryV2, PriceQueryObjectArray } from "@frankencoin/api";
 import { Address, erc20Abi, formatUnits, zeroAddress } from "viem";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useConnection, useReadContracts } from "wagmi";
-import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, normalizeAddress } from "@utils";
-import { useBorrowPositions, useSwapCHFAUStats, SwapVCHFStatsReturn } from "@hooks";
+import { ALL_CATEGORIES, CollateralCategory, collateralMatchesCategories, formatCurrency, getCategoriesForCollateral, normalizeAddress } from "@utils";
+import { useBorrowPositions, useLocalStorage, useSwapCHFAUStats, SwapVCHFStatsReturn } from "@hooks";
 
-const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, value: c }));
+const PAGE_SIZE_STORAGE_KEY = "frankencoin.pageSize";
+
+const STABLECOIN_CATEGORY: CollateralCategory = "Stablecoins";
+const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.filter((c) => c !== STABLECOIN_CATEGORY).map((c) => ({
+	label: c,
+	value: c,
+}));
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
 export default function BorrowTable() {
 	const headers: string[] = ["Collateral", "Loan-to-Value", "Interest", "Maturity"];
@@ -21,6 +29,9 @@ export default function BorrowTable() {
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [activeCategories, setActiveCategories] = useState<string[]>([]);
 	const [inMyWallet, setInMyWallet] = useState<boolean>(false);
+	const [page, setPage] = useState<number>(0);
+	const [storedPageSize, setStoredPageSize] = useLocalStorage(PAGE_SIZE_STORAGE_KEY);
+	const pageSize = PAGE_SIZE_OPTIONS.includes(storedPageSize as number) ? (storedPageSize as number) : PAGE_SIZE_OPTIONS[0];
 
 	const { address: walletAddress } = useConnection();
 	const chfauBridge = useSwapCHFAUStats();
@@ -34,12 +45,16 @@ export default function BorrowTable() {
 		[normalizeAddress(chfauBridge.bridgeAddress)]: chfauBridge,
 	};
 
-	const sorted: PositionQueryV2[] = sortPositions(
+	const sortedAll: PositionQueryV2[] = sortPositions(
 		[...uniquePositions, chfauBridge.asBorrowPosition],
 		coingecko,
 		headers,
 		tab,
 		reverse
+	);
+
+	const sorted: PositionQueryV2[] = sortedAll.filter(
+		(pos) => !getCategoriesForCollateral(pos.collateral).includes(STABLECOIN_CATEGORY)
 	);
 
 	// Wallet balance detection for "In my wallet" toggle
@@ -80,6 +95,22 @@ export default function BorrowTable() {
 		});
 	}, [sorted, searchQuery, activeCategories, inMyWallet, walletAddress, walletBalanceMap]);
 
+	const effectiveInterest = (p: PositionQueryV2) =>
+		(p.annualInterestPPM / 1e6) / (1 - p.reserveContribution / 1e6) * 100;
+	const interests = sorted.map(effectiveInterest).filter((n) => isFinite(n) && n > 0);
+	const minI = interests.length ? Math.min(...interests) : 0;
+	const maxI = interests.length ? Math.max(...interests) : 0;
+	const sameI = minI === maxI;
+	const hasStats = sorted.length > 0 && interests.length > 0;
+
+	const totalPages = Math.max(1, Math.ceil(filteredList.length / pageSize));
+	const pageSafe = Math.min(page, totalPages - 1);
+	const paginatedList = filteredList.slice(pageSafe * pageSize, (pageSafe + 1) * pageSize);
+
+	useEffect(() => {
+		setPage(0);
+	}, [tab, reverse, searchQuery, activeCategories, inMyWallet]);
+
 	const handleTabOnChange = function (e: string) {
 		if (tab === e) {
 			setReverse(!reverse);
@@ -91,6 +122,35 @@ export default function BorrowTable() {
 
 	return (
 		<Table borderless>
+			<div className="grid grid-cols-2 border-b border-card-input-border">
+				<div className="px-8 xl:px-10 py-4 border-r border-card-input-border">
+					<div className="text-[11px] uppercase tracking-[0.12em] text-text-header mb-1">Collaterals</div>
+					<div className="font-display font-semibold text-2xl tracking-tight text-text-primary">
+						{hasStats ? sorted.length : "—"}
+					</div>
+				</div>
+				<div className="px-8 xl:px-10 py-4">
+					<div className="text-[11px] uppercase tracking-[0.12em] text-text-header mb-1">Interest range</div>
+					<div className="font-display font-semibold text-2xl tracking-tight text-text-primary">
+						{hasStats ? (
+							<>
+								{sameI ? (
+									<>{formatCurrency(minI, 2, 2)}%</>
+								) : (
+									<>
+										{formatCurrency(minI, 2, 2)}
+										<span className="text-text-secondary mx-1.5">–</span>
+										{formatCurrency(maxI, 2, 2)}%
+									</>
+								)}
+								<span className="text-sm font-mono text-text-secondary ml-1.5">p.a.</span>
+							</>
+						) : (
+							"—"
+						)}
+					</div>
+				</div>
+			</div>
 			<TableHeadSearchable
 				headers={headers}
 				tab={tab}
@@ -108,12 +168,12 @@ export default function BorrowTable() {
 				onFiltersChange={setActiveCategories}
 			/>
 			<TableBody>
-				{filteredList.length == 0 ? (
+				{paginatedList.length == 0 ? (
 					<TableRowEmpty>
 						{!walletAddress ? "There are no other positions yet." : "You don't have any available collaterals in your wallet."}
 					</TableRowEmpty>
 				) : (
-					filteredList.map((pos, idx) => (
+					paginatedList.map((pos, idx) => (
 						<BorrowRow
 							headers={headers}
 							tab={tab}
@@ -126,6 +186,18 @@ export default function BorrowTable() {
 					))
 				)}
 			</TableBody>
+			<TablePagination
+				currentPage={pageSafe}
+				totalPages={totalPages}
+				totalItems={filteredList.length}
+				pageSize={pageSize}
+				pageSizeOptions={PAGE_SIZE_OPTIONS}
+				onPageChange={setPage}
+				onPageSizeChange={(size) => {
+					setStoredPageSize(size);
+					setPage(0);
+				}}
+			/>
 		</Table>
 	);
 }
@@ -147,7 +219,7 @@ function sortPositions(
 		sorting.sort((a, b) => {
 			const calc = function (p: PositionQueryV2) {
 				const liqPrice: number = parseFloat(formatUnits(BigInt(p.price), 36 - p.collateralDecimals));
-				const price: number = prices[normalizeAddress(p.collateral)].price.chf || 1;
+				const price: number = prices[normalizeAddress(p.collateral)]?.price?.chf || 1;
 				return liqPrice / price;
 			};
 			return calc(b) - calc(a); // default: decrease

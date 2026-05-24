@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import BorrowTable from "@components/PageBorrow/BorrowTable";
+import StablecoinBridges from "@components/PageBorrow/StablecoinBridges";
 import { useEffect } from "react";
 import { store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
@@ -18,40 +19,58 @@ export default function Borrow() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Borrow</title>
+				<title>Frankencoin - Get ZCHF</title>
 			</Head>
 
 			<AppTitle
 				hero
-				title="Borrow Frankencoins"
-				subtitle="Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins."
+				title="Get Frankencoins"
+				subtitle={
+					<>
+						<p>Deposit a collateral and mint new Frankencoins against it. The collateral stays locked until you return the minted coins.</p>
+						<p className="mt-2">Or swap 1:1 against another Swiss-franc stablecoin via the bridges below.</p>
+					</>
+				}
+			>
+				<AppHeroSteps
+					nested
+					steps={[
+						{
+							icon: <Icon icon="solar:wallet-linear" />,
+							title: "Choose a collateral",
+							description: "Choose a crypto asset to use as collateral.",
+						},
+						{
+							icon: <Icon icon="solar:checklist-minimalistic-linear" />,
+							title: "Define terms",
+							description: "Adjust amount, maturity, and liquidation price to your liking.",
+						},
+						{
+							icon: <HandMoneyIcon />,
+							title: "Receive Frankencoins",
+							description: "Fresh Frankencoins are minted directly into your wallet.",
+						},
+					]}
+				/>
+			</AppTitle>
+
+			<AppTitle
+				title="Swap a stablecoin"
+				subtitle="1:1 swaps between ZCHF and other Swiss-franc stablecoins."
 			/>
 
-			<AppHeroSteps
-				steps={[
-					{
-						icon: <Icon icon="solar:wallet-linear" />,
-						title: "Choose a collateral",
-						description: "Choose a crypto asset to use as collateral.",
-					},
-					{
-						icon: <Icon icon="solar:checklist-minimalistic-linear" />,
-						title: "Define terms",
-						description: "Adjust amount, maturity, and liquidation price to your liking.",
-					},
-					{
-						icon: <HandMoneyIcon />,
-						title: "Receive Frankencoins",
-						description: "Fresh Frankencoins are minted directly into your wallet.",
-					},
-				]}
+			<StablecoinBridges />
+
+			<AppTitle
+				title="Mint against collateral"
+				subtitle="Mint Frankencoins against crypto, tokenized securities, or commodities."
 			/>
 
 			<div className="mt-2">
 				<BorrowTable />
 			</div>
 
-			<div className="flex items-center justify-center">
+			<div className="flex items-center justify-center mt-6">
 				<Link href={"mint/create"}>
 					<AppButtonSecondary>Propose New Position or Collateral</AppButtonSecondary>
 				</Link>

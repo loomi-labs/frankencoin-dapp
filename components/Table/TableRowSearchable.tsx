@@ -29,11 +29,12 @@ export default function TableRow({
 }: Props) {
 	return (
 		<div
-			className={`${className} ${
+			className={`relative ${className ?? ""} ${
 				paddingY ?? "py-4"
-			} bg-table-row-primary md:hover:bg-table-row-hover cursor-default px-8 xl:px-12 border-t border-table-row-hover last:rounded-b-lg duration-300`}
+			} bg-table-row-primary md:hover:bg-table-row-hover cursor-default px-8 xl:px-10 border-t border-table-row-hover last:rounded-b-lg duration-300
+			before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-transparent md:hover:before:bg-button-default before:transition-colors before:duration-150`}
 		>
-			<div className="flex sm:pl-8 flex-col justify-between gap-y-5 md:flex-row">
+			<div className="flex flex-col justify-between gap-y-5 md:flex-row">
 				{/* @dev: this is desktop view */}
 				<div className={`max-md:hidden text-right grid flex-grow grid-cols-${colSpan || children.length} items-center`}>
 					{children}
@@ -45,7 +46,9 @@ export default function TableRow({
 				</TableRowMobile>
 
 				{/* @dev: this is desktop/mobile action view */}
-				{actionCol && <div className="flex-shrink-0 md:w-[8rem] md:ml-[2rem] max-md:w-full my-2">{actionCol}</div>}
+				{actionCol && (
+					<div className="flex-shrink-0 md:w-[8rem] md:ml-[2rem] max-md:w-full my-2 md:flex md:justify-end">{actionCol}</div>
+				)}
 			</div>
 		</div>
 	);

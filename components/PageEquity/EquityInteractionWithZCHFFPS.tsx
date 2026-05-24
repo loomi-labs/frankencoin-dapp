@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
-import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
-import DisplayAmount from "@components/DisplayAmount";
 import { usePoolStats } from "@hooks";
-import { formatBigInt, formatDuration, shortenAddress } from "@utils";
-import { useConnection, useChainId, useReadContract } from "wagmi";
+import { formatBigInt, shortenAddress } from "@utils";
+import { useConnection, useReadContract } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { erc20Abi, formatUnits, zeroAddress } from "viem";
 import AppButton from "@components/AppButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import { track } from "@hooks";
 import { toast } from "react-toastify";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { WAGMI_CONFIG } from "../../app.config";
-import TokenInputSelect from "@components/Input/TokenInputSelect";
 import { ADDRESS, EquityABI } from "@frankencoin/zchf";
-import DisplayOutputAlignedRight from "@components/DisplayOutputAlignedRight";
 import { mainnet } from "viem/chains";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import {
+	EquityFlatAmountInput,
+	EquityHeroPositionStats,
+	EquityWideSwapPill,
+} from "./EquityCardElements";
 
 interface Props {
 	tokenFromTo: { from: string; to: string };
@@ -58,27 +55,14 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 			});
 
 			const toastContent = [
-				{
-					title: "Amount:",
-					value: formatBigInt(amount) + " ZCHF",
-				},
-				{
-					title: "Spender: ",
-					value: shortenAddress(ADDRESS[chainId].equity),
-				},
-				{
-					title: "Transaction:",
-					hash: approveWriteHash,
-				},
+				{ title: "Amount:", value: formatBigInt(amount) + " ZCHF" },
+				{ title: "Spender: ", value: shortenAddress(ADDRESS[chainId].equity) },
+				{ title: "Transaction:", hash: approveWriteHash },
 			];
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast title={`Approving ZCHF`} rows={toastContent} />,
-				},
-				success: {
-					render: <TxToast title="Successfully Approved ZCHF" rows={toastContent} />,
-				},
+				pending: { render: <TxToast title={`Approving ZCHF`} rows={toastContent} /> },
+				success: { render: <TxToast title="Successfully Approved ZCHF" rows={toastContent} /> },
 			});
 		} catch (error) {
 			toast.error(renderErrorTxToast(error));
@@ -97,27 +81,14 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 			});
 
 			const toastContent = [
-				{
-					title: "Amount:",
-					value: formatBigInt(amount, 18) + " ZCHF",
-				},
-				{
-					title: "Shares: ",
-					value: formatBigInt(result) + " FPS",
-				},
-				{
-					title: "Transaction: ",
-					hash: investWriteHash,
-				},
+				{ title: "Amount:", value: formatBigInt(amount, 18) + " ZCHF" },
+				{ title: "Shares: ", value: formatBigInt(result) + " FPS" },
+				{ title: "Transaction: ", hash: investWriteHash },
 			];
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: investWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast title={`Investing ZCHF`} rows={toastContent} />,
-				},
-				success: {
-					render: <TxToast title="Successfully Invested" rows={toastContent} />,
-				},
+				pending: { render: <TxToast title={`Investing ZCHF`} rows={toastContent} /> },
+				success: { render: <TxToast title="Successfully Invested" rows={toastContent} /> },
 			});
 
 			track("fps_invested", { zchf: formatBigInt(amount, 18), fps: formatBigInt(result) });
@@ -141,27 +112,14 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 			});
 
 			const toastContent = [
-				{
-					title: "Amount:",
-					value: formatBigInt(amount) + " FPS",
-				},
-				{
-					title: "Receive: ",
-					value: formatBigInt(result) + " ZCHF",
-				},
-				{
-					title: "Transaction: ",
-					hash: redeemWriteHash,
-				},
+				{ title: "Amount:", value: formatBigInt(amount) + " FPS" },
+				{ title: "Receive: ", value: formatBigInt(result) + " ZCHF" },
+				{ title: "Transaction: ", hash: redeemWriteHash },
 			];
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: redeemWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast title={`Redeeming FPS`} rows={toastContent} />,
-				},
-				success: {
-					render: <TxToast title="Successfully Redeemed" rows={toastContent} />,
-				},
+				pending: { render: <TxToast title={`Redeeming FPS`} rows={toastContent} /> },
+				success: { render: <TxToast title="Successfully Redeemed" rows={toastContent} /> },
 			});
 
 			track("fps_redeemed", { fps: formatBigInt(amount), zchf: formatBigInt(result, 18) });
@@ -173,7 +131,7 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 		}
 	};
 
-	const { data: fpsResult, isLoading: shareLoading } = useReadContract({
+	const { data: fpsResult } = useReadContract({
 		address: ADDRESS[chainId].equity,
 		chainId: chainId,
 		abi: EquityABI,
@@ -181,7 +139,7 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 		args: [amount],
 	});
 
-	const { data: frankenResult, isLoading: proceedLoading } = useReadContract({
+	const { data: frankenResult } = useReadContract({
 		address: ADDRESS[chainId].equity,
 		chainId: chainId,
 		abi: EquityABI,
@@ -190,13 +148,12 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 	});
 
 	const fromBalance = direction ? poolStats.frankenBalance : poolStats.equityBalance;
-	const toBalance = !direction ? poolStats.frankenBalance : poolStats.equityBalance;
 	const result = (direction ? fpsResult : frankenResult) || 0n;
 	const fromSymbol = direction ? "ZCHF" : "FPS";
 	const toSymbol = !direction ? "ZCHF" : "FPS";
-	const unlocked =
-		poolStats.equityUserVotes > 86_400 * 90 && poolStats.equityUserVotes < 86_400 * 365 * 30 && poolStats.equityUserVotes > 0n;
-	const redeemLeft = 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n);
+	const redeemLeft =
+		86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n);
+	const ready = poolStats.equityCanRedeem;
 
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
@@ -208,107 +165,85 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 		}
 	};
 
+	const handleTokenFromChange = (t: string) => {
+		setTokenFromTo({ from: t, to: selectorMapping[t][0] });
+	};
+	const handleTokenToChange = (t: string) => {
+		setTokenFromTo({ from: tokenFromTo.from, to: t });
+	};
+	const handleSwap = () => {
+		setTokenFromTo({ from: toSymbol, to: fromSymbol });
+	};
+
 	const conversionNote = () => {
 		if (amount != 0n && result != 0n) {
-			const ratio = 100n * amount / result;
+			const ratio = (100n * amount) / result;
 			return `1 ${toSymbol} = ${formatUnits(ratio, 2)} ${fromSymbol}`;
-		} else {
-			return ``;
 		}
+		return "";
 	};
+
+	const investorBalance = poolStats.equityBalance;
+	const investorValue = (poolStats.equityPrice * investorBalance) / BigInt(1e18);
 
 	return (
 		<>
-			<div className="mt-8">
-				<TokenInputSelect
-					max={fromBalance}
-					min={0n}
-					symbol={fromSymbol}
-					symbolOptions={Object.keys(selectorMapping) || []}
-					symbolOnChange={(o) => setTokenFromTo({ from: o.label, to: selectorMapping[o.label][0] })}
-					onChange={onChangeAmount}
-					value={amount.toString()}
-					error={error}
-					placeholder={fromSymbol + " Amount"}
-					limit={fromBalance}
-					limitDigit={18}
-					limitLabel="Balance"
-				/>
+			<EquityFlatAmountInput
+				label="Send"
+				tokens={Object.keys(selectorMapping)}
+				activeToken={fromSymbol}
+				onTokenChange={handleTokenFromChange}
+				value={amount.toString()}
+				onChange={onChangeAmount}
+				max={fromBalance}
+				balance={fromBalance}
+				error={error}
+			/>
 
-				<div className="py-4 text-center z-0">
-					<AppButton className={`h-10 rounded-full`} width="w-10" onClick={() => setTokenFromTo({ from: toSymbol, to: fromSymbol })}>
-						<FontAwesomeIcon icon={faArrowDown} className="w-6 h-6" />
+			<EquityWideSwapPill fromSymbol={fromSymbol} toSymbol={toSymbol} onClick={handleSwap} />
+
+			<EquityFlatAmountInput
+				label="Receive"
+				tokens={selectorMapping[fromSymbol] || []}
+				activeToken={toSymbol}
+				onTokenChange={handleTokenToChange}
+				value={result.toString()}
+				readOnly
+			/>
+
+			<div className="px-1 text-sm text-text-secondary font-mono min-h-[1.25rem]">{conversionNote()}</div>
+
+			<GuardSupportedChain chain={mainnet}>
+				{direction ? (
+					amount > poolStats.frankenAllowance ? (
+						<AppButton isLoading={isApproving} disabled={amount == 0n || !!error} onClick={() => handleApprove()}>
+							Approve
+						</AppButton>
+					) : (
+						<AppButton disabled={amount == 0n || !!error} isLoading={isInversting} onClick={() => handleInvest()}>
+							Mint
+						</AppButton>
+					)
+				) : (
+					<AppButton
+						isLoading={isRedeeming}
+						disabled={amount == 0n || !!error || !poolStats.equityCanRedeem}
+						onClick={() => handleRedeem()}
+					>
+						Redeem
 					</AppButton>
-				</div>
+				)}
+			</GuardSupportedChain>
 
-				<TokenInputSelect
-					symbol={toSymbol}
-					symbolOptions={selectorMapping[fromSymbol] || []}
-					symbolOnChange={(o) => setTokenFromTo({ from: tokenFromTo.from, to: o.label })}
-					hideMaxLabel
-					output={Math.round(parseFloat(formatUnits(result, 18)) * 10000) / 10000}
-					label="Receive"
-					disabled={true}
-					limit={toBalance}
-					limitDigit={18}
-					limitLabel="Balance"
-				/>
-
-				<div className={`mt-2 px-1 transition-opacity ${(shareLoading || proceedLoading) && "opacity-50"}`}>{conversionNote()}</div>
-
-				<div className="mx-auto mt-8 w-full flex-col">
-					<GuardSupportedChain chain={mainnet}>
-						{direction ? (
-							amount > poolStats.frankenAllowance ? (
-								<AppButton isLoading={isApproving} disabled={amount == 0n || !!error} onClick={() => handleApprove()}>
-									Approve
-								</AppButton>
-							) : (
-								<AppButton disabled={amount == 0n || !!error} isLoading={isInversting} onClick={() => handleInvest()}>
-									Mint
-								</AppButton>
-							)
-						) : (
-<AppButton
-								isLoading={isRedeeming}
-								disabled={amount == 0n || !!error || !poolStats.equityCanRedeem}
-								onClick={() => handleRedeem()}
-							>
-								Redeem
-							</AppButton>
-						)}
-					</GuardSupportedChain>
-				</div>
-			</div>
-
-			<div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-2">
-				<AppBox>
-					<DisplayLabel label="Your Balance" />
-					<DisplayAmount amount={poolStats.equityBalance} currency="FPS" address={ADDRESS[chainId].equity} />
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Value at Current Price" />
-					<DisplayAmount
-						amount={(poolStats.equityPrice * poolStats.equityBalance) / BigInt(1e18)}
-						currency="ZCHF"
-						address={ADDRESS[chainId].frankencoin}
-					/>
-				</AppBox>
-				<AppBox>
-					<DisplayLabel label="Holding Duration" />
-					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-red-500" : undefined}
-						output={poolStats.equityBalance > 0 ? formatDuration(poolStats.equityHoldingDuration) : "-"}
-					/>
-				</AppBox>
-				<AppBox className="flex-1">
-					<DisplayLabel label="Can redeem after" />
-					<DisplayOutputAlignedRight
-						textColorOutput={!poolStats.equityCanRedeem ? "text-red-500" : undefined}
-						output={redeemLeft > 0 ? formatDuration(redeemLeft) : "Ready"}
-					/>
-				</AppBox>
-			</div>
+			<EquityHeroPositionStats
+				tokenSymbol="FPS"
+				balance={investorBalance}
+				value={investorValue}
+				valueSymbol="ZCHF"
+				holdingSeconds={poolStats.equityHoldingDuration}
+				redeemLeftSeconds={redeemLeft > 0n ? redeemLeft : 0n}
+				ready={!!ready}
+			/>
 		</>
 	);
 }

@@ -13,6 +13,7 @@ export type BigNumberInputProps = {
 	min?: string;
 	className?: string;
 	disabled?: boolean;
+	formatOnBlur?: boolean;
 };
 
 export function BigNumberInput({
@@ -26,7 +27,9 @@ export function BigNumberInput({
 	min,
 	className,
 	disabled,
+	formatOnBlur = false,
 }: BigNumberInputProps) {
+	const [isFocused, setIsFocused] = React.useState(false);
 	const inputRefFallback = React.useRef<HTMLInputElement>(null);
 	const inputRef = inputRefChild || inputRefFallback;
 
@@ -87,14 +90,33 @@ export function BigNumberInput({
 		onChange?.(newValue.toString());
 	};
 
+	const formattedDisplay = React.useMemo(() => {
+		if (!formatOnBlur) return inputValue;
+		try {
+			const num = parseFloat(formatUnits(value || "0", decimals));
+			if (!isFinite(num)) return inputValue;
+			return new Intl.NumberFormat("en-US", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+				useGrouping: false,
+			}).format(num);
+		} catch {
+			return inputValue;
+		}
+	}, [formatOnBlur, value, decimals, inputValue]);
+
+	const displayValue = formatOnBlur && !isFocused ? formattedDisplay : inputValue;
+
 	const inputProps = {
 		placeholder,
 		onChange: updateValue,
 		type: "text",
-		value: inputValue,
+		value: displayValue,
 		className: "truncate bg-transparent " + className,
 		autoFocus,
 		disabled,
+		onFocus: () => setIsFocused(true),
+		onBlur: () => setIsFocused(false),
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import AppLink from "@components/AppLink";
-import TableRow from "@components/Table/TableRow";
+import TableRow from "@components/Table/TableRowSearchable";
 import { SupportedChains } from "@frankencoin/zchf";
 import { EquityTrade } from "@hooks";
 import { TxUrl, formatCurrency } from "@utils";
@@ -15,23 +15,39 @@ export default function EquityTradesRow({ headers, tab, item }: Props) {
 	const dateArr = new Date(item.created * 1000).toDateString().split(" ");
 	const dateStr = `${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`;
 	const isInvest = item.kind === "Invested";
-	// invest: fee = amount * 0.3% | redeem: received is post-fee, so fee = amount * (1/0.997 - 1) = amount * 3/997
-	const fee = isInvest ? (item.amount * 3n) / 1000n : (item.amount * 3n) / 997n;
+	const price = (item.amount * 10n ** 18n) / item.shares;
 
 	return (
 		<TableRow headers={headers} tab={tab} rawHeader={true}>
 			<div className="flex flex-col md:text-left max-md:text-right">
-				<AppLink className="" label={dateStr} href={TxUrl(item.txHash as Hash, SupportedChains.mainnet)} external={true} />
+				<span className="text-[15px] text-text-primary">
+					<AppLink className="" label={dateStr} href={TxUrl(item.txHash as Hash, SupportedChains.mainnet)} external={true} />
+				</span>
 			</div>
 
-			<div className={`flex flex-col`}>
-				{isInvest ? "-" : ""}
-				{formatCurrency(formatUnits(item.amount, 18))} ZCHF
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">
+						{isInvest ? "-" : ""}
+						{formatCurrency(formatUnits(item.amount, 18))}
+					</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
 			</div>
 
-			<div className={`flex flex-col`}>{formatCurrency(formatUnits(item.shares, 18))} FPS</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(formatUnits(item.shares, 18))}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">FPS</span>
+				</span>
+			</div>
 
-			<div className="flex flex-col">{formatCurrency(formatUnits((item.amount * 10n ** 18n) / item.shares, 18))} ZCHF</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(formatUnits(price, 18))}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
+			</div>
 		</TableRow>
 	);
 }

@@ -7,7 +7,9 @@ import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
 import AppHeroSteps from "@components/AppHeroSteps";
+import ConnectWalletPrompt from "@components/ConnectWalletPrompt";
 import { Icon } from "@iconify/react";
+import HandMoneyIcon from "@components/icons/HandMoneyIcon";
 import SavingsRecentActivitiesTable from "@components/PageSavings/SavingsRecentActivitiesTable";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
@@ -73,34 +75,35 @@ export default function SavingsPage() {
 				subtitle={`Earn interest on your Frankencoins - supported on all eight chains. Already more than ${Math.floor(
 					totalBalance / 1_000_000
 				)} million ZCHF saved.`}
-			/>
-
-			<AppHeroSteps
-				steps={[
-					{
-						icon: <Icon icon="solar:safe-2-linear" />,
-						title: "Deposit Frankencoins",
-						description: "Your Frankencoins stay in the savings module.",
-					},
-					{
-						icon: <Icon icon="solar:graph-up-linear" />,
-						title: `${formatCurrency(saveRate)}% interest`,
-						description: "Interest accrues as time passes.",
-					},
-					{
-						icon: <Icon icon="solar:hand-money-linear" />,
-						title: "Withdraw anytime",
-						description: "Withdraw your Frankencoins plus interest at any time.",
-					},
-				]}
-			/>
+			>
+				<AppHeroSteps
+					nested
+					steps={[
+						{
+							icon: <Icon icon="solar:money-bag-linear" />,
+							title: "Deposit Frankencoins",
+							description: "Your Frankencoins stay in the savings module.",
+						},
+						{
+							icon: <Icon icon="solar:graph-up-linear" />,
+							title: `${formatCurrency(saveRate)}% interest`,
+							description: "Interest accrues as time passes.",
+						},
+						{
+							icon: <HandMoneyIcon />,
+							title: "Withdraw anytime",
+							description: "Withdraw your Frankencoins plus interest at any time.",
+						},
+					]}
+				/>
+			</AppTitle>
 
 			<SavingsInteractionCard />
 
 			<div className="text-text-secondary mt-2">
-				Alternatively, you can also earn a yield by lending on
+				Alternatively, you can also earn a yield by lending on{" "}
 				<AppLink
-					label={" Morpho"}
+					label={"Morpho"}
 					href={"https://app.morpho.org/ethereum/earn?assetIdsFilter=ecc8bd13-eab5-4c7b-97e1-ba23d58f8cd3"}
 					external={true}
 					className=""
@@ -108,17 +111,26 @@ export default function SavingsPage() {
 				.
 			</div>
 
-			<AppTitle title="Yearly Accounts">
-				<div className={`text-text-secondary`}>
-					The yearly interest income of the current account. See also the
-					<AppLink className="" label={" report page"} href={`/report`} />.
-				</div>
-			</AppTitle>
-			<ReportsYearlyTable activity={account == undefined || account == zeroAddress ? [] : activities} />
+			{account === zeroAddress ? (
+				<ConnectWalletPrompt
+					description="Connect your wallet to see your savings activity and yearly accounts."
+					umamiEvent="wallet_connect_clicked_savings"
+				/>
+			) : (
+				<>
+					<AppTitle title="Yearly Accounts">
+						<div className={`text-text-secondary`}>
+							The yearly interest income of the current account. See also the{" "}
+							<AppLink className="" label={"report page"} href={`/report`} />.
+						</div>
+					</AppTitle>
+					<ReportsYearlyTable activity={activities} />
 
-			<AppTitle title={"Your latest Activities"} />
+					<AppTitle title={"Your latest Activities"} />
 
-			<SavingsRecentActivitiesTable />
+					<SavingsRecentActivitiesTable />
+				</>
+			)}
 		</>
 	);
 }

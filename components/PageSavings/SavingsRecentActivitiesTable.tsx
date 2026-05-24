@@ -1,40 +1,39 @@
-import TableHeader from "../Table/TableHead";
+import TableHeader from "../Table/TableHeadSearchable";
 import TableBody from "../Table/TableBody";
 import Table from "../Table";
 import TableRowEmpty from "../Table/TableRowEmpty";
+import TablePagination from "../Table/TablePagination";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SavingsActivityQuery } from "@frankencoin/api";
 import SavingsRecentActivitiesRow from "./SavingsRecentActivitiesRow";
-import { useConnection, useChainId } from "wagmi";
+import { useChainId } from "wagmi";
 import { ADDRESS, ChainId } from "@frankencoin/zchf";
 import { normalizeAddress } from "../../utils/format";
 import { mainnet } from "viem/chains";
+import { useLocalStorage } from "@hooks";
+
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+const PAGE_SIZE_STORAGE_KEY = "frankencoin.pageSize";
 
 export default function SavingsRecentActivitiesTable() {
 	const headers: string[] = ["Date", "Kind", "Amount", "Balance"];
 	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
-	const [list, setList] = useState<SavingsActivityQuery[]>([]);
+	const [page, setPage] = useState<number>(0);
+	const [storedPageSize, setStoredPageSize] = useLocalStorage(PAGE_SIZE_STORAGE_KEY);
+	const pageSize = PAGE_SIZE_OPTIONS.includes(storedPageSize as number) ? (storedPageSize as number) : PAGE_SIZE_OPTIONS[0];
 	const chainId = useChainId() as ChainId;
-	const { address } = useConnection();
 
 	const activities = useSelector((state: RootState) => state.savings.savingsActivity);
 	const ignoreModule = normalizeAddress(ADDRESS[mainnet.id].savingsV2);
-	const matching = activities.filter((l) => l.chainId == chainId && normalizeAddress(l.module) !== ignoreModule).slice(0, 20);
+	const matching = activities.filter((l) => l.chainId == chainId && normalizeAddress(l.module) !== ignoreModule);
 
 	const sorted: SavingsActivityQuery[] = sortFunction({ list: matching, headers, tab, reverse });
-
-	useEffect(() => {
-		const idList = list.map((l) => `${l.chainId}-${l.account}-${l.module}-${l.count}-${l.kind}`).join("_");
-		const idSorted = sorted.map((l) => `${l.chainId}-${l.account}-${l.module}-${l.count}-${l.kind}`).join("_");
-		if (idList != idSorted) setList(sorted);
-	}, [list, sorted]);
-
-	useEffect(() => {
-		if (address == undefined) setList([]);
-	}, [address]);
+	const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+	const pageSafe = Math.min(page, totalPages - 1);
+	const paginated = sorted.slice(pageSafe * pageSize, (pageSafe + 1) * pageSize);
 
 	const handleTabOnChange = function (e: string) {
 		if (tab === e) {
@@ -43,16 +42,17 @@ export default function SavingsRecentActivitiesTable() {
 			setReverse(false);
 			setTab(e);
 		}
+		setPage(0);
 	};
 
 	return (
 		<Table>
 			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} />
 			<TableBody>
-				{list.length == 0 ? (
+				{paginated.length == 0 ? (
 					<TableRowEmpty>{"There are no activities yet."}</TableRowEmpty>
 				) : (
-					list.map((r, idx) => (
+					paginated.map((r, idx) => (
 						<SavingsRecentActivitiesRow
 							headers={headers}
 							tab={tab}
@@ -62,6 +62,18 @@ export default function SavingsRecentActivitiesTable() {
 					))
 				)}
 			</TableBody>
+			<TablePagination
+				currentPage={pageSafe}
+				totalPages={totalPages}
+				totalItems={sorted.length}
+				pageSize={pageSize}
+				pageSizeOptions={PAGE_SIZE_OPTIONS}
+				onPageChange={setPage}
+				onPageSizeChange={(size) => {
+					setStoredPageSize(size);
+					setPage(0);
+				}}
+			/>
 		</Table>
 	);
 }

@@ -8,109 +8,135 @@
 
 	--layout-primary: #FFFFFF;
 	--layout-secondary: #FFFFFF;
-	--layout-footer: #2F4356;
+	--layout-footer: theme('colors.accent.500');
 
-	--menu-text: #2F4356;
-	--menu-textactive: #DA291C;
-	--menu-active: #FBD4D2;
-	--menu-hover: #E8E8E9;
+	--menu-text: theme('colors.accent.500');
+	--menu-textactive: theme('colors.brand.500');
+	--menu-active: theme('colors.brand.50');
+	--menu-hover: theme('colors.secondary.50');
 	--menu-back: #FFFFFF;
-	--menu-separator: #BAC0C7;
+	--menu-separator: theme('colors.accent.100');
 
-	--card-input-label: #76767A;
-	--card-input-disabled: #E8E8E9;
-	--card-input-empty: #A0A0A4;
-	--card-input-focus: #DA291C;
-	--card-input-error: #B62217;
-	--card-input-border: #D9D9DB;
-	--card-input-hover: #B62217;
-	--card-input-min: #DA291C;
-	--card-input-max: #DA291C;
-	--card-input-reset: #DA291C;
+	--card-input-label: theme('colors.secondary.600');
+	--card-input-disabled: theme('colors.secondary.50');
+	--card-input-empty: theme('colors.secondary.400');
+	--card-input-focus: theme('colors.brand.500');
+	--card-input-error: theme('colors.brand.600');
+	--card-input-border: theme('colors.secondary.100');
+	--card-input-hover: theme('colors.brand.600');
+	--card-input-min: theme('colors.brand.500');
+	--card-input-max: theme('colors.brand.500');
+	--card-input-reset: theme('colors.brand.500');
 
 	--card-body-primary: #FFFFFF;
-	--card-body-secondary: #E8E8E9;
-	--card-body-seperator: #D9D9DB;
+	--card-body-secondary: theme('colors.secondary.50');
+	--card-body-seperator: theme('colors.secondary.100');
 
-	--card-content-primary: #E8E8E9;
+	--card-content-primary: theme('colors.secondary.50');
 	--card-content-secondary: #FFFFFF;
-	--card-content-highlight: #DA291C;
+	--card-content-highlight: theme('colors.brand.500');
 
-	--text-header: #76767A;
-	--text-subheader: #76767A;
-	--text-active: #DA291C;
-	--text-primary: #10161D;
-	--text-secondary: #5E5E61;
-	--text-warning: #B62217;
+	--text-header: theme('colors.secondary.600');
+	--text-subheader: theme('colors.secondary.600');
+	--text-active: theme('colors.brand.500');
+	--text-primary: theme('colors.accent.900');
+	--text-secondary: theme('colors.secondary.700');
+	--text-warning: theme('colors.brand.600');
 	--text-success: #16A34A;
 
 	--table-header-primary: #FFFFFF;
-	--table-header-secondary: #E8E8E9;
+	--table-header-secondary: theme('colors.secondary.50');
 	--table-row-primary: #FFFFFF;
-	--table-row-secondary: #E8E8E9;
-	--table-row-hover: #D5D9DD;
+	--table-row-secondary: theme('colors.secondary.50');
+	--table-row-hover: theme('colors.accent.50');
 
-	--button-default: #DA291C;
-	--button-hover: #B62217;
-	--button-disabled: #E8E8E9;
-	--button-textdisabled: #A0A0A4;
+	--button-default: theme('colors.brand.500');
+	--button-hover: theme('colors.brand.600');
+	--button-disabled: theme('colors.secondary.50');
+	--button-textdisabled: theme('colors.secondary.400');
+
+	--link: theme('colors.accent.700');
+	--link-hover: theme('colors.accent.500');
 }
 
 /* === Theme tokens (dark) === */
 .dark {
 	color-scheme: dark;
 
-	--layout-primary: #090D11;
-	--layout-secondary: #10161D;
-	--layout-footer: #18222B;
+	--layout-primary: theme('colors.accent.950');
+	--layout-secondary: theme('colors.accent.900');
+	--layout-footer: theme('colors.accent.800');
 
-	--menu-text: #BAC0C7;
-	--menu-textactive: #E0584D;
+	--menu-text: theme('colors.accent.100');
+	--menu-textactive: theme('colors.brand.400');
 	--menu-active: rgba(218, 41, 28, 0.15);
 	--menu-hover: rgba(218, 41, 28, 0.08);
-	--menu-back: #10161D;
-	--menu-separator: #1F2D39;
+	--menu-back: theme('colors.accent.900');
+	--menu-separator: theme('colors.accent.700');
 
-	--card-input-label: #8D8D92;
-	--card-input-disabled: #10161D;
-	--card-input-empty: #5E5E61;
-	--card-input-focus: #E0584D;
-	--card-input-error: #E0584D;
-	--card-input-border: #1F2D39;
-	--card-input-hover: #ED9A8E;
-	--card-input-min: #E0584D;
-	--card-input-max: #E0584D;
-	--card-input-reset: #E0584D;
+	--card-input-label: theme('colors.secondary.500');
+	--card-input-disabled: theme('colors.accent.900');
+	--card-input-empty: theme('colors.secondary.700');
+	--card-input-focus: theme('colors.brand.400');
+	--card-input-error: theme('colors.brand.400');
+	--card-input-border: theme('colors.accent.700');
+	--card-input-hover: theme('colors.brand.200');
+	--card-input-min: theme('colors.brand.400');
+	--card-input-max: theme('colors.brand.400');
+	--card-input-reset: theme('colors.brand.400');
 
-	--card-body-primary: #10161D;
-	--card-body-secondary: #18222B;
-	--card-body-seperator: #1F2D39;
+	--card-body-primary: theme('colors.accent.900');
+	--card-body-secondary: theme('colors.accent.800');
+	--card-body-seperator: theme('colors.accent.700');
 
-	--card-content-primary: #18222B;
-	--card-content-secondary: #10161D;
-	--card-content-highlight: #E0584D;
+	--card-content-primary: theme('colors.accent.800');
+	--card-content-secondary: theme('colors.accent.900');
+	--card-content-highlight: theme('colors.brand.400');
 
-	--text-header: #8D8D92;
-	--text-subheader: #8D8D92;
-	--text-active: #E0584D;
-	--text-primary: #E8E8E9;
-	--text-secondary: #8D8D92;
-	--text-warning: #E0584D;
+	--text-header: theme('colors.secondary.500');
+	--text-subheader: theme('colors.secondary.500');
+	--text-active: theme('colors.brand.400');
+	--text-primary: theme('colors.secondary.50');
+	--text-secondary: theme('colors.secondary.500');
+	--text-warning: theme('colors.brand.400');
 	--text-success: #22C55E;
 
-	--table-header-primary: #10161D;
-	--table-header-secondary: #18222B;
-	--table-row-primary: #10161D;
-	--table-row-secondary: #18222B;
-	--table-row-hover: #1F2D39;
+	--table-header-primary: theme('colors.accent.900');
+	--table-header-secondary: theme('colors.accent.800');
+	--table-row-primary: theme('colors.accent.900');
+	--table-row-secondary: theme('colors.accent.800');
+	--table-row-hover: theme('colors.accent.700');
 
-	--button-default: #DA291C;
-	--button-hover: #E0584D;
-	--button-disabled: #18222B;
-	--button-textdisabled: #5E5E61;
+	--button-default: theme('colors.brand.500');
+	--button-hover: theme('colors.brand.400');
+	--button-disabled: theme('colors.accent.800');
+	--button-textdisabled: theme('colors.secondary.700');
+
+	--link: theme('colors.accent.200');
+	--link-hover: theme('colors.accent.100');
 }
 
 @layer components {
+	.checkbox-filter {
+		@apply w-4 h-4 rounded cursor-pointer;
+
+		appearance: none;
+		border: 1px solid var(--card-input-border);
+		background-color: var(--card-body-primary);
+		color: theme('colors.accent.500');
+	}
+	.checkbox-filter:focus-visible {
+		outline: 2px solid theme('colors.accent.500');
+		outline-offset: 2px;
+	}
+	.checkbox-filter:hover {
+		border-color: theme('colors.accent.500');
+	}
+	.checkbox-filter:checked {
+		background-color: theme('colors.accent.500');
+		border-color: theme('colors.accent.500');
+	}
+
 	.btn {
 		@apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-full select-none transition-colors ease-out duration-150 border border-transparent px-4 py-2 md:px-5 md:py-3 font-medium;
 	}
