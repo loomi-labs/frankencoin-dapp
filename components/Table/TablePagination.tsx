@@ -46,7 +46,7 @@ export default function TablePagination({
 	const to = pageSize !== undefined && totalItems !== undefined ? Math.min((currentPage + 1) * pageSize, totalItems) : undefined;
 
 	return (
-		<div className="bg-table-header-primary border-t border-card-input-border px-8 xl:px-10 py-3 flex items-center justify-between gap-3">
+		<div className="bg-table-header-primary rounded-b-card border-t border-card-input-border px-8 xl:px-10 py-3 flex items-center justify-between gap-3">
 			<div className="flex items-center gap-4 min-w-0">
 				<div className="hidden md:block text-sm text-text-secondary">
 					{from !== undefined && to !== undefined && totalItems !== undefined ? (

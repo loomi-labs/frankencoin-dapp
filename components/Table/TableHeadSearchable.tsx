@@ -105,7 +105,7 @@ export default function TableHeadSearchable({
 	const totalActiveFilters = activeFilters.length + activeCustomCategories.length;
 
 	return (
-		<div className="bg-table-header-primary">
+		<div className="bg-table-header-primary rounded-t-card">
 			{/* Search / toggle / filter bar */}
 			{showTopBar && (
 			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-8 xl:px-10 py-4 border-b border-card-input-border gap-3">
