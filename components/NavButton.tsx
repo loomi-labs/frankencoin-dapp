@@ -16,7 +16,7 @@ export default function NavButton({ to, name, external }: Props) {
 		<Link
 			className={`flex max-md:py-[10px] max-md:pl-[16px] max-md:w-[160px] md:w-full hover:text-accent-500 transition-colors ${
 				active
-					? "font-bold text-accent-500 underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
+					? "font-bold text-accent-500 dark:text-white underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
 					: "font-medium text-menu-text"
 			}`}
 			href={to}
