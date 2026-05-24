@@ -14,8 +14,8 @@ export default function EquityInteractionCard() {
 	const [tokenFromTo, setTokenFromTo] = useState<{ from: string; to: string }>({ from: "ZCHF", to: "FPS" });
 
 	return (
-		<AppCard>
-			<div className="mt-4 text-base font-display font-semibold text-text-primary">Frankencoin Pool Shares (FPS)</div>
+		<AppCard className="p-8 flex flex-col gap-y-4">
+			<div className="text-base font-display font-semibold text-text-primary">Frankencoin Pool Shares (FPS)</div>
 
 			{/* Load modules dynamically */}
 			{(tokenFromTo.from === "ZCHF" && tokenFromTo.to === "FPS") || (tokenFromTo.from === "FPS" && tokenFromTo.to === "ZCHF") ? (
