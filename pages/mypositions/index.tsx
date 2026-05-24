@@ -17,6 +17,7 @@ import { fetchSavings } from "../../redux/slices/savings.slice";
 import AppTitle from "@components/AppTitle";
 import AppCard from "@components/AppCard";
 import AppLink from "@components/AppLink";
+import ConnectWalletPrompt from "@components/ConnectWalletPrompt";
 import { useContractUrl } from "@hooks";
 import { useConnection } from "wagmi";
 import ReportsPositionsYearlyTable from "@components/PageReports/ReportsPositionsYearlyTable";
@@ -110,8 +111,26 @@ export default function Positions() {
 	const hasBids = portfolioAccount !== zeroAddress && bidsList.some((b) => normalizeAddress(b.bidder) === accountLower);
 	const hasYearly = ownerPositionDebt.length > 0 || ownerPositionFees.length > 0 || ownerPositionValueLocked.length > 0;
 
-	const hasAnyActivity = hasPositions || hasChallenges || hasBids || hasYearly;
 	const isWalletAttached = portfolioAccount !== zeroAddress;
+
+	if (!isWalletAttached) {
+		return (
+			<>
+				<Head>
+					<title>Frankencoin - Dashboard</title>
+				</Head>
+
+				<AppTitle title="Dashboard" />
+
+				<ConnectWalletPrompt
+					description="Connect your wallet to see your positions, savings, FPS, and wallet balances."
+					umamiEvent="wallet_connect_clicked_dashboard"
+				/>
+			</>
+		);
+	}
+
+	const hasAnyActivity = hasPositions || hasChallenges || hasBids || hasYearly;
 
 	return (
 		<>
@@ -126,7 +145,7 @@ export default function Positions() {
 
 			<MyPortfolioHoldingsGrid account={portfolioAccount} />
 
-			{isWalletAttached && !hasAnyActivity && (
+			{!hasAnyActivity && (
 				<AppCard>
 					<div className="text-text-primary font-medium">No activity yet</div>
 					<div className="text-text-secondary text-sm">
