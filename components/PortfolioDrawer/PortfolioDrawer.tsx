@@ -68,7 +68,7 @@ export default function PortfolioDrawer() {
 
 			{/* Drawer panel */}
 			<aside
-				className={`fixed top-0 right-0 z-30 h-full w-[85vw] md:w-[360px] bg-layout-primary border-l border-card-input-border shadow-card transition-transform duration-200 ease-out ${
+				className={`fixed top-0 md:top-20 right-0 z-30 h-full md:h-[calc(100vh-5rem)] w-[85vw] md:w-[360px] bg-layout-primary border-l border-t border-card-input-border rounded-tl-card shadow-card transition-transform duration-200 ease-out ${
 					open ? "translate-x-0" : "translate-x-full"
 				}`}
 				aria-hidden={!open}
