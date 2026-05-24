@@ -7,6 +7,7 @@ import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress } from "../../utils/format";
 import { useContractUrl } from "@hooks";
 import MyPositionsChallengesCancel from "./MyPositionsChallengesCancel";
+import AppButtonSecondary from "@components/AppButtonSecondary";
 import AppBox from "@components/AppBox";
 import { TxUrl } from "@utils";
 

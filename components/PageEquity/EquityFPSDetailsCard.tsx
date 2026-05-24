@@ -137,7 +137,9 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 									gradientToColors: ["#2F4356"],
 								},
 							},
-							annotations: { points: tradeAnnotations },
+							annotations: {
+								points: tradeAnnotations,
+							},
 						}}
 						series={[
 							{

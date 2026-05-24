@@ -26,7 +26,7 @@ export default function AppButton({
 	loading,
 	icon,
 	className,
-	size,
+	size = "medium",
 	disabled,
 	width,
 	onClick = () => {},
@@ -51,7 +51,14 @@ export default function AppButton({
 	} ${width ?? "w-full"}`.trim();
 
 	const button = to ? (
-		<Link href={to} className={btnClass} onClick={(e) => { onClick(e); if (umamiEvent) track(umamiEvent); }}>
+		<Link
+			href={to}
+			className={btnClass}
+			onClick={(e) => {
+				onClick(e);
+				if (umamiEvent) track(umamiEvent);
+			}}
+		>
 			{children}
 		</Link>
 	) : (

@@ -14,14 +14,17 @@ import { fetchLeadrate } from "../../redux/slices/savings.slice";
 import GovernanceMintersPropose from "@components/PageGovernance/GovernanceMintersPropose";
 import GovernanceDelegation from "@components/PageGovernance/GovernanceDelegation";
 import GovernanceCCIPBridgesTable from "@components/PageGovernance/GovernanceCCIPBridgesTable";
+import GovernanceCCIPAdminTable from "@components/PageGovernance/GovernanceCCIPAdminTable";
 import { useFPSAverageStats } from "@hooks";
 import { formatUnits } from "viem";
+import { fetchBridge } from "../../redux/slices/bridge.slice";
 
 export default function Governance() {
 	const stats = useFPSAverageStats();
 
 	useEffect(() => {
 		store.dispatch(fetchLeadrate());
+		store.dispatch(fetchBridge());
 	}, []);
 
 	return (
@@ -74,11 +77,28 @@ export default function Governance() {
 				<AppLink className="text-left" label="See all modules" href="/governance/modules" external={false} />
 			</div>
 
+			<AppTitle title="CCIP Admin Proposals">
+				<div className="text-text-secondary">
+					Structural changes to the CCIP bridge — adding or removing chains, updating remote pool addresses, and transferring admin
+					— require a governance proposal with a seven-day veto window (21 days for admin transfer). Any qualified FPS holder can
+					deny a pending proposal before its deadline. Rate limit adjustments take effect immediately without a timelock.
+				</div>
+			</AppTitle>
+
+			<GovernanceCCIPAdminTable />
+
 			<AppTitle title="CCIP Bridges">
 				<div className="text-text-secondary">
-					Frankencoin is bridged between chains via Chainlink CCIP. Each source chain's token pool enforces its own incoming and
-					outgoing rate limits per destination chain, so a transfer is throttled by the limits configured on both sides. When a
-					limit is not enabled, transfers flow without throttling.
+					Frankencoin is bridged between chains via{" "}
+					<AppLink
+						className="inline text-card-input-max hover:text-card-input-hover cursor-pointer"
+						label="Chainlink CCIP"
+						href="https://tokenmanager.chain.link/dashboard/polygon-mainnet,0xd4dd9e2f021bb459d5a5f6c24c12fe09c5d45553"
+						external={true}
+					/>
+					. Each source chain's token pool enforces its own incoming and outgoing rate limits per destination chain, so a
+					transfer is throttled by the limits configured on both sides. When a limit is not enabled, transfers flow without
+					throttling.
 				</div>
 			</AppTitle>
 

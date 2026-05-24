@@ -13,7 +13,10 @@ export default function WalletConnect() {
 				<button
 					type="button"
 					className="bg-button-default text-white h-8 md:h-10 flex justify-center cursor-pointer items-center rounded-full px-4 font-semibold hover:bg-button-hover"
-					onClick={() => { track("wallet_connect_clicked"); AppKit.open(); }}
+					onClick={() => {
+						track("wallet_connect_clicked");
+						AppKit.open();
+					}}
 				>
 					Connect Wallet
 				</button>
