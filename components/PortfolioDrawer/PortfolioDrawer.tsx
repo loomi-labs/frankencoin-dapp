@@ -38,10 +38,6 @@ export default function PortfolioDrawer() {
 		}
 	}, [address]);
 
-	useEffect(() => {
-		if (hiddenOnRoute && open) setOpen(false);
-	}, [hiddenOnRoute, open, setOpen]);
-
 	if (hiddenOnRoute) return null;
 
 	return (
@@ -51,20 +47,14 @@ export default function PortfolioDrawer() {
 				type="button"
 				onClick={toggle}
 				aria-label={open ? "Close portfolio" : "Open portfolio"}
+				style={{ writingMode: "vertical-rl" }}
 				className={`fixed top-1/2 z-40 -translate-y-1/2 flex items-center gap-2 rounded-l-lg border border-r-0 border-card-input-border bg-card-body-primary px-2 py-3 text-text-primary shadow-card transition-[right] duration-200 hover:bg-menu-hover ${
-					open
-						? "right-[85vw] md:right-[360px] max-md:hidden"
-						: "right-0"
+					open ? "right-[85vw] md:right-[360px] max-md:hidden" : "right-0"
 				}`}
 			>
-				<FontAwesomeIcon icon={open ? faChevronRight : faChevronLeft} className="h-3 w-3" />
+				<FontAwesomeIcon icon={open ? faChevronRight : faChevronLeft} className="h-3 w-3 text-text-secondary" />
 				<FontAwesomeIcon icon={faChartPie} className="h-4 w-4" />
-				<span
-					className="hidden md:inline text-[10px] font-semibold uppercase tracking-wide"
-					style={{ writingMode: "vertical-rl" }}
-				>
-					Portfolio
-				</span>
+				<span className="text-xs font-semibold tracking-wide">My Portfolio</span>
 			</button>
 
 			{/* Mobile scrim */}

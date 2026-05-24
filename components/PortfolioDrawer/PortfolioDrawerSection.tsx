@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
 	title: string;
@@ -10,15 +10,34 @@ interface Props {
 	children: React.ReactNode;
 }
 
+function slug(title: string) {
+	return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 export default function PortfolioDrawerSection({ title, count, defaultOpen = true, action, children }: Props) {
-	const [open, setOpen] = useState<boolean>(defaultOpen);
+	const storageKey = `frankencoin:portfolio-section:${slug(title)}`;
+	const [open, setOpenState] = useState<boolean>(defaultOpen);
+
+	useEffect(() => {
+		if (typeof window === "undefined") return;
+		const raw = window.localStorage.getItem(storageKey);
+		if (raw === "true") setOpenState(true);
+		else if (raw === "false") setOpenState(false);
+	}, [storageKey]);
+
+	const setOpen = (next: boolean) => {
+		setOpenState(next);
+		if (typeof window !== "undefined") {
+			window.localStorage.setItem(storageKey, next ? "true" : "false");
+		}
+	};
 
 	return (
 		<section className="bg-card-body-primary rounded-card border border-card-input-border">
 			<header className="flex items-center px-3 py-2">
 				<button
 					type="button"
-					onClick={() => setOpen((v) => !v)}
+					onClick={() => setOpen(!open)}
 					className="flex flex-1 items-center gap-2 text-left text-sm font-display font-semibold text-text-primary"
 				>
 					<FontAwesomeIcon
