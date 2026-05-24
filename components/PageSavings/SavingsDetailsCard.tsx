@@ -52,10 +52,10 @@ export default function SavingsDetailsCard({
 	const resulting = balance + change + interest;
 
 	return (
-		<AppCard>
+		<AppCard className="p-8 flex flex-col gap-y-6">
 			<div className="text-base font-display font-semibold text-text-primary">Outcome</div>
 
-			<section className="flex flex-col gap-2">
+			<section className="flex flex-col gap-3">
 				<SectionLabel>Position</SectionLabel>
 				<Row label="Your total balance" value={`${formatCurrency(formatUnits(totalBalance, 18))} ZCHF`} muted />
 				{inactiveBalance.map((i, idx) => (
@@ -65,7 +65,7 @@ export default function SavingsDetailsCard({
 			</section>
 
 			{hasChange && (
-				<section className="flex flex-col gap-2">
+				<section className="flex flex-col gap-3">
 					<SectionLabel>This adjustment</SectionLabel>
 					<Row label="Interest to be collected" value={`${formatCurrency(formatUnits(interest, 18))} ZCHF`} />
 					<Row

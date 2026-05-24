@@ -39,6 +39,7 @@ interface Props {
 	balances?: ChainBalances;
 	chainOnLabel?: boolean;
 	formatOnBlur?: boolean;
+	flat?: boolean;
 }
 
 export default function TokenInputChain({
@@ -71,6 +72,7 @@ export default function TokenInputChain({
 	balances,
 	chainOnLabel = false,
 	formatOnBlur = true,
+	flat = false,
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -83,11 +85,15 @@ export default function TokenInputChain({
 	return (
 		<div className="">
 			<div
-				className={`group border-card-input-border ${
-					disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
-				} focus-within:!border-card-input-focus ${
-					error ? "!border-card-input-error" : ""
-				} text-text-secondary border rounded-input px-3 py-1`}
+				className={`group ${
+					flat
+						? `flex flex-col gap-3 text-text-secondary ${error ? "text-card-input-error" : ""}`
+						: `border-card-input-border ${
+								disabled ? "bg-card-input-disabled" : "hover:border-card-input-hover"
+						  } focus-within:!border-card-input-focus ${
+								error ? "!border-card-input-error" : ""
+						  } text-text-secondary border rounded-input px-3 py-1`
+				}`}
 				onClick={handleClick}
 			>
 				{label && (
@@ -111,7 +117,10 @@ export default function TokenInputChain({
 					</div>
 				)}
 
-				<div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+				<div
+					className={`flex items-center ${flat ? "border-b border-card-input-border pb-3" : ""}`}
+					onClick={(e) => e.stopPropagation()}
+				>
 					<div
 						className={`flex-1 py-2 ${
 							error ? "text-card-input-error" : !!value ? "text-text-primary" : "placeholder:text-card-input-empty"

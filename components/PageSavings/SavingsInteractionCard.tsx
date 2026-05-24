@@ -202,7 +202,7 @@ export default function SavingsInteractionCard() {
 
 	return (
 		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
-			<AppCard>
+			<AppCard className="p-8 flex flex-col gap-y-4">
 				<div className="text-base font-display font-semibold text-text-primary">
 					{!onbehalfToggle ? "Adjustment" : "Save on behalf"}
 				</div>
@@ -225,6 +225,7 @@ export default function SavingsInteractionCard() {
 					tokenLogo={"ZCHF"}
 					balances={chainBalances}
 					chainOnLabel
+					flat
 				/>
 
 				<div className="flex flex-col gap-3">
