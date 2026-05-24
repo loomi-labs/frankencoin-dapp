@@ -148,8 +148,8 @@ export default function Positions() {
 					<AppTitle title="Yearly Accounts">
 						<DisplayWarningMessage overwrite={overwrite} />
 						<div className="text-text-secondary">
-							Open positions at the end of each year as well as interest paid. See also the
-							<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
+							Open positions at the end of each year as well as interest paid. See also the{" "}
+							<AppLink className="" label={"report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
 						</div>
 					</AppTitle>
 
