@@ -11,6 +11,7 @@ import { mainnet } from "viem/chains";
 import { formatCurrency } from "@utils";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const TokenLogo = dynamic(() => import("@components/TokenLogo"), { ssr: false });
 
 const Timeframes = ["All", "1Y", "1Q", "1M", "1W"];
 const TypeCharts = ["FPS Price", "FPS Supply", "ZCHF Supply"];
@@ -171,18 +172,18 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 
 			<section className="flex flex-col gap-3">
 				<SectionLabel>Pool</SectionLabel>
-				<Row label="FPS Price" value={`${formatCurrency(formatUnits(poolStats.equityPrice, 18))} ZCHF`} />
-				<Row label="Total Supply" value={`${formatCurrency(formatUnits(poolStats.equitySupply, 18))} FPS`} muted />
-				<Row label="Market Cap" value={`${formatCurrency(formatUnits(marketCap, 18))} ZCHF`} muted />
-				<Row label="Equity Capital" value={`${formatCurrency(formatUnits(poolStats.frankenEquity, 18))} ZCHF`} muted />
+				<Row label="FPS Price" amount={formatCurrency(formatUnits(poolStats.equityPrice, 18))} unit="ZCHF" token="ZCHF" />
+				<Row label="Total Supply" amount={formatCurrency(formatUnits(poolStats.equitySupply, 18))} unit="FPS" token="FPS" muted />
+				<Row label="Market Cap" amount={formatCurrency(formatUnits(marketCap, 18))} unit="ZCHF" token="ZCHF" muted />
+				<Row label="Equity Capital" amount={formatCurrency(formatUnits(poolStats.frankenEquity, 18))} unit="ZCHF" token="ZCHF" muted />
 			</section>
 
 			<div className="border-t border-card-input-border border-dashed" />
 
 			<section className="flex flex-col gap-3">
 				<SectionLabel>Performance ({timeframe})</SectionLabel>
-				<Row label="Net Income" value={`${formatCurrency(formatUnits(netIncome, 18))} ZCHF`} />
-				<Row label={roeLabel} value={`${roePct} %`} />
+				<Row label="Net Income" amount={formatCurrency(formatUnits(netIncome, 18))} unit="ZCHF" token="ZCHF" />
+				<Row label={roeLabel} amount={roePct} unit="%" />
 			</section>
 		</AppCard>
 	);
@@ -226,11 +227,28 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 	return <div className="text-[11px] uppercase tracking-[0.12em] text-text-header">{children}</div>;
 }
 
-function Row({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
+function Row({
+	label,
+	amount,
+	unit,
+	token,
+	muted,
+}: {
+	label: string;
+	amount: string | null | undefined;
+	unit: string;
+	token?: string;
+	muted?: boolean;
+}) {
+	const color = muted ? "text-text-secondary" : "text-text-primary";
 	return (
 		<div className="flex items-baseline gap-3">
-			<div className={`flex-1 ${muted ? "text-text-secondary" : "text-text-primary"}`}>{label}</div>
-			<div className={`font-mono ${muted ? "text-text-secondary" : "text-text-primary"}`}>{value}</div>
+			<div className={`flex-1 ${color}`}>{label}</div>
+			<div className={`flex items-center gap-1.5 font-mono ${color}`}>
+				<span>{amount}</span>
+				{token && <TokenLogo currency={token} size={4} />}
+				<span className={token ? "w-[4ch] text-left" : ""}>{unit}</span>
+			</div>
 		</div>
 	);
 }
