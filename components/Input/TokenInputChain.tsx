@@ -3,7 +3,7 @@ import { BigNumberInput } from "./BigNumberInput";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { WAGMI_CHAIN, WAGMI_CHAINS } from "../../app.config";
-import ChainBySelect from "./ChainBySelect";
+import ChainBySelect, { ChainBalances } from "./ChainBySelect";
 import { formatCurrency } from "@utils";
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
 
@@ -36,6 +36,9 @@ interface Props {
 	error?: string;
 	prefixLabel?: string;
 	tokenLogo?: string;
+	balances?: ChainBalances;
+	chainOnLabel?: boolean;
+	formatOnBlur?: boolean;
 }
 
 export default function TokenInputChain({
@@ -65,6 +68,9 @@ export default function TokenInputChain({
 	error,
 	prefixLabel,
 	tokenLogo,
+	balances,
+	chainOnLabel = false,
+	formatOnBlur = true,
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -84,7 +90,26 @@ export default function TokenInputChain({
 				} text-text-secondary border rounded-input px-3 py-1`}
 				onClick={handleClick}
 			>
-				{label && <div className="flex text-card-input-label my-1">{label}</div>}
+				{label && (
+					<div
+						className="flex items-center gap-3 text-card-input-label my-1"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<span>{chainOnLabel ? `${label} on` : label}</span>
+						{chainOnLabel && (
+							<ChainBySelect
+								chains={WAGMI_CHAINS.map((c) => c.name)}
+								chain={chain}
+								chainOnChange={onChangeChain}
+								invertColors={disabled}
+								prefixLabel={prefixLabel}
+								tokenLogo={tokenLogo}
+								balances={balances}
+								balanceSymbol={tokenLogo ?? symbol}
+							/>
+						)}
+					</div>
+				)}
 
 				<div className="flex items-center" onClick={(e) => e.stopPropagation()}>
 					<div
@@ -104,20 +129,25 @@ export default function TokenInputChain({
 								onChange={onChange}
 								autoFocus={autoFocus}
 								disabled={disabled}
+								formatOnBlur={formatOnBlur}
 							/>
 						)}
 					</div>
 
-					<div className="md:col-span-2">
-						<ChainBySelect
-							chains={WAGMI_CHAINS.map((c) => c.name)}
-							chain={chain}
-							chainOnChange={onChangeChain}
-							invertColors={disabled}
-							prefixLabel={prefixLabel}
-							tokenLogo={tokenLogo}
-						/>
-					</div>
+					{!chainOnLabel && (
+						<div className="md:col-span-2">
+							<ChainBySelect
+								chains={WAGMI_CHAINS.map((c) => c.name)}
+								chain={chain}
+								chainOnChange={onChangeChain}
+								invertColors={disabled}
+								prefixLabel={prefixLabel}
+								tokenLogo={tokenLogo}
+								balances={balances}
+								balanceSymbol={tokenLogo ?? symbol}
+							/>
+						</div>
+					)}
 				</div>
 
 				{limitLabel != undefined || max != undefined || min != undefined || reset != undefined ? (

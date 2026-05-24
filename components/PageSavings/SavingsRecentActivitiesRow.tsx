@@ -1,7 +1,7 @@
+import AppLink from "@components/AppLink";
 import TableRow from "@components/Table/TableRowSearchable";
 import { SavingsActivityQuery } from "@frankencoin/api";
 import { formatCurrency, getChain, TxUrl } from "@utils";
-import Link from "next/link";
 import { formatUnits, Hash } from "viem";
 
 interface Props {
@@ -18,14 +18,12 @@ export default function SavingsRecentActivitiesRow({ headers, tab, item }: Props
 		<>
 			<TableRow headers={headers} tab={tab} rawHeader={true}>
 				<div className="flex flex-col md:text-left max-md:text-right">
-					<Link
+					<AppLink
+						className=""
+						label={dateStr}
 						href={TxUrl(item.txHash as Hash, getChain(item.chainId))}
-						target="_blank"
-						rel="noreferrer"
-						className="hover:underline"
-					>
-						{dateStr}
-					</Link>
+						external={true}
+					/>
 				</div>
 
 				<div className="flex flex-col">{item.kind == "InterestCollected" ? "Interest Collected" : item.kind}</div>

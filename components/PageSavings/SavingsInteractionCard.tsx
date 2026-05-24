@@ -1,9 +1,11 @@
 import AppCard from "@components/AppCard";
 import TokenInputChain from "@components/Input/TokenInputChain";
+import { ChainBalances } from "@components/Input/ChainBySelect";
 import { ADDRESS, ChainId, ChainIdMain, ChainIdSide, FrankencoinABI, SavingsABI } from "@frankencoin/zchf";
 import { useConnection, useBlockNumber, useChainId } from "wagmi";
 import { Address, isAddress, zeroAddress } from "viem";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useUserBalance } from "@hooks";
 import SavingsDetailsCard from "./SavingsDetailsCard";
 import { readContract } from "wagmi/actions";
 import { WAGMI_CHAINS, WAGMI_CONFIG } from "../../app.config";
@@ -68,6 +70,26 @@ export default function SavingsInteractionCard() {
 	const change: bigint = amount - (userSavingsBalance + userSavingsInterest);
 	const direction: boolean = amount >= userSavingsBalance + userSavingsInterest;
 	const claimable: boolean = userSavingsInterest > 0n;
+
+	const { savingsBalance } = useSelector((state: RootState) => state.savings);
+	const userBalances = useUserBalance(account);
+
+	const chainBalances: ChainBalances = useMemo(() => {
+		const savedByChain: Record<number, bigint> = {};
+		Object.values(savingsBalance).forEach((perModule) => {
+			Object.values(perModule).forEach((entry) => {
+				savedByChain[entry.chainId] = (savedByChain[entry.chainId] ?? 0n) + BigInt(entry.balance);
+			});
+		});
+
+		return WAGMI_CHAINS.reduce((acc, c) => {
+			acc[c.name.toLowerCase()] = {
+				saved: savedByChain[c.id] ?? 0n,
+				wallet: userBalances[c.id as ChainId]?.frankencoin ?? 0n,
+			};
+			return acc;
+		}, {} as ChainBalances);
+	}, [savingsBalance, userBalances]);
 
 	// ---------------------------------------------------------------------------
 
@@ -185,27 +207,27 @@ export default function SavingsInteractionCard() {
 					{!onbehalfToggle ? "Adjustment" : "Save on behalf"}
 				</div>
 
-				<div className="mt-8">
-					<TokenInputChain
-						label={!onbehalfToggle ? "Your savings" : "You save"}
-						chain={chain.name}
-						min={!onbehalfToggle ? BigInt("0") : undefined}
-						max={!onbehalfToggle ? userBalance + userSavingsBalance + userSavingsInterest : userBalance}
-						reset={!onbehalfToggle ? userSavingsBalance : 0n}
-						symbol={fromSymbol}
-						placeholder={fromSymbol + " Amount"}
-						value={amount.toString()}
-						onChange={onChangeAmount}
-						error={error}
-						limit={userBalance}
-						limitDigit={18}
-						limitLabel="Balance"
-						onChangeChain={onChangeChain}
-						tokenLogo={"ZCHF"}
-					/>
-				</div>
+				<TokenInputChain
+					label={!onbehalfToggle ? "Your savings" : "You save"}
+					chain={chain.name}
+					min={!onbehalfToggle ? BigInt("0") : undefined}
+					max={!onbehalfToggle ? userBalance + userSavingsBalance + userSavingsInterest : userBalance}
+					reset={!onbehalfToggle ? userSavingsBalance : 0n}
+					symbol={fromSymbol}
+					placeholder={fromSymbol + " Amount"}
+					value={amount.toString()}
+					onChange={onChangeAmount}
+					error={error}
+					limit={userBalance}
+					limitDigit={18}
+					limitLabel="Balance"
+					onChangeChain={onChangeChain}
+					tokenLogo={"ZCHF"}
+					balances={chainBalances}
+					chainOnLabel
+				/>
 
-				<div className="">
+				<div className="flex flex-col gap-3">
 					{onbehalfToggle ? (
 						<AddressInput
 							label="To address"
@@ -218,7 +240,7 @@ export default function SavingsInteractionCard() {
 					<AppToggle disabled={false} label="Custom target address" enabled={onbehalfToggle} onChange={setOnbehalfToggle} />
 				</div>
 
-				<div className="mx-auto my-4 w-full flex-col flex gap-4">
+				<div className="flex flex-col gap-4">
 					{onbehalfToggle ? (
 						<SavingsActionSaveOnBehalf
 							disabled={onbehalfError != "" || onbehalfAddress == ""}
@@ -257,19 +279,17 @@ export default function SavingsInteractionCard() {
 				</div>
 
 				{newReferrer ? (
-					<div className="mt-6">
-						<div className="bg-brand-50 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-900 rounded-step p-4 text-text-secondary text-sm leading-relaxed">
-							<span className="font-semibold text-text-primary">Notice: </span>
-							You are about to set a referrer{" "}
-							<AppLink
-								className="pr-2"
-								label={shortenAddress(newReferrer)}
-								href={ContractUrl(newReferrer, chain)}
-								external={true}
-							/>
-							who will receive <span className="font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span> of
-							your earned interest.
-						</div>
+					<div className="bg-brand-50 dark:bg-brand-900/20 border border-brand-100 dark:border-brand-900 rounded-step p-4 text-text-secondary text-sm leading-relaxed">
+						<span className="font-semibold text-text-primary">Notice: </span>
+						You are about to set a referrer{" "}
+						<AppLink
+							className="pr-2"
+							label={shortenAddress(newReferrer)}
+							href={ContractUrl(newReferrer, chain)}
+							external={true}
+						/>
+						who will receive <span className="font-semibold">{Math.round(Number(newReferralFeePPM / 1000n)) / 10}%</span> of
+						your earned interest.
 					</div>
 				) : null}
 			</AppCard>
