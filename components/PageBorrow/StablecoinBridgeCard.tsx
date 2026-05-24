@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { useRouter as useNavigation } from "next/navigation";
+import { formatUnits } from "viem";
 import { SwapVCHFStatsReturn } from "@hooks";
 
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
@@ -17,9 +18,12 @@ function formatCompact(n: number): string {
 export default function StablecoinBridgeCard({ stats }: Props) {
 	const navigate = useNavigation();
 
-	const total = Number(stats.bridgeLimit) / 1e18;
-	const used = Number(stats.asCollateralOverview.minted) / 1e18;
-	const pct = total > 0 ? Math.min(100, Math.max(0, (used / total) * 100)) : 0;
+	const bridgeLimit = stats.bridgeLimit;
+	const bridgeUsed = stats.asCollateralOverview.minted;
+	const total = Number(formatUnits(bridgeLimit, 18));
+	const used = Number(formatUnits(bridgeUsed, 18));
+	const pctRaw = bridgeLimit > 0n ? Number((bridgeUsed * 10000n) / bridgeLimit) / 100 : 0;
+	const pct = Math.min(100, Math.max(0, pctRaw));
 
 	const name = stats.asBorrowPosition.collateralName;
 	const symbol = stats.asBorrowPosition.collateralSymbol;

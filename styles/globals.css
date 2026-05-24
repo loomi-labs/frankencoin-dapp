@@ -119,10 +119,15 @@
 @layer components {
 	.checkbox-filter {
 		@apply w-4 h-4 rounded cursor-pointer;
+
 		appearance: none;
 		border: 1px solid var(--card-input-border);
 		background-color: var(--card-body-primary);
 		color: theme('colors.accent.500');
+	}
+	.checkbox-filter:focus-visible {
+		outline: 2px solid theme('colors.accent.500');
+		outline-offset: 2px;
 	}
 	.checkbox-filter:hover {
 		border-color: theme('colors.accent.500');
