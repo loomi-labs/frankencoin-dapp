@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Address, formatUnits } from "viem";
 import dynamic from "next/dynamic";
 import { RootState } from "../../redux/redux.store";
-import { formatCurrency, normalizeAddress } from "../../utils/format";
+import { formatCurrency, formatDuration, normalizeAddress } from "../../utils/format";
 import PortfolioDrawerSection from "./PortfolioDrawerSection";
 
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
@@ -35,22 +35,29 @@ export default function PortfolioDrawerPositions({ account }: { account: Address
 			{owned.length === 0 ? (
 				<div className="text-xs text-text-secondary py-1">No open positions.</div>
 			) : (
-				owned.map((p) => (
-					<Link
-						key={p.position}
-						href={`/mypositions/${p.position}`}
-						className="flex items-center gap-2 rounded-lg bg-card-content-primary px-2 py-2 hover:bg-menu-hover transition-colors"
-					>
-						<TokenLogo currency={p.collateralSymbol} size={6} />
-						<div className="flex-1 min-w-0">
-							<div className="text-sm font-medium text-text-primary truncate">{p.collateralSymbol}</div>
-							<div className="text-xs text-text-secondary font-mono">
-								{formatCurrency(formatUnits(BigInt(p.minted), 18))} ZCHF
+				owned.map((p) => {
+					const isClosed = p.closed || p.denied;
+					const expirationSeconds = Math.round((p.expiration * 1000 - Date.now()) / 1000);
+					const maturity = !isClosed && expirationSeconds > 0 ? formatDuration(expirationSeconds) : null;
+
+					return (
+						<Link
+							key={p.position}
+							href={`/mypositions/${p.position}`}
+							className="flex items-center gap-2 rounded-lg bg-card-content-primary px-2 py-2 hover:bg-menu-hover transition-colors"
+						>
+							<TokenLogo currency={p.collateralSymbol} size={6} />
+							<div className="flex-1 min-w-0">
+								<div className="text-sm font-medium text-text-primary truncate">{p.collateralSymbol}</div>
+								<div className="text-xs text-text-secondary font-mono truncate">
+									{formatCurrency(formatUnits(BigInt(p.minted), 18))} ZCHF
+									{maturity && <span> · in {maturity}</span>}
+								</div>
 							</div>
-						</div>
-						<StateBadge position={p} />
-					</Link>
-				))
+							<StateBadge position={p} />
+						</Link>
+					);
+				})
 			)}
 		</PortfolioDrawerSection>
 	);
