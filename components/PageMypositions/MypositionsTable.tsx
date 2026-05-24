@@ -19,7 +19,6 @@ const FILTER_OPTIONS: FilterOption[] = ALL_CATEGORIES.map((c) => ({ label: c, va
 
 export default function MypositionsTable() {
 	const headers: string[] = ["Collateral", "Liquidation Price", "Minted", "State"];
-	const subHeaders: string[] = ["Value", "Market Price", "Available", "Time Left"];
 	const [tab, setTab] = useState<string>(headers[0]);
 	const [reverse, setReverse] = useState<boolean>(false);
 	const [list, setList] = useState<PositionQuery[]>([]);
@@ -113,10 +112,9 @@ export default function MypositionsTable() {
 
 	return (
 		<>
-			<Table>
+			<Table borderless>
 				<TableHeadSearchable
 					headers={headers}
-					subHeaders={subHeaders}
 					tab={tab}
 					reverse={reverse}
 					tabOnChange={handleTabOnChange}
@@ -135,9 +133,7 @@ export default function MypositionsTable() {
 					{list.length == 0 ? (
 						<TableRowEmpty>{"You do not have any positions yet."}</TableRowEmpty>
 					) : (
-						list.map((pos) => (
-							<MypositionsRow headers={headers} subHeaders={subHeaders} tab={tab} position={pos} key={pos.position} />
-						))
+						list.map((pos) => <MypositionsRow headers={headers} tab={tab} position={pos} key={pos.position} />)
 					)}
 				</TableBody>
 			</Table>
@@ -145,7 +141,7 @@ export default function MypositionsTable() {
 				<div className="mb-4 flex justify-end gap-2">
 					<button
 						onClick={handleGoogleCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-input hover:bg-menu-hover transition-colors"
+						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-full hover:bg-menu-hover transition-colors"
 						title="Add expiration reminder to Google Calendar"
 					>
 						<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
@@ -153,7 +149,7 @@ export default function MypositionsTable() {
 					</button>
 					<button
 						onClick={handleDownloadCalendar}
-						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-input hover:bg-menu-hover transition-colors"
+						className="inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-card-body-primary border border-card-input-border rounded-full hover:bg-menu-hover transition-colors"
 						title="Download expiration alerts calendar"
 					>
 						<FontAwesomeIcon icon={faCalendarDays} className="mr-2" />

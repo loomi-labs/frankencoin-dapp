@@ -1,7 +1,7 @@
-import { formatBigInt, formatCurrency } from "@utils";
+import { formatCurrency } from "@utils";
 import dynamic from "next/dynamic";
 import { useContractUrl } from "../../hooks/useContractUrl";
-import { Address, formatUnits, zeroAddress } from "viem";
+import { formatUnits, zeroAddress } from "viem";
 import Link from "next/link";
 import { PositionQuery } from "@frankencoin/api";
 const TokenLogo = dynamic(() => import("../TokenLogo"), { ssr: false });
@@ -25,19 +25,25 @@ export default function MyPositionsDisplayCollateral({ position, collateralPrice
 	const collateralValue: number = (collateralSize * collateralPrice) / zchfPrice;
 
 	return (
-		<div className={`md:-ml-12 flex items-center ${className}`}>
-			<Link href={url} onClick={openExplorer}>
-				<div className="mr-4 cursor-pointer">
-					<TokenLogo currency={position.collateralSymbol} />
+		<div className={`flex items-center gap-3 ${className ?? ""}`}>
+			<Link href={url} onClick={openExplorer} className="flex-shrink-0">
+				<div className="relative">
+					<TokenLogo currency={position.collateralSymbol} size={9} />
+					<div className="absolute inset-0 rounded-full ring-1 ring-card-input-border pointer-events-none" />
 				</div>
 			</Link>
 
-			<div className="flex flex-col">
-				<span className={`text-left`}>
-					{formatCurrency(collateralSize, 2, 2) + " " + position.collateralSymbol}
-					<span className="text-sm">{position.version == 2 ? " v2" : " v1"}</span>
+			<div className="flex flex-col min-w-0 text-left">
+				<span className="text-[15px] text-text-primary truncate">
+					<span className="font-mono">{formatCurrency(collateralSize, 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary uppercase tracking-wider">
+						{position.collateralSymbol}
+					</span>
+					<span className="ml-1 text-[11px] text-text-secondary">{position.version == 2 ? "v2" : "v1"}</span>
 				</span>
-				<span className="text-left text-text-subheader text-sm font-normal">{formatCurrency(collateralValue, 2, 2)} ZCHF</span>
+				<span className="mt-0.5 font-mono text-[11px] text-text-secondary">
+					{formatCurrency(collateralValue, 2, 2)} ZCHF
+				</span>
 			</div>
 		</div>
 	);

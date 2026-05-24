@@ -1,18 +1,16 @@
 import { Address, formatUnits } from "viem";
-import TableRow from "../Table/TableRow";
+import TableRow from "../Table/TableRowSearchable";
 import { PositionQuery, ChallengesQueryItem } from "@frankencoin/api";
 import { RootState } from "../../redux/redux.store";
 import { useSelector } from "react-redux";
 import { formatCurrency, normalizeAddress } from "../../utils/format";
 import MyPositionsDisplayCollateral from "./MyPositionsDisplayCollateral";
 import { useRouter as useNavigate } from "next/navigation";
-import AppButton from "@components/AppButton";
 import AppBox from "@components/AppBox";
 
 interface Props {
 	headers: string[];
 	tab: string;
-	subHeaders: string[];
 	position: PositionQuery;
 }
 
@@ -26,12 +24,11 @@ type ChallengeInfos = {
 	challenge: ChallengesQueryItem;
 };
 
-export default function MypositionsRow({ headers, tab, subHeaders, position }: Props) {
+export default function MypositionsRow({ headers, tab, position }: Props) {
 	const navigate = useNavigate();
 
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	const challenges = useSelector((state: RootState) => state.challenges.positions);
-	const bids = useSelector((state: RootState) => state.bids.positions);
 	const collTokenPrice = prices[normalizeAddress(position.collateral)]?.price?.usd;
 	const zchfPrice = prices[normalizeAddress(position.zchf)]?.price?.usd;
 	if (!collTokenPrice || !zchfPrice) return null;
@@ -67,12 +64,12 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 
 		const declineTimestamps: { [key: number]: ChallengeInfos } = {};
 		for (const c of positionChallengesActive) {
-			const _start: number = parseInt(c.start.toString()) * 1000; // timestap
-			const _duration: number = parseInt(c.duration.toString()) * 1000; // number
-			const _maturity: number = Math.min(...[position.expiration * 1000, _start + 2 * _duration]); // timestamp
-			const _time2exp: number = Math.round((_maturity - Date.now()) / 1000); // number, time to expiration
+			const _start: number = parseInt(c.start.toString()) * 1000;
+			const _duration: number = parseInt(c.duration.toString()) * 1000;
+			const _maturity: number = Math.min(...[position.expiration * 1000, _start + 2 * _duration]);
+			const _time2exp: number = Math.round((_maturity - Date.now()) / 1000);
 			const _isQuick: boolean = _start + 2 * _duration > _maturity;
-			const _decline: number = _isQuick ? _start : _start + _duration; // timestamp
+			const _decline: number = _isQuick ? _start : _start + _duration;
 
 			declineTimestamps[_decline] = {
 				start: _start,
@@ -127,7 +124,6 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 
 	function navigateToChallenge() {
 		if (stateIdx != 1) return;
-
 		try {
 			navigate.push(`challenges/${stateChallengeInfo.challenge.number}/bid`, { scroll: true });
 		} catch (error) {
@@ -135,24 +131,31 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 		}
 	}
 
+	const stateIsWarning = stateIdx != 6;
+	const availableForLoan = position.version == 2 ? personalizedAvailableV2 : personalizedAvailableV1;
+
 	return (
 		<TableRow
 			headers={headers}
-			subHeaders={subHeaders}
 			tab={tab}
 			actionCol={
-				<AppButton className="h-10" onClick={() => navigate.push(`/mypositions/${position.position}`)}>
+				<button
+					type="button"
+					onClick={() => navigate.push(`/mypositions/${position.position}`)}
+					className="group inline-flex items-center gap-1.5 px-1 py-2 text-[13px] font-semibold text-text-active cursor-pointer transition-[gap] duration-150 ease-out hover:gap-2.5"
+				>
 					Manage
-				</AppButton>
+					<span className="transition-transform duration-150 ease-out group-hover:translate-x-1" aria-hidden>
+						→
+					</span>
+				</button>
 			}
 		>
 			{/* Collateral */}
 			<div className="flex flex-col max-md:mb-5">
-				{/* desktop view */}
 				<div className="max-md:hidden">
 					<MyPositionsDisplayCollateral position={position} collateralPrice={collTokenPrice} zchfPrice={zchfPrice} />
 				</div>
-				{/* mobile view */}
 				<AppBox className="md:hidden">
 					<MyPositionsDisplayCollateral
 						className={"justify-items-center items-center"}
@@ -164,30 +167,40 @@ export default function MypositionsRow({ headers, tab, subHeaders, position }: P
 			</div>
 
 			{/* Liquidation */}
-			<div className="flex flex-col">
-				<span className={liquidationPct < 110 ? `text-md font-bold text-text-warning` : "text-md"}>
-					{formatCurrency(liquidationZCHF, 2, 2)} ZCHF
+			<div className="flex flex-col items-end">
+				<span className={`text-[15px] ${liquidationPct < 110 ? "font-semibold text-text-warning" : "text-text-primary"}`}>
+					<span className="font-mono">{formatCurrency(liquidationZCHF, 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
 				</span>
-				<span className="text-sm text-text-subheader font-normal">{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} ZCHF</span>
+				<span className="mt-0.5 font-mono text-[11px] text-text-secondary">
+					{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} market
+				</span>
 			</div>
 
-			{/* Loan Value */}
-			<div className="flex flex-col">
-				<span className="text-md">{formatCurrency(loanZCHF, 2, 2)} ZCHF</span>
-				<span className="text-sm text-text-subheader font-normal">
-					{formatCurrency(position.version == 2 ? personalizedAvailableV2 : personalizedAvailableV1, 2, 2)} ZCHF
+			{/* Minted */}
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(loanZCHF, 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
+				<span className="mt-0.5 font-mono text-[11px] text-text-secondary">
+					{formatCurrency(availableForLoan, 2, 2)} avail
 				</span>
 			</div>
 
 			{/* State */}
-			<div className="flex flex-col">
-				<div className={`text-md ${stateIdx != 6 ? "text-text-warning font-bold" : ""}`}>{states[stateIdx]}</div>
-				<div
-					className={`text-sm text-text-subheader font-normal ${stateIdx == 1 ? "underline cursor-pointer" : ""}`}
-					onClick={navigateToChallenge}
-				>
-					{stateTimePrint}
-				</div>
+			<div className="flex flex-col items-end">
+				<span className={`text-[15px] ${stateIsWarning ? "font-semibold text-text-warning" : "text-text-primary"}`}>
+					{states[stateIdx]}
+				</span>
+				{stateTimePrint && (
+					<span
+						className={`mt-0.5 font-mono text-[11px] text-text-secondary ${stateIdx == 1 ? "underline cursor-pointer" : ""}`}
+						onClick={navigateToChallenge}
+					>
+						{stateTimePrint}
+					</span>
+				)}
 			</div>
 		</TableRow>
 	);

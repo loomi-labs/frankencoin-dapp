@@ -1,5 +1,5 @@
 import { Address, formatUnits, parseEther, zeroAddress } from "viem";
-import TableRow from "../Table/TableRow";
+import TableRow from "../Table/TableRowSearchable";
 import { BidsQueryType, ChallengesId, ChallengesQueryItem } from "@frankencoin/api";
 import { RootState } from "../../redux/redux.store";
 import { useSelector } from "react-redux";
@@ -7,7 +7,6 @@ import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress } from "../../utils/format";
 import { useContractUrl } from "@hooks";
 import MyPositionsChallengesCancel from "./MyPositionsChallengesCancel";
-import AppButtonSecondary from "@components/AppButtonSecondary";
 import AppBox from "@components/AppBox";
 import { TxUrl } from "@utils";
 
@@ -74,9 +73,16 @@ export default function MyPositionsChallengesRow({ headers, tab, challenge }: Pr
 			tab={tab}
 			actionCol={
 				stateIdx == 1 ? (
-					<AppButtonSecondary className="h-10" onClick={() => window.open(TxUrl(challenge.txHash), "_blank")}>
+					<button
+						type="button"
+						onClick={() => window.open(TxUrl(challenge.txHash), "_blank")}
+						className="group inline-flex items-center gap-1.5 px-1 py-2 text-[13px] font-semibold text-text-active cursor-pointer transition-[gap] duration-150 ease-out hover:gap-2.5"
+					>
 						View
-					</AppButtonSecondary>
+						<span className="transition-transform duration-150 ease-out group-hover:translate-x-1" aria-hidden>
+							→
+						</span>
+					</button>
 				) : (
 					<MyPositionsChallengesCancel challenge={challenge} hidden={stateIdx == 1} />
 				)
@@ -84,41 +90,57 @@ export default function MyPositionsChallengesRow({ headers, tab, challenge }: Pr
 		>
 			{/* Collateral */}
 			<div className="flex flex-col max-md:mb-5">
-				{/* desktop view */}
 				<div className="max-md:hidden flex flex-row items-center -ml-12">
 					<span className="mr-4 cursor-pointer" onClick={openExplorer}>
 						<TokenLogo currency={position.collateralSymbol} />
 					</span>
-					<span className={`col-span-2 text-md`}>{`${formatCurrency(challengeSize, 2, 2)} ${position.collateralSymbol}`}</span>
+					<span className="text-[15px] text-text-primary">
+						<span className="font-mono">{formatCurrency(challengeSize, 2, 2)}</span>
+						<span className="ml-1 font-mono text-[11px] text-text-secondary">{position.collateralSymbol}</span>
+					</span>
 				</div>
 
-				{/* mobile view */}
 				<AppBox className="md:hidden flex flex-row items-center">
 					<div className="mr-4 cursor-pointer" onClick={openExplorer}>
 						<TokenLogo currency={position.collateralSymbol} />
 					</div>
-					<div className={`col-span-2 text-md`}>{`${formatCurrency(challengeSize)} ${position.collateralSymbol}`}</div>
+					<div className="text-[15px] text-text-primary">
+						<span className="font-mono">{formatCurrency(challengeSize)}</span>
+						<span className="ml-1 font-mono text-[11px] text-text-secondary">{position.collateralSymbol}</span>
+					</div>
 				</AppBox>
 			</div>
 
 			{/* Averted Ratio */}
-			<div className="flex flex-col">
-				<div className="text-md">{formatCurrency(avertedRatio * 100, 2, 2)}%</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(avertedRatio * 100, 2, 2)}</span>
+					<span className="ml-0.5 font-mono text-[11px] text-text-secondary">%</span>
+				</span>
 			</div>
 
 			{/* All Proceeds */}
-			<div className="flex flex-col">
-				<div className="text-md">{formatCurrency(allProceeds, 2, 2)} ZCHF</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(allProceeds, 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
 			</div>
 
 			{/* Succeeded Ratio */}
-			<div className="flex flex-col">
-				<div className="text-md">{formatCurrency(succeededRatio * 100, 2, 2)}%</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(succeededRatio * 100, 2, 2)}</span>
+					<span className="ml-0.5 font-mono text-[11px] text-text-secondary">%</span>
+				</span>
 			</div>
 
 			{/* All Rewards */}
-			<div className="flex flex-col">
-				<div className="text-md">{formatCurrency(allRewards, 2, 2)} ZCHF</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(allRewards, 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
 			</div>
 		</TableRow>
 	);

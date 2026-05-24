@@ -2,15 +2,20 @@ import Head from "next/head";
 import MypositionsTable from "@components/PageMypositions/MypositionsTable";
 import MyPositionsChallengesTable from "@components/PageMypositions/MyPositionsChallengesTable";
 import MyPositionsBidsTable from "@components/PageMypositions/MyPositionsBidsTable";
+import MyPortfolioTotalsCard from "@components/PageMypositions/MyPortfolioTotalsCard";
+import MyPortfolioHoldingsGrid from "@components/PageMypositions/MyPortfolioHoldingsGrid";
 import { useRouter } from "next/router";
 import { Address, isAddress, zeroAddress } from "viem";
-import { shortenAddress } from "@utils";
+import { normalizeAddress, shortenAddress } from "@utils";
 import { useEffect, useState } from "react";
-import { store } from "../../redux/redux.store";
+import { useSelector } from "react-redux";
+import { RootState, store } from "../../redux/redux.store";
 import { fetchPositionsList } from "../../redux/slices/positions.slice";
 import { fetchChallengesList } from "../../redux/slices/challenges.slice";
 import { fetchBidsList } from "../../redux/slices/bids.slice";
+import { fetchSavings } from "../../redux/slices/savings.slice";
 import AppTitle from "@components/AppTitle";
+import AppCard from "@components/AppCard";
 import AppLink from "@components/AppLink";
 import { useContractUrl } from "@hooks";
 import { useConnection } from "wagmi";
@@ -37,6 +42,14 @@ export default function Positions() {
 		store.dispatch(fetchChallengesList());
 		store.dispatch(fetchBidsList());
 	}, []);
+
+	const portfolioAccount = (overwrite || address || zeroAddress) as Address;
+
+	useEffect(() => {
+		if (portfolioAccount !== zeroAddress) {
+			store.dispatch(fetchSavings(portfolioAccount));
+		}
+	}, [portfolioAccount]);
 
 	useEffect(() => {
 		if (address == undefined && overwrite == undefined) {
@@ -87,50 +100,87 @@ export default function Positions() {
 		setLoading(false);
 	}, [address, overwrite]);
 
+	const openPositions = useSelector((state: RootState) => state.positions.openPositions);
+	const challengesList = useSelector((state: RootState) => state.challenges.list.list);
+	const bidsList = useSelector((state: RootState) => state.bids.list.list);
+
+	const accountLower = normalizeAddress(portfolioAccount);
+	const hasPositions = portfolioAccount !== zeroAddress && openPositions.some((p) => normalizeAddress(p.owner) === accountLower);
+	const hasChallenges = portfolioAccount !== zeroAddress && challengesList.some((c) => normalizeAddress(c.challenger) === accountLower);
+	const hasBids = portfolioAccount !== zeroAddress && bidsList.some((b) => normalizeAddress(b.bidder) === accountLower);
+	const hasYearly = ownerPositionDebt.length > 0 || ownerPositionFees.length > 0 || ownerPositionValueLocked.length > 0;
+
+	const hasAnyActivity = hasPositions || hasChallenges || hasBids || hasYearly;
+	const isWalletAttached = portfolioAccount !== zeroAddress;
+
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - My Positions</title>
+				<title>Frankencoin - Dashboard</title>
 			</Head>
 
-			{/* Section Positions */}
-			<AppTitle
-				hero
-				title="Owned Positions"
-				subtitle={<DisplayWarningMessage overwrite={overwrite} />}
-			/>
+			<AppTitle title="Dashboard" subtitle={<DisplayWarningMessage overwrite={overwrite} />} />
 
-			<MypositionsTable />
+			{/* Section Portfolio Overview */}
+			<MyPortfolioTotalsCard account={portfolioAccount} />
 
-			{/* Section Report */}
-			<AppTitle title="Yearly Accounts">
-				<DisplayWarningMessage overwrite={overwrite} />
-				<div className="text-text-secondary">
-					Open positions at the end of each year as well as interest paid. See also the
-					<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
-				</div>
-			</AppTitle>
+			<MyPortfolioHoldingsGrid account={portfolioAccount} />
 
-			<ReportsPositionsYearlyTable
-				address={overwrite ?? address ?? zeroAddress}
-				ownerPositionFees={ownerPositionFees}
-				ownerPositionDebt={ownerPositionDebt}
-				ownerPositionValueLocked={ownerPositionValueLocked}
-			/>
+			{isWalletAttached && !hasAnyActivity && (
+				<AppCard>
+					<div className="text-text-primary font-medium">No activity yet</div>
+					<div className="text-text-secondary text-sm">
+						You don&apos;t have any positions, challenges, or bids yet. Visit{" "}
+						<AppLink className="inline" label="Get ZCHF" href="/mint" /> to mint your first position.
+					</div>
+				</AppCard>
+			)}
 
-			{/* Section Challenges */}
-			<AppTitle title="Initiated Challenges">
-				<DisplayWarningMessage overwrite={overwrite} />
-			</AppTitle>
+			{hasPositions && (
+				<>
+					<AppTitle title="Owned Positions" />
+					<MypositionsTable />
+				</>
+			)}
 
-			<MyPositionsChallengesTable />
+			{hasYearly && (
+				<>
+					<AppTitle title="Yearly Accounts">
+						<DisplayWarningMessage overwrite={overwrite} />
+						<div className="text-text-secondary">
+							Open positions at the end of each year as well as interest paid. See also the
+							<AppLink className="" label={" report page"} href={`/report?address=${overwrite ?? address ?? zeroAddress}`} />.
+						</div>
+					</AppTitle>
 
-			{/* Section Bids */}
-			<AppTitle title="Your Bids">
-				<DisplayWarningMessage overwrite={overwrite} />
-			</AppTitle>
+					<ReportsPositionsYearlyTable
+						address={overwrite ?? address ?? zeroAddress}
+						ownerPositionFees={ownerPositionFees}
+						ownerPositionDebt={ownerPositionDebt}
+						ownerPositionValueLocked={ownerPositionValueLocked}
+					/>
+				</>
+			)}
 
-			<MyPositionsBidsTable />
+			{hasChallenges && (
+				<>
+					<AppTitle title="Initiated Challenges">
+						<DisplayWarningMessage overwrite={overwrite} />
+					</AppTitle>
+
+					<MyPositionsChallengesTable />
+				</>
+			)}
+
+			{hasBids && (
+				<>
+					<AppTitle title="Your Bids">
+						<DisplayWarningMessage overwrite={overwrite} />
+					</AppTitle>
+
+					<MyPositionsBidsTable />
+				</>
+			)}
 		</>
 	);
 }

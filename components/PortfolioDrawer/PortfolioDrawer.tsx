@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartPie, faChevronLeft, faChevronRight, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { useConnection } from "wagmi";
 import { useAppKit } from "@reown/appkit/react";
 import { Address, zeroAddress } from "viem";
@@ -21,7 +22,9 @@ export default function PortfolioDrawer() {
 	const { open, setOpen, toggle } = usePortfolioDrawer();
 	const { address, isConnected } = useConnection();
 	const AppKit = useAppKit();
+	const router = useRouter();
 	const account: Address = address ?? zeroAddress;
+	const hiddenOnRoute = router.pathname.startsWith("/mypositions");
 
 	useEffect(() => {
 		store.dispatch(fetchPositionsList());
@@ -34,6 +37,12 @@ export default function PortfolioDrawer() {
 			store.dispatch(fetchSavings(address));
 		}
 	}, [address]);
+
+	useEffect(() => {
+		if (hiddenOnRoute && open) setOpen(false);
+	}, [hiddenOnRoute, open, setOpen]);
+
+	if (hiddenOnRoute) return null;
 
 	return (
 		<>

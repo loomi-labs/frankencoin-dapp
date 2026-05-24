@@ -9,8 +9,8 @@ import { useConnection } from "wagmi";
 import { track } from "../hooks/useAnalytics";
 
 const MAIN_ITEMS = [
+	{ to: "/mypositions", name: "Dashboard" },
 	{ to: "/mint", name: "Get ZCHF" },
-	{ to: "/mypositions", name: "My Positions" },
 	{ to: "/savings", name: "Earn" },
 	{ to: "/equity", name: "Invest" },
 ];

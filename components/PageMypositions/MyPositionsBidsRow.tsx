@@ -1,5 +1,5 @@
 import { Address, formatUnits, zeroAddress } from "viem";
-import TableRow from "../Table/TableRow";
+import TableRow from "../Table/TableRowSearchable";
 import { BidsQueryItem, ChallengesId } from "@frankencoin/api";
 import { RootState } from "../../redux/redux.store";
 import { useSelector } from "react-redux";
@@ -7,11 +7,9 @@ import TokenLogo from "@components/TokenLogo";
 import { formatCurrency, normalizeAddress } from "../../utils/format";
 import { useContractUrl } from "@hooks";
 import { useRouter as useNavigation } from "next/navigation";
-import AppButton from "@components/AppButton";
 import { useConnection } from "wagmi";
 import AppBox from "@components/AppBox";
 import { TxUrl } from "@utils";
-import AppButtonSecondary from "@components/AppButtonSecondary";
 
 interface Props {
 	headers: string[];
@@ -49,62 +47,75 @@ export default function MyPositionsBidsRow({ headers, tab, bid }: Props) {
 	return (
 		<TableRow
 			headers={headers}
-			paddingY={!isDisabled ? "md:py-1 max-md:py-4" : undefined}
 			tab={tab}
 			actionCol={
 				isDisabled ? (
-					<AppButtonSecondary className="h-10" onClick={openExplorerBid}>
+					<button
+						type="button"
+						onClick={openExplorerBid}
+						className="group inline-flex items-center gap-1.5 px-1 py-2 text-[13px] font-semibold text-text-active cursor-pointer transition-[gap] duration-150 ease-out hover:gap-2.5"
+					>
 						View
-					</AppButtonSecondary>
+						<span className="transition-transform duration-150 ease-out group-hover:translate-x-1" aria-hidden>
+							→
+						</span>
+					</button>
 				) : (
-					<div className="">
-<AppButton
-							className="h-10"
-							disabled={isDisabled}
-							onClick={() => navigate.push(`/monitoring/${normalizeAddress(challenge.position)}/auction/${challenge.number}`)}
-						>
-							Buy Again
-						</AppButton>
-					</div>
+					<button
+						type="button"
+						onClick={() => navigate.push(`/monitoring/${normalizeAddress(challenge.position)}/auction/${challenge.number}`)}
+						className="group inline-flex items-center gap-1.5 px-1 py-2 text-[13px] font-semibold text-text-active cursor-pointer transition-[gap] duration-150 ease-out hover:gap-2.5"
+					>
+						Buy again
+						<span className="transition-transform duration-150 ease-out group-hover:translate-x-1" aria-hidden>
+							→
+						</span>
+					</button>
 				)
 			}
 		>
 			{/* Collateral */}
 			<div className="flex flex-col max-md:mb-5">
-				{/* desktop view */}
 				<div className="max-md:hidden flex flex-row items-center -ml-12">
 					<span className="mr-4 cursor-pointer" onClick={openExplorer}>
 						<TokenLogo currency={position.collateralSymbol} />
 					</span>
-					<span className={`col-span-2 text-md`}>{`${formatCurrency(formatUnits(bid.filledSize, position.collateralDecimals))} ${
-						position.collateralSymbol
-					}`}</span>
+					<span className="text-[15px] text-text-primary">
+						<span className="font-mono">{formatCurrency(formatUnits(bid.filledSize, position.collateralDecimals))}</span>
+						<span className="ml-1 font-mono text-[11px] text-text-secondary">{position.collateralSymbol}</span>
+					</span>
 				</div>
 
-				{/* mobile view */}
 				<AppBox className="md:hidden flex flex-row items-center">
 					<div className="mr-4 cursor-pointer" onClick={openExplorer}>
 						<TokenLogo currency={position.collateralSymbol} />
 					</div>
-					<div className={`col-span-2 text-md`}>{`${formatCurrency(formatUnits(bid.filledSize, position.collateralDecimals))} ${
-						position.collateralSymbol
-					}`}</div>
+					<div className="text-[15px] text-text-primary">
+						<span className="font-mono">{formatCurrency(formatUnits(bid.filledSize, position.collateralDecimals))}</span>
+						<span className="ml-1 font-mono text-[11px] text-text-secondary">{position.collateralSymbol}</span>
+					</div>
 				</AppBox>
 			</div>
 
 			{/* Price */}
-			<div className="flex flex-col">
-				<div className="text-md">{formatCurrency(formatUnits(bid.price, 36 - position.collateralDecimals), 2, 2)} ZCHF</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(formatUnits(bid.price, 36 - position.collateralDecimals), 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
 			</div>
 
 			{/* Bid */}
-			<div className="flex flex-col">
-				<div className="text-md">{`${formatCurrency(formatUnits(bid.bid, 18), 2, 2)} ZCHF`}</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">
+					<span className="font-mono">{formatCurrency(formatUnits(bid.bid, 18), 2, 2)}</span>
+					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
+				</span>
 			</div>
 
 			{/* State */}
-			<div className="flex flex-col">
-				<div className="text-md">{bid.bidType}</div>
+			<div className="flex flex-col items-end">
+				<span className="text-[15px] text-text-primary">{bid.bidType}</span>
 			</div>
 		</TableRow>
 	);
