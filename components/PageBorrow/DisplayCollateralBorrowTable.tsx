@@ -35,7 +35,7 @@ export default function DisplayCollateralBorrowTable({
 	};
 
 	return (
-		<div className={`flex items-center gap-3.5 ${className ?? ""}`}>
+		<div className={`flex items-center gap-5 ${className ?? ""}`}>
 			<div className="relative flex-shrink-0">
 				<TokenLogo currency={symbol} size={9} />
 				<div className="absolute inset-0 rounded-full ring-1 ring-card-input-border pointer-events-none" />
