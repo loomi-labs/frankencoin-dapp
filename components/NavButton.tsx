@@ -14,9 +14,9 @@ export default function NavButton({ to, name, external }: Props) {
 	const umamiEvent = "nav_" + name.toLowerCase().replace(/\s+/g, "_");
 	return (
 		<Link
-			className={`flex max-md:py-[10px] max-md:pl-[16px] max-md:w-[160px] md:w-full hover:text-[#2F4356] transition-colors ${
+			className={`flex max-md:py-[10px] max-md:pl-[16px] max-md:w-[160px] md:w-full hover:text-accent-500 transition-colors ${
 				active
-					? "font-bold text-[#2F4356] underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
+					? "font-bold text-accent-500 underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
 					: "font-medium text-menu-text"
 			}`}
 			href={to}

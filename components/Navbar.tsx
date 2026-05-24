@@ -40,9 +40,9 @@ function MoreDropdown() {
 		<div ref={ref} className="relative">
 			<button
 				onClick={() => setOpen((v) => !v)}
-				className={`flex items-center gap-1 hover:text-[#2F4356] transition-colors ${
+				className={`flex items-center gap-1 hover:text-accent-500 transition-colors ${
 					isActive
-						? "font-bold text-[#2F4356] underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
+						? "font-bold text-accent-500 underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
 						: "font-medium text-menu-text"
 				}`}
 			>
