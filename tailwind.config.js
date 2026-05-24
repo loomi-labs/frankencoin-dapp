@@ -136,6 +136,10 @@ module.exports = {
 					disabled: "var(--button-disabled)",
 					textdisabled: "var(--button-textdisabled)",
 				},
+				link: {
+					DEFAULT: "var(--link)",
+					hover: "var(--link-hover)",
+				},
 			},
 		},
 	},

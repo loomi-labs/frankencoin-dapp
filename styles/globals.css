@@ -54,6 +54,9 @@
 	--button-hover: theme('colors.brand.600');
 	--button-disabled: theme('colors.secondary.50');
 	--button-textdisabled: theme('colors.secondary.400');
+
+	--link: theme('colors.accent.700');
+	--link-hover: theme('colors.accent.500');
 }
 
 /* === Theme tokens (dark) === */
@@ -108,6 +111,9 @@
 	--button-hover: theme('colors.brand.400');
 	--button-disabled: theme('colors.accent.800');
 	--button-textdisabled: theme('colors.secondary.700');
+
+	--link: theme('colors.accent.200');
+	--link-hover: theme('colors.accent.100');
 }
 
 @layer components {
