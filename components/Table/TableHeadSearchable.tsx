@@ -11,18 +11,18 @@ export interface FilterOption {
 interface Props {
 	// Search
 	searchPlaceholder?: string;
-	searchValue: string;
-	onSearchChange: (value: string) => void;
+	searchValue?: string;
+	onSearchChange?: (value: string) => void;
 
 	// In my wallet toggle
 	hideMyWallet?: boolean;
-	inMyWallet: boolean;
-	onInMyWalletChange: (value: boolean) => void;
+	inMyWallet?: boolean;
+	onInMyWalletChange?: (value: boolean) => void;
 
 	// Category filter
-	filterOptions: FilterOption[];
-	activeFilters: string[];
-	onFiltersChange: (filters: string[]) => void;
+	filterOptions?: FilterOption[];
+	activeFilters?: string[];
+	onFiltersChange?: (filters: string[]) => void;
 
 	// Custom categories filter
 	customCategories?: string[];
@@ -45,10 +45,10 @@ export default function TableHeadSearchable({
 	searchValue,
 	onSearchChange,
 	hideMyWallet,
-	inMyWallet,
+	inMyWallet = false,
 	onInMyWalletChange,
 	filterOptions,
-	activeFilters,
+	activeFilters = [],
 	onFiltersChange,
 	customCategories,
 	customCategoriesTitle = "State",
@@ -62,6 +62,10 @@ export default function TableHeadSearchable({
 	reverse = false,
 	tabOnChange,
 }: Props) {
+	const hasSearch = searchValue !== undefined && onSearchChange !== undefined;
+	const hasWalletToggle = onInMyWalletChange !== undefined;
+	const hasFilters = (filterOptions?.length ?? 0) > 0 || (customCategories?.length ?? 0) > 0;
+	const showTopBar = hasSearch || hasWalletToggle || hasFilters;
 	const [filterOpen, setFilterOpen] = useState(false);
 	const filterRef = useRef<HTMLDivElement>(null);
 
@@ -81,6 +85,7 @@ export default function TableHeadSearchable({
 	};
 
 	const toggleFilter = (value: string) => {
+		if (!onFiltersChange) return;
 		if (activeFilters.includes(value)) {
 			onFiltersChange(activeFilters.filter((f) => f !== value));
 		} else {
@@ -102,18 +107,21 @@ export default function TableHeadSearchable({
 	return (
 		<div className="bg-table-header-primary">
 			{/* Search / toggle / filter bar */}
+			{showTopBar && (
 			<div className="grid grid-cols-1 md:flex md:items-center md:justify-between px-8 xl:px-10 py-4 border-b border-card-input-border gap-3">
 				{/* Search input */}
+				{hasSearch && (
 				<div className="flex flex-1 items-center gap-2 text-text-secondary bg-card-body-primary rounded-full border border-card-input-border focus-within:border-text-active px-4 py-2 md:max-w-md transition-colors">
 					<FontAwesomeIcon icon={faMagnifyingGlass} className="w-4 h-4 text-text-secondary" />
 					<input
 						type="text"
 						value={searchValue}
-						onChange={(e) => onSearchChange(e.target.value)}
+						onChange={(e) => onSearchChange?.(e.target.value)}
 						placeholder={searchPlaceholder}
 						className="bg-transparent outline-none text-sm text-text-primary placeholder:text-text-secondary w-full"
 					/>
 				</div>
+				)}
 
 				{/* Divider between search and controls — mobile only */}
 				<div className="md:hidden border-t border-card-input-border -mx-8" />
@@ -121,11 +129,11 @@ export default function TableHeadSearchable({
 				{/* Right controls */}
 				<div className="flex items-center justify-end gap-5">
 					{/* In my wallet toggle */}
-					<div className={`flex items-center gap-2 ${hideMyWallet ? "hidden" : ""}`}>
+					<div className={`flex items-center gap-2 ${!hasWalletToggle || hideMyWallet ? "hidden" : ""}`}>
 						<button
 							role="switch"
 							aria-checked={inMyWallet}
-							onClick={() => onInMyWalletChange(!inMyWallet)}
+							onClick={() => onInMyWalletChange?.(!inMyWallet)}
 							className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
 								inMyWallet ? "bg-button-default" : "bg-card-input-border"
 							}`}
@@ -140,7 +148,7 @@ export default function TableHeadSearchable({
 					</div>
 
 					{/* Filter button + dropdown */}
-					<div className={`relative ${filterOptions.length === 0 && (!customCategories || customCategories.length === 0) ? "hidden" : ""}`} ref={filterRef}>
+					<div className={`relative ${!hasFilters ? "hidden" : ""}`} ref={filterRef}>
 						<button
 							onClick={() => setFilterOpen((prev) => !prev)}
 							className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors border ${
@@ -160,7 +168,7 @@ export default function TableHeadSearchable({
 
 						{filterOpen && (
 							<div className="absolute right-0 top-full mt-2 z-50 w-52 rounded-card bg-card-body-primary shadow-card border border-card-input-border py-3">
-								{filterOptions.length > 0 && (
+								{filterOptions && filterOptions.length > 0 && (
 									<>
 										<div className="px-4 pb-2">
 											<span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
@@ -185,7 +193,7 @@ export default function TableHeadSearchable({
 								)}
 								{customCategories && customCategories.length > 0 && (
 									<>
-										{filterOptions.length > 0 && <div className="my-2 border-t border-card-input-border" />}
+										{filterOptions && filterOptions.length > 0 && <div className="my-2 border-t border-card-input-border" />}
 										<div className="px-4 pb-2">
 											<span className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
 												{customCategoriesTitle}
@@ -212,6 +220,7 @@ export default function TableHeadSearchable({
 					</div>
 				</div>
 			</div>
+			)}
 
 			{/* Column headers — desktop */}
 			<div className="items-center justify-between py-4 px-8 md:flex xl:px-10">

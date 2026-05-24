@@ -6,6 +6,8 @@ import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
 import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
+import AppBox from "@components/AppBox";
+import AppButton from "@components/AppButton";
 import AppHeroSteps from "@components/AppHeroSteps";
 import { Icon } from "@iconify/react";
 import HandMoneyIcon from "@components/icons/HandMoneyIcon";
@@ -15,7 +17,7 @@ import { Address, isAddress, zeroAddress } from "viem";
 import ReportsYearlyTable from "@components/PageReports/ReportsSavingsYearlyTable";
 import { useSelector } from "react-redux";
 import { formatCurrency, getChainByName, normalizeAddress } from "@utils";
-import { useAppKitNetwork } from "@reown/appkit/react";
+import { useAppKit, useAppKitNetwork } from "@reown/appkit/react";
 import { ADDRESS, ChainId } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
 
@@ -24,6 +26,7 @@ export default function SavingsPage() {
 	const activities = useSelector((state: RootState) => state.savings.savingsActivity);
 	const { address } = useConnection();
 	const router = useRouter();
+	const AppKit = useAppKit();
 	const AppKitNetwork = useAppKitNetwork();
 	const chainId = useChainId() as ChainId;
 
@@ -110,17 +113,42 @@ export default function SavingsPage() {
 				.
 			</div>
 
-			<AppTitle title="Yearly Accounts">
-				<div className={`text-text-secondary`}>
-					The yearly interest income of the current account. See also the
-					<AppLink className="" label={" report page"} href={`/report`} />.
-				</div>
-			</AppTitle>
-			<ReportsYearlyTable activity={account == undefined || account == zeroAddress ? [] : activities} />
+			{account === zeroAddress ? (
+				<AppBox className="mt-6">
+					<div className="flex flex-col items-center text-center gap-4 py-6">
+						<Icon icon="solar:wallet-linear" className="text-4xl text-text-secondary" />
+						<div className="font-display font-semibold tracking-tight text-2xl text-text-primary">
+							Connect your wallet
+						</div>
+						<div className="text-text-secondary max-w-md">
+							Connect your wallet to see your savings activity and yearly accounts.
+						</div>
+						<div className="mt-2">
+							<AppButton
+								width="w-auto"
+								onClick={() => AppKit.open()}
+								umamiEvent="wallet_connect_clicked_savings"
+							>
+								Connect Wallet
+							</AppButton>
+						</div>
+					</div>
+				</AppBox>
+			) : (
+				<>
+					<AppTitle title="Yearly Accounts">
+						<div className={`text-text-secondary`}>
+							The yearly interest income of the current account. See also the
+							<AppLink className="" label={" report page"} href={`/report`} />.
+						</div>
+					</AppTitle>
+					<ReportsYearlyTable activity={activities} />
 
-			<AppTitle title={"Your latest Activities"} />
+					<AppTitle title={"Your latest Activities"} />
 
-			<SavingsRecentActivitiesTable />
+					<SavingsRecentActivitiesTable />
+				</>
+			)}
 		</>
 	);
 }

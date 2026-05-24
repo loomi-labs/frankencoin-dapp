@@ -1,4 +1,4 @@
-import TableRow from "@components/Table/TableRow";
+import TableRow from "@components/Table/TableRowSearchable";
 import { formatCurrency } from "@utils";
 import { formatUnits } from "viem";
 import { AccountYearly } from "./ReportsSavingsYearlyTable";
