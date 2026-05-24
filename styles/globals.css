@@ -116,14 +116,14 @@
 		appearance: none;
 		border: 1px solid var(--card-input-border);
 		background-color: var(--card-body-primary);
-		color: var(--button-default);
+		color: theme('colors.accent.500');
 	}
 	.checkbox-filter:hover {
-		border-color: var(--button-default);
+		border-color: theme('colors.accent.500');
 	}
 	.checkbox-filter:checked {
-		background-color: var(--button-default);
-		border-color: var(--button-default);
+		background-color: theme('colors.accent.500');
+		border-color: theme('colors.accent.500');
 	}
 
 	.btn {
