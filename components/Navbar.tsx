@@ -61,9 +61,9 @@ function MoreDropdown() {
 				</svg>
 			</button>
 			{open && (
-				<div className="absolute top-full right-0 t-0 mt-1 px-2 grid gap-1 rounded-lg bg-menu-back border border-menu-separator shadow-md py-1 z-50">
+				<div className="absolute top-full right-0 mt-2 min-w-[180px] grid gap-1 rounded-lg bg-menu-back border border-menu-separator shadow-md p-2 z-50">
 					{MORE_ITEMS.map((item) => (
-						<div key={item.to} onClick={() => setOpen(false)}>
+						<div key={item.to} onClick={() => setOpen(false)} className="px-3 py-2">
 							<NavButton to={item.to} name={item.name} />
 						</div>
 					))}
