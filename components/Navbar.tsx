@@ -168,6 +168,10 @@ export default function Navbar() {
 					<menu className="grid grid-cols-1 gap-2 mt-12" onClick={() => setIsNavBarOpen(false)}>
 						<NavItems items={allItems} />
 					</menu>
+					<div className="mt-3 pt-3 border-t border-menu-separator flex items-center justify-between px-2">
+						<span className="text-menu-text font-medium">Theme</span>
+						<ThemeToggle />
+					</div>
 				</div>
 			</div>
 		</>
