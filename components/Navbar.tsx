@@ -42,7 +42,7 @@ function MoreDropdown() {
 				onClick={() => setOpen((v) => !v)}
 				className={`flex items-center gap-1 hover:text-accent-500 transition-colors ${
 					isActive
-						? "font-bold text-accent-500 underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
+						? "font-bold text-accent-500 dark:text-white underline decoration-menu-textactive decoration-2 underline-offset-[6px]"
 						: "font-medium text-menu-text"
 				}`}
 			>
