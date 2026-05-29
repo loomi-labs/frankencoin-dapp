@@ -1,6 +1,8 @@
 name: Test yarn build
 
-on: [push]
+on:
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
