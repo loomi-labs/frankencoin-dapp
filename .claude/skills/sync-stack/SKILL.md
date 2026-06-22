@@ -105,11 +105,15 @@ Mark the repo `synced — pushed to main`.
 
 **At least one signal matched:**
 
+The PR ALWAYS targets **our fork** (the `origin` remote), NEVER the `upstream` (`Frankencoin-ZCHF`) repo — the sync proposes upstream's commits *into* our fork, so the PR base is the fork's `main`. Derive the fork's `owner/repo` from the `origin` URL rather than hardcoding it:
+
 ```bash
 BRANCH="sync/upstream-$(date +%Y-%m-%d-%H%M%S)"
 jj bookmark set "$BRANCH" -r @
 jj git push --bookmark "$BRANCH"
-gh pr create --repo <owner>/<repo> --base main --head "$BRANCH" \
+# Derive the fork repo slug from origin (e.g. git@github.com:loomi-labs/frankencoin-api.git → loomi-labs/frankencoin-api)
+FORK_REPO=$(jj git remote list | grep '^origin ' | sed -E 's#.*[:/]([^/]+/[^/]+?)(\.git)? *$#\1#')
+gh pr create --repo "$FORK_REPO" --base main --head "$BRANCH" \
   --title "chore: sync upstream — review needed" \
   --body "$(cat <<'EOF'
 Automated upstream sync. The following files need review before merge:
@@ -147,6 +151,7 @@ Any repo with `NEEDS SETUP`, `conflicts`, or `aborted` gets a follow-up callout 
 ## Guidelines
 
 - **Never** push to main when any breaking-change signal is present — always open a PR.
+- **Always** open PRs against **our fork** (`origin`), never against `upstream`/`Frankencoin-ZCHF`. Derive the repo slug from the `origin` remote; do not hardcode or guess `<owner>/<repo>`.
 - **Never** force-push.
 - **Never** add the `upstream` remote — that's a manual one-time setup. Notify the user instead.
 - The skill never runs Prisma migrations, Ponder codegen, or deploys — those follow the PR review.
