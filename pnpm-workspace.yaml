@@ -1,0 +1,12 @@
+allowBuilds:
+  '@nestjs/core': true
+  '@prisma/client': true
+  '@reown/appkit': true
+  core-js: true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@prisma/client'
+  - '@reown/appkit'
+  - core-js
+  - unrs-resolver

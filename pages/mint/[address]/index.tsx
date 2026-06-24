@@ -25,7 +25,6 @@ import LiquidationSlider from "@components/Input/LiquidationSlider";
 import { useBorrowPositions } from "../../../hooks/useBorrowPositions";
 import BorrowCloneAction from "@components/PageBorrow/BorrowCloneAction";
 import BorrowClonePriceAction from "@components/PageBorrow/BorrowClonePriceAction";
-import AppBox from "@components/AppBox";
 
 function toDate(time: bigint | number | string) {
 	return new Date(Number(BigInt(time)) * 1000);
@@ -302,167 +301,183 @@ export default function PositionBorrow({}) {
 			/>
 
 			<div className="mt-8">
-				<AppCard>
+				<AppCard className="p-8 flex flex-col gap-y-6">
 					<div className="text-base font-display font-semibold text-text-primary">Borrow Frankencoins</div>
-					<div className="grid md:grid-cols-2 gap-4">
-						<TokenInput
-							label="Deposit"
-							max={userBalance >= minColl ? userBalance : undefined}
-							min={mintPrice > 0n ? (amount * parseUnits("1", 18) + mintPrice - 1n) / mintPrice : undefined}
-							reset={minColl}
-							digit={position.collateralDecimals}
-							onChange={onChangeCollateral}
-							error={errorColl}
-							placeholder="Amount"
-							value={String(collAmount)}
-							symbol={position.collateralSymbol}
-							limit={userBalance}
-							limitDigit={position.collateralDecimals}
-							limitLabel="Balance"
-						/>
-						<TokenInput
-							label="Mint now"
-							symbol="ZCHF"
-							value={amount.toString()}
-							onChange={onChangeAmount}
-							max={borrowingLimit}
-							onMax={() => setAmount(borrowingLimit)}
-							error={errorBorrow}
-							showButtons={true}
-							limit={borrowingLimit}
-							limitDigit={18}
-							limitLabel="Mintable"
-						/>
+
+					{/* Deposit & Mint */}
+					<div className="flex flex-col gap-y-4">
+						<div className="text-[11px] uppercase tracking-[0.12em] text-text-header">Deposit &amp; Mint</div>
+						<div className="grid md:grid-cols-2 gap-4">
+							<TokenInput
+								label="Deposit"
+								max={userBalance >= minColl ? userBalance : undefined}
+								min={mintPrice > 0n ? (amount * parseUnits("1", 18) + mintPrice - 1n) / mintPrice : undefined}
+								reset={minColl}
+								digit={position.collateralDecimals}
+								onChange={onChangeCollateral}
+								error={errorColl}
+								placeholder="Amount"
+								value={String(collAmount)}
+								symbol={position.collateralSymbol}
+								limit={userBalance}
+								limitDigit={position.collateralDecimals}
+								limitLabel="Balance"
+							/>
+							<TokenInput
+								label="Mint now"
+								symbol="ZCHF"
+								value={amount.toString()}
+								onChange={onChangeAmount}
+								max={borrowingLimit}
+								onMax={() => setAmount(borrowingLimit)}
+								error={errorBorrow}
+								showButtons={true}
+								limit={borrowingLimit}
+								limitDigit={18}
+								limitLabel="Mintable"
+							/>
+						</div>
+
+						<div className="-mt-2 text-center">
+							{linked ? (
+								<AppButtonSecondary className="h-10 rounded-full" width="w-10" onClick={() => setLinked(false)}>
+									<FontAwesomeIcon icon={faLink} className="w-5 h-5" />
+								</AppButtonSecondary>
+							) : (
+								<AppButtonSecondary
+									className="h-10 rounded-full"
+									width="w-10"
+									onClick={() => {
+										setLinked(true);
+										const resetPrice = newPrice > priceBigInt ? priceBigInt : newPrice;
+										setNewPrice(resetPrice);
+										const effectivePrice = resetPrice <= priceBigInt ? resetPrice : priceBigInt;
+										setMintPrice(effectivePrice);
+										if (effectivePrice > 0n) setAmount((collAmount * effectivePrice) / parseUnits("1", 18));
+									}}
+								>
+									<FontAwesomeIcon icon={faLinkSlash} className="w-5 h-5" />
+								</AppButtonSecondary>
+							)}
+						</div>
 					</div>
 
-					<div className="-mt-4 text-center">
-						{linked ? (
-							<AppButtonSecondary className="h-10 rounded-full" width="w-10" onClick={() => setLinked(false)}>
-								<FontAwesomeIcon icon={faLink} className="w-5 h-5" />
-							</AppButtonSecondary>
-						) : (
-							<AppButtonSecondary
-								className="h-10 rounded-full"
-								width="w-10"
-								onClick={() => {
-									setLinked(true);
-									const resetPrice = newPrice > priceBigInt ? priceBigInt : newPrice;
-									setNewPrice(resetPrice);
-									const effectivePrice = resetPrice <= priceBigInt ? resetPrice : priceBigInt;
-									setMintPrice(effectivePrice);
-									if (effectivePrice > 0n) setAmount((collAmount * effectivePrice) / parseUnits("1", 18));
-								}}
-							>
-								<FontAwesomeIcon icon={faLinkSlash} className="w-5 h-5" />
-							</AppButtonSecondary>
-						)}
+					{/* Terms */}
+					<div className="flex flex-col gap-y-4">
+						<div className="text-[11px] uppercase tracking-[0.12em] text-text-header">Terms</div>
+						<div className="grid md:grid-cols-1 gap-4">
+							<LiquidationSlider
+								label="Liquidation Price"
+								value={newPrice}
+								digit={priceDigit}
+								sliderMin={parseUnits(String(collateralPriceZchf * 0.1), priceDigit)}
+								sliderMax={parseUnits(String(collateralPriceZchf), priceDigit)}
+								sliderSource={priceBigInt}
+								min={collAmount > 0n ? (amount * parseUnits("1", 18) + collAmount - 1n) / collAmount : undefined}
+								max={linked ? priceBigInt : parseUnits(String(collateralPriceZchf), priceDigit)}
+								reset={priceBigInt}
+								onChange={onChangeLiqPrice}
+								limit={ltvLimit}
+								limitDigit={6}
+								limitLabel="LTV"
+								limitUnit="%"
+								error={newPrice == 0n ? "Needs to be greater than zero" : ""}
+								warning={
+									newPrice > priceBigInt
+										? `Liquidation prices above the reference become effective after a 3-day cooldown. Afterwards, up to ${formatCurrency(
+												formatUnits(additionalMintable, 18)
+										  )} more ZCHF can be minted.`
+										: undefined
+								}
+							/>
+
+							<DateInput
+								label="Repay by"
+								value={expirationDate}
+								onChange={onChangeExpiration}
+								error={errorDate}
+								max={expirationMax}
+								tabs={["1M", "3M", "6M", "1Y", "Max"]}
+								tabDates={expirationTabDates}
+								tab={expirationTab}
+								onTab={onTabExpiration}
+							/>
+						</div>
 					</div>
 
-					<div className="grid md:grid-cols-1 gap-4">
-						<LiquidationSlider
-							label="Liquidation Price"
-							value={newPrice}
-							digit={priceDigit}
-							sliderMin={parseUnits(String(collateralPriceZchf * 0.1), priceDigit)}
-							sliderMax={parseUnits(String(collateralPriceZchf), priceDigit)}
-							sliderSource={priceBigInt}
-							min={collAmount > 0n ? (amount * parseUnits("1", 18) + collAmount - 1n) / collAmount : undefined}
-							max={linked ? priceBigInt : parseUnits(String(collateralPriceZchf), priceDigit)}
-							reset={priceBigInt}
-							onChange={onChangeLiqPrice}
-							limit={ltvLimit}
-							limitDigit={6}
-							limitLabel="LTV"
-							limitUnit="%"
-							error={newPrice == 0n ? "Needs to be greater than zero" : ""}
-							warning={
-								newPrice > priceBigInt
-									? `Liquidation prices above the reference become effective after a 3-day cooldown. Afterwards, up to ${formatCurrency(
-											formatUnits(additionalMintable, 18)
-									  )} more ZCHF can be minted.`
-									: undefined
-							}
-						/>
+					{/* Summary */}
+					<div className="flex flex-col gap-y-4">
+						<div className="text-[11px] uppercase tracking-[0.12em] text-text-header">Summary</div>
 
-						<DateInput
-							label="Repay by"
-							value={expirationDate}
-							onChange={onChangeExpiration}
-							error={errorDate}
-							max={expirationMax}
-							tabs={["1M", "3M", "6M", "1Y", "Max"]}
-							tabDates={expirationTabDates}
-							tab={expirationTab}
-							onTab={onTabExpiration}
-						/>
-					</div>
-
-					<div className="flex-1 mb-4 space-y-4">
-						<AppBox tight={true}>
-							<div className="flex">
-								<div className="flex-1 text-text-secondary">
-									<span>{newPrice > priceBigInt ? "Minted now" : "Minted"}</span>
-									<span className="text-xs ml-1">(100%)</span>
+						<div className="rounded-card border border-card-input-border bg-card-content-primary px-6 py-5">
+							<div className="space-y-3">
+								<div className="flex">
+									<div className="flex-1 text-text-secondary">
+										<span>{newPrice > priceBigInt ? "Minted now" : "Minted"}</span>
+										<span className="text-xs ml-1">(100%)</span>
+									</div>
+									<div className="text-right text-text-primary">
+										<span>{formatCurrency(formatUnits(amount, 18))} ZCHF</span>
+									</div>
 								</div>
-								<div className="text-right">
-									<span>{formatCurrency(formatUnits(amount, 18))} ZCHF</span>
+
+								<div className="flex">
+									<div className="flex-1 text-text-secondary">
+										<span>Retained reserve</span>
+										<span className="text-xs ml-1">({formatCurrency(position.reserveContribution / 10000)}%)</span>
+									</div>
+									<div className="text-right text-text-primary">
+										<span>
+											{amount > 0n ? "-" : ""}
+											{formatCurrency(formatUnits(borrowersReserveContribution, 18))} ZCHF
+										</span>
+									</div>
+								</div>
+
+								<div className="flex">
+									<div className="flex-1 text-text-secondary">
+										<span>To be repaid in the end</span>
+										<span className="text-xs ml-1">
+											({formatCurrency(100 - position.reserveContribution / 10000)}%)
+										</span>
+									</div>
+									<div className="text-right text-text-primary">
+										<span>
+											{formatCurrency(
+												formatUnits((amount * BigInt(1_000_000 - position.reserveContribution)) / 1_000_000n, 18)
+											)}{" "}
+											ZCHF
+										</span>
+									</div>
+								</div>
+
+								<div className="flex">
+									<div className="flex-1 text-text-secondary">
+										<span>Upfront interest</span>
+										<span className="text-xs ml-1">({formatCurrency(effectiveInterest * 100)}% per year)</span>
+									</div>
+									<div className="text-right text-text-primary">
+										<span>
+											{amount > 0n ? "-" : ""}
+											{formatCurrency(formatUnits(fees, 18))} ZCHF
+										</span>
+									</div>
 								</div>
 							</div>
 
-							<div className="mt-0 flex">
-								<div className="flex-1 text-text-secondary">
-									<span>Retained reserve</span>
-									<span className="text-xs ml-1">({formatCurrency(position.reserveContribution / 10000)}%)</span>
-								</div>
-								<div className="text-right">
-									<span>
-										{amount > 0n ? "-" : ""}
-										{formatCurrency(formatUnits(borrowersReserveContribution, 18))} ZCHF
-									</span>
-								</div>
-							</div>
-
-							<div className="mt-2 flex">
-								<div className="flex-1 text-text-secondary">
-									<span>To be repaid in the end</span>
-									<span className="text-xs ml-1">({formatCurrency(100 - position.reserveContribution / 10000)}%)</span>
-								</div>
-								<div className="text-right">
-									<span>
-										{formatCurrency(
-											formatUnits((amount * BigInt(100 - position.reserveContribution / 10000)) / 100n, 18)
-										)}{" "}
-										ZCHF
-									</span>
-								</div>
-							</div>
-
-							<div className="mt-0 flex">
-								<div className="flex-1 text-text-secondary">
-									<span>Upfront interest</span>
-									<span className="text-xs ml-1">({formatCurrency(effectiveInterest * 100)}% per year)</span>
-								</div>
-								<div className="text-right">
-									<span>
-										{amount > 0n ? "-" : ""}
-										{formatCurrency(formatUnits(fees, 18))} ZCHF
-									</span>
-								</div>
-							</div>
-
-							<div className="mt-2 flex font-extrabold">
+							<div className="flex font-extrabold border-t border-card-input-border pt-3 mt-3">
 								<div className="flex-1 text-text-secondary">
 									<span>Sent to your wallet</span>
 								</div>
-								<div className="text-right">
+								<div className="text-right text-text-primary">
 									<span>{formatCurrency(formatUnits(paidOutToWallet, 18))} ZCHF</span>
 								</div>
 							</div>
-						</AppBox>
+						</div>
 
 						{newPrice > priceBigInt && (
-							<AppBox tight={true}>
-								<div className="text-amber-500">
+							<div className="rounded-card border border-card-input-border bg-card-content-primary px-6 py-5">
+								<div className="space-y-3 text-amber-500">
 									<div className="flex">
 										<div className="flex-1">
 											<span>Mintable after cooldown</span>
@@ -472,7 +487,7 @@ export default function PositionBorrow({}) {
 										</div>
 									</div>
 
-									<div className="mt-0 flex">
+									<div className="flex">
 										<div className="flex-1">
 											<span>Available after cooldown</span>
 										</div>
@@ -482,7 +497,7 @@ export default function PositionBorrow({}) {
 										</div>
 									</div>
 								</div>
-							</AppBox>
+							</div>
 						)}
 					</div>
 
@@ -514,7 +529,7 @@ export default function PositionBorrow({}) {
 					</div>
 
 					{isPositionBlocked && (
-						<div className="flex my-2 px-2 text-amber-500">
+						<div className="flex px-2 text-amber-500">
 							{position.start * 1000 > now
 								? "This position is pending governance approval."
 								: "This position is in a cooldown period."}
@@ -524,9 +539,9 @@ export default function PositionBorrow({}) {
 
 				<div className="grid gap-4 mt-8">
 					{hasAlternatives && (
-						<AppCard>
-							<div className="text-base font-display font-semibold text-text-primary mt-3">Alternative Terms</div>
-							<div className="flex-1 mt-4">
+						<AppCard className="p-8 flex flex-col gap-y-4">
+							<div className="text-base font-display font-semibold text-text-primary">Alternative Terms</div>
+							<div className="flex-1">
 								<div className="grid grid-cols-3 text-xs text-text-secondary pb-1 border-b border-gray-200 mb-1">
 									<div>Term</div>
 									<div className="text-center">Value</div>
@@ -557,7 +572,7 @@ export default function PositionBorrow({}) {
 									);
 								})}
 							</div>
-							<div className="mt-2">
+							<div>
 								<AppButtonSecondary onClick={() => navigate.push(`/mint/create?source=${addressQuery}`)}>
 									Need different terms?
 								</AppButtonSecondary>

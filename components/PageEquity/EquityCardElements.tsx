@@ -14,15 +14,7 @@ const LOCK_TOTAL_SECONDS = 86_400n * 90n;
 /* Token pill row                                                              */
 /* -------------------------------------------------------------------------- */
 
-export function TokenPills({
-	tokens,
-	active,
-	onChange,
-}: {
-	tokens: readonly string[];
-	active: string;
-	onChange: (t: string) => void;
-}) {
+export function TokenPills({ tokens, active, onChange }: { tokens: readonly string[]; active: string; onChange: (t: string) => void }) {
 	return (
 		<div className="inline-flex items-center rounded-full border border-card-input-border bg-card-content-primary p-1">
 			{tokens.map((t) => {
@@ -64,6 +56,7 @@ interface FlatAmountInputProps {
 	error?: string;
 	readOnly?: boolean;
 	placeholder?: string;
+	decimals?: number;
 }
 
 const TWO_DIGIT_FORMAT = new Intl.NumberFormat("en-US", {
@@ -85,11 +78,12 @@ export function EquityFlatAmountInput({
 	error,
 	readOnly,
 	placeholder,
+	decimals = 18,
 }: FlatAmountInputProps) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const readOnlyDisplay = (() => {
 		try {
-			const num = parseFloat(formatUnits(BigInt(value || "0"), 18));
+			const num = parseFloat(formatUnits(BigInt(value || "0"), decimals));
 			return isFinite(num) ? TWO_DIGIT_FORMAT.format(num) : "0.00";
 		} catch {
 			return "0.00";
@@ -111,7 +105,7 @@ export function EquityFlatAmountInput({
 						className={`w-full px-0 py-0 text-3xl font-mono bg-transparent ${
 							error ? "text-card-input-error" : "text-text-primary"
 						}`}
-						decimals={18}
+						decimals={decimals}
 						placeholder={placeholder ?? `${activeToken} amount`}
 						value={value || ""}
 						onChange={onChange}
@@ -125,8 +119,7 @@ export function EquityFlatAmountInput({
 					<div className="flex-1 flex gap-2 min-w-0">
 						<span className="text-text-secondary flex-shrink-0">Balance</span>
 						<span className="text-text-primary font-mono truncate">
-							{formatCurrency(formatUnits(balance, 18))}{" "}
-							<span className="text-text-secondary">{activeToken}</span>
+							{formatCurrency(formatUnits(balance, decimals))} <span className="text-text-secondary">{activeToken}</span>
 						</span>
 					</div>
 					{!readOnly && max !== undefined && max !== BigInt(value || "0") && (
@@ -301,12 +294,8 @@ export function EquityDualBalanceStats({
 							</div>
 						</div>
 						<div className="text-right">
-							<div className="text-[11px] uppercase tracking-[0.12em] text-text-header">
-								{r.holdingLabel ?? "Held"}
-							</div>
-							<div className="text-sm font-mono text-text-primary">
-								{valid ? formatDuration(r.holdingSeconds) : "—"}
-							</div>
+							<div className="text-[11px] uppercase tracking-[0.12em] text-text-header">{r.holdingLabel ?? "Held"}</div>
+							<div className="text-sm font-mono text-text-primary">{valid ? formatDuration(r.holdingSeconds) : "—"}</div>
 						</div>
 					</div>
 				);
