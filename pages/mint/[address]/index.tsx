@@ -444,7 +444,7 @@ export default function PositionBorrow({}) {
 									<div className="text-right text-text-primary">
 										<span>
 											{formatCurrency(
-												formatUnits((amount * BigInt(100 - position.reserveContribution / 10000)) / 100n, 18)
+												formatUnits((amount * BigInt(1_000_000 - position.reserveContribution)) / 1_000_000n, 18)
 											)}{" "}
 											ZCHF
 										</span>
