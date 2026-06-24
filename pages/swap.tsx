@@ -1,22 +1,19 @@
 import Head from "next/head";
-import TokenInput from "@components/Input/TokenInput";
 import { useEffect, useState } from "react";
 import { useContractUrl, useSwapVCHFStats, useSwapCHFAUStats } from "@hooks";
 import { useRouter } from "next/router";
-import { erc20Abi, maxUint256 } from "viem";
+import { erc20Abi, formatUnits, maxUint256 } from "viem";
 import AppButton from "@components/AppButton";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { formatBigInt, shortenAddress } from "@utils";
+import { formatBigInt, formatCurrency, shortenAddress } from "@utils";
 import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import { WAGMI_CONFIG } from "../app.config";
 import AppCard from "@components/AppCard";
-import AppTitle from "@components/AppTitle";
 import { FrankencoinABI } from "@frankencoin/zchf";
 import AppLink from "@components/AppLink";
 import GuardSupportedChain from "@components/Guards/GuardSupportedChain";
+import { EquityFlatAmountInput, EquityWideSwapPill } from "@components/PageEquity/EquityCardElements";
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n);
@@ -249,56 +246,47 @@ export default function Swap() {
 				<title>Frankencoin - Swap</title>
 			</Head>
 
-			<AppTitle hero title="Swap" />
-
 			<div className="md:mt-8">
 				<section className="mx-auto max-w-2xl sm:px-8">
-					<AppCard>
-						<div className="mt-4 text-base font-display font-semibold text-text-primary">Swap {swapStats.otherSymbol} and ZCHF</div>
+					<AppCard className="p-8 flex flex-col gap-y-4">
+						<div className="text-base font-display font-semibold text-text-primary">Swap {swapStats.otherSymbol} and ZCHF</div>
 
-						<div className="mt-8">
-							The <AppLink className="" label="swap module" href={bridgeUrl} external={true} /> enables 1:1 conversion between
-							other Swiss Franc stablecoins and back, up to certain limits. Currently,{" "}
-							<AppLink className="" label={swapStats.otherLabel} href={swapStats.otherInfoUrl} external={true} /> is
-							supported.
-						</div>
-
-						<div className="mt-8">
-							<TokenInput
-								max={fromBalance < swapLimitCorrected ? fromBalance : swapLimitCorrected}
-								reset={0n}
-								digit={fromDecimals}
-								symbol={fromSymbol}
-								limit={fromBalance}
-								limitDigit={fromDecimals}
-								limitLabel="Balance"
-								placeholder={"Swap Amount"}
-								onChange={onChangeAmount}
-								value={amount.toString()}
-								error={error}
-							/>
-						</div>
-
-						<div className="py-4 text-center z-0">
-							<AppButton className={`h-10 rounded-full`} width="w-10" onClick={onChangeDirection}>
-								<FontAwesomeIcon icon={faArrowDown} className="w-6 h-6" />
-							</AppButton>
-						</div>
-
-						<TokenInput
-							symbol={toSymbol}
-							digit={toDecimals}
-							limitDigit={18}
-							limit={swapLimit}
-							limitLabel="Available"
-							value={toAmount.toString()}
-							note={`1 ${fromSymbol} = 1 ${toSymbol}`}
-							label="Receive"
-							disabled={true}
-							error={errorBridge}
+						<EquityFlatAmountInput
+							label="Pay"
+							value={amount.toString()}
+							onChange={onChangeAmount}
+							balance={fromBalance}
+							max={fromBalance < swapLimitCorrected ? fromBalance : swapLimitCorrected}
+							error={error}
+							tokens={[fromSymbol]}
+							activeToken={fromSymbol}
+							onTokenChange={() => {}}
+							decimals={fromDecimals}
 						/>
 
-						<div className="mx-auto mt-8 w-full flex-col">
+						<EquityWideSwapPill fromSymbol={fromSymbol} toSymbol={toSymbol} onClick={onChangeDirection} />
+
+						<EquityFlatAmountInput
+							label="Receive"
+							value={toAmount.toString()}
+							readOnly
+							error={errorBridge}
+							tokens={[toSymbol]}
+							activeToken={toSymbol}
+							onTokenChange={() => {}}
+							decimals={toDecimals}
+						/>
+
+						<div className="flex flex-row justify-between gap-2 text-sm text-text-secondary">
+							<span>
+								1 {fromSymbol} = 1 {toSymbol}
+							</span>
+							<span>
+								Available {formatCurrency(formatUnits(swapLimit, 18))} <span>{toSymbol}</span>
+							</span>
+						</div>
+
+						<div className="mx-auto w-full flex-col">
 							<GuardSupportedChain chain={chain}>
 								{direction ? (
 									amount > swapStats.otherUserAllowance ? (
@@ -325,8 +313,19 @@ export default function Swap() {
 								)}
 							</GuardSupportedChain>
 						</div>
+					</AppCard>
 
-						<div className="mt-6">
+					<AppCard className="mt-8 p-8 flex flex-col gap-y-4">
+						<div className="text-base font-display font-semibold text-text-primary">About the swap module</div>
+
+						<p className="text-text-secondary leading-relaxed">
+							The <AppLink className="" label="swap module" href={bridgeUrl} external={true} /> enables 1:1 conversion between
+							other Swiss Franc stablecoins and back, up to certain limits. Currently,{" "}
+							<AppLink className="" label={swapStats.otherLabel} href={swapStats.otherInfoUrl} external={true} /> is
+							supported.
+						</p>
+
+						<p className="text-text-secondary leading-relaxed">
 							You can also use the{" "}
 							<AppLink
 								className=""
@@ -335,7 +334,7 @@ export default function Swap() {
 								external={true}
 							/>{" "}
 							to swap other tokens for ZCHF.
-						</div>
+						</p>
 					</AppCard>
 				</section>
 			</div>
