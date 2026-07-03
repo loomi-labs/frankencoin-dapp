@@ -39,7 +39,14 @@ export default function Positions() {
 			<AppTitle
 				hero
 				title="Monitoring"
-				subtitle="Monitor the health of the Frankencoin protocol. Spot undercollateralized positions, earn a 2% reward by challenging them, and buy collateral from active auctions at a discount. Track reserves, supply distribution, and system collateralization over time."
+				subtitle={
+					<>
+						Monitor the health of the Frankencoin protocol. Spot undercollateralized positions, earn a 2% reward by
+						challenging them, and buy collateral from active auctions at a discount. Track reserves, supply distribution,
+						and system collateralization over time.{" "}
+						<AppLink className="" label="Use the Telegram bot for notifications." href="/monitoring/telegram" />
+					</>
+				}
 			/>
 
 			<PageTabInput
@@ -101,10 +108,11 @@ export default function Positions() {
 							<>
 								<AppTitle title={`System Health`}>
 									<div className="text-text-secondary">
-										This chart shows how well the Frankencoins in free circulation are backed by collateral assets. All
-										Frankencoins that are not in the reserve pool are considered in free circulation. As long as the
-										value is above 100%, all Frankencoins in free circulation are backed by collateral. The recording of
-										historic watermarks started in September 2025.
+										Those charts show how well the Frankencoins are backed by collateral assets. All Frankencoins that
+										are not in the reserve pool are considered in free circulation. As long as the value is above 100%,
+										all Frankencoins in free circulation are backed by collateral. The total supply view shows how well
+										collateral assets back the whole ecosystem. The recording of historic watermarks started in
+										September 2025.
 									</div>
 								</AppTitle>
 

@@ -137,6 +137,7 @@ export default function MypositionsTable() {
 					)}
 				</TableBody>
 			</Table>
+
 			{list.length > 0 && (
 				<div className="mb-4 flex justify-end gap-2">
 					<button
@@ -145,7 +146,7 @@ export default function MypositionsTable() {
 						title="Add expiration reminder to Google Calendar"
 					>
 						<FontAwesomeIcon icon={faCalendarPlus} className="mr-2" />
-						Add to Google Calendar
+						Add next expiration to Google Calendar
 					</button>
 					<button
 						onClick={handleDownloadCalendar}
