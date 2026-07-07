@@ -162,7 +162,7 @@ export default function Positions() {
 			<MyPortfolioHoldingsGrid account={portfolioAccount} />
 
 			{/* Section Personalized Notifications */}
-			<PersonalizedNotifications />
+			<PersonalizedNotifications overwrite={account} />
 
 			{!hasAnyActivity && (
 				<AppCard>
