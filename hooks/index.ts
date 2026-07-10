@@ -23,3 +23,5 @@ export * from "./useVotesSynced";
 export * from "./useBorrowPositions";
 export * from "./useAnalytics";
 export * from "./useTheme";
+export * from "./useAmplifier";
+export * from "./useAmplifiedPositions";
