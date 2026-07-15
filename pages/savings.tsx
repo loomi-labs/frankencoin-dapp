@@ -100,17 +100,6 @@ export default function SavingsPage() {
 
 			<SavingsInteractionCard />
 
-			<div className="text-text-secondary mt-2">
-				Alternatively, you can also earn a yield by lending on{" "}
-				<AppLink
-					label={"Morpho"}
-					href={"https://app.morpho.org/ethereum/earn?assetIdsFilter=ecc8bd13-eab5-4c7b-97e1-ba23d58f8cd3"}
-					external={true}
-					className=""
-				/>
-				.
-			</div>
-
 			{account === zeroAddress ? (
 				<ConnectWalletPrompt
 					description="Connect your wallet to see your savings activity and yearly accounts."
