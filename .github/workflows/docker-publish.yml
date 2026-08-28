@@ -49,6 +49,8 @@ jobs:
             NEXT_PUBLIC_PONDER_URL=${{ vars.NEXT_PUBLIC_PONDER_URL }}
             NEXT_PUBLIC_WAGMI_ID=${{ secrets.NEXT_PUBLIC_WAGMI_ID }}
             NEXT_PUBLIC_RPC_KEY=${{ secrets.NEXT_PUBLIC_RPC_KEY }}
+            NEXT_PUBLIC_UMAMI_URL=${{ vars.NEXT_PUBLIC_UMAMI_URL }}
+            NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ vars.NEXT_PUBLIC_UMAMI_WEBSITE_ID }}
 
   deploy:
     needs: build-and-push
