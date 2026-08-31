@@ -57,11 +57,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      # The deploy key on odin is pinned to a forced command that takes exactly
-      # one argument: the image to roll out. Stack, directory, compose file and
-      # registry all come from odin's own service table, and the deploy user is
-      # already logged in to ghcr.io there, so no token travels.
-      # See odin/roles/install/files/odin-deploy in the infrastructure repo.
       - name: Deploy via SSH
         env:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
