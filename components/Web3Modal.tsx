@@ -20,6 +20,9 @@ createAppKit({
 	metadata: WAGMI_METADATA,
 	features: {
 		analytics: true,
+		swaps: false, // hides the "Swap" entry
+		onramp: false, // optional: hides "Fund wallet"
+		send: false, // optional: hides "Send"
 	},
 });
 
