@@ -25,3 +25,5 @@ export * from "./useAnalytics";
 export * from "./useTheme";
 export * from "./useAmplifier";
 export * from "./useAmplifiedPositions";
+
+export * from "./usePositionLive";
