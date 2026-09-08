@@ -1,8 +1,8 @@
 import SavingsInteractionCard from "@components/PageSavings/SavingsInteractionCard";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { RootState, store } from "../redux/redux.store";
-import { fetchLeadrate, fetchSavings } from "../redux/slices/savings.slice";
+import { RootState, store } from "../../redux/redux.store";
+import { fetchLeadrate, fetchSavings } from "../../redux/slices/savings.slice";
 import { useConnection, useChainId } from "wagmi";
 import AppTitle from "@components/AppTitle";
 import AppLink from "@components/AppLink";
@@ -73,9 +73,13 @@ export default function SavingsPage() {
 			<AppTitle
 				hero
 				title="Earn"
-				subtitle={`Earn interest on your Frankencoins - supported on all eight chains. Already more than ${Math.floor(
-					totalBalance / 1_000_000
-				)} million ZCHF saved.`}
+				subtitle={
+					<>
+						Earn interest on your Frankencoins - supported on all eight chains. Already more than{" "}
+						{Math.floor(totalBalance / 1_000_000)} million ZCHF saved. Want a single tradable token instead? Check out
+						the <AppLink className="" label="Savings Vault" href={`/savings/vault`} />.
+					</>
+				}
 			>
 				<AppHeroSteps
 					nested
