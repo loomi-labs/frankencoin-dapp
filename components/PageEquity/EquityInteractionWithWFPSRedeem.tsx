@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { usePoolStats } from "@hooks";
+import { usePoolStats, useLiveBlockNumber } from "@hooks";
 import { formatBigInt, shortenAddress } from "@utils";
-import { useConnection, useBlockNumber } from "wagmi";
+import { useConnection } from "wagmi";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { erc20Abi, formatUnits, zeroAddress } from "viem";
 import AppButton from "@components/AppButton";
@@ -34,7 +34,7 @@ export default function EquityInteractionWithWFPSRedeem({ tokenFromTo, setTokenF
 	const [wfpsHolding, setWfpsHolding] = useState<bigint>(0n);
 	const [calculateProceeds, setCalculateProceeds] = useState<bigint>(0n);
 
-	const { data } = useBlockNumber({ watch: true });
+	const { data } = useLiveBlockNumber({ watch: true });
 	const { address } = useConnection();
 	const poolStats = usePoolStats();
 	const chainId = mainnet.id;
