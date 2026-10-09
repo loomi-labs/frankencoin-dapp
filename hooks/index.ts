@@ -6,6 +6,7 @@ export * from "./useFPSYearlyReport";
 export * from "./useFPSHolders";
 export * from "./useFPSStats";
 export * from "./useFCSStats";
+export * from "./useFCSHolding";
 
 export * from "./useContractUrl";
 export * from "./useSwapVCHFStats";

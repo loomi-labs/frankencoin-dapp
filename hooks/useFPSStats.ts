@@ -1,12 +1,12 @@
 import { useConnection, useChainId, useReadContracts } from "wagmi";
 import { decodeBigIntCall } from "@utils";
-import { zeroAddress } from "viem";
+import { Address, zeroAddress } from "viem";
 import { ADDRESS, EquityABI, FrankencoinABI } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
 
-export const usePoolStats = () => {
+export const usePoolStats = (accountOverride?: Address) => {
 	const { address } = useConnection();
-	const account = address || zeroAddress;
+	const account = accountOverride || address || zeroAddress;
 
 	const equityContract = {
 		address: ADDRESS[mainnet.id].equity,

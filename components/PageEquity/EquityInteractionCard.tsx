@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import EquityInteractionWithZCHFFPS from "./EquityInteractionWithZCHFFPS";
 import EquityInteractionWithFPSWFPS from "./EquityInteractionWithFPSWFPS";
 import EquityInteractionWithWFPSRedeem from "./EquityInteractionWithWFPSRedeem";
@@ -19,8 +20,20 @@ export const EquityTokenSelectorMapping: { [key: string]: string[] } = {
 };
 
 export default function EquityInteractionCard() {
+	const router = useRouter();
 	const [tokenFromTo, setTokenFromTo] = useState<{ from: string; to: string }>({ from: "ZCHF", to: "FCS" });
 	const involvesFcs = tokenFromTo.from === "FCS" || tokenFromTo.to === "FCS";
+
+	// Deep link: /equity?from=FPS&to=FCS opens a valid pair directly.
+	useEffect(() => {
+		if (!router.isReady) return;
+		const { from, to } = router.query;
+		if (typeof from === "string" && typeof to === "string" && EquityTokenSelectorMapping[from]?.includes(to)) {
+			setTokenFromTo({ from, to });
+		} else {
+			setTokenFromTo({ from: "ZCHF", to: "FCS" });
+		}
+	}, [router.isReady, router.query]);
 
 	return (
 		<AppCard className="p-8 flex flex-col gap-y-4">

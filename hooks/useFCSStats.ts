@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useLiveBlockNumber } from "./useLiveBlockNumber";
 import { useConnection, useReadContracts } from "wagmi";
 import { decodeBigIntCall } from "@utils";
-import { zeroAddress } from "viem";
+import { Address, zeroAddress } from "viem";
 import { ADDRESS, EquityABI, FCSABI, FrankencoinABI } from "@frankencoin/zchf";
 import { mainnet } from "viem/chains";
 
-export const useFCSStats = () => {
+export const useFCSStats = (accountOverride?: Address) => {
 	const { address } = useConnection();
-	const account = address || zeroAddress;
+	const account = accountOverride || address || zeroAddress;
 
 	const fcsContract = {
 		address: ADDRESS[mainnet.id].fcs,

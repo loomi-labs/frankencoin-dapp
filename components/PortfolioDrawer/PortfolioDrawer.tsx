@@ -14,7 +14,7 @@ import { usePortfolioDrawer } from "./PortfolioDrawerContext";
 import PortfolioDrawerTotals from "./PortfolioDrawerTotals";
 import PortfolioDrawerPositions from "./PortfolioDrawerPositions";
 import PortfolioDrawerSavings from "./PortfolioDrawerSavings";
-import PortfolioDrawerFps from "./PortfolioDrawerFps";
+import PortfolioDrawerFcs from "./PortfolioDrawerFcs";
 import PortfolioDrawerWallet from "./PortfolioDrawerWallet";
 import PortfolioDrawerActivity from "./PortfolioDrawerActivity";
 
@@ -94,7 +94,7 @@ export default function PortfolioDrawer() {
 							<div className="rounded-card border border-card-input-border bg-card-body-primary p-4 text-center">
 								<div className="text-sm font-medium text-text-primary mb-1">Connect your wallet</div>
 								<div className="text-xs text-text-secondary mb-3">
-									Sign in to see your positions, savings, FPS, and wallet balances.
+									Sign in to see your positions, savings, FCS, and wallet balances.
 								</div>
 								<button
 									type="button"
@@ -109,7 +109,7 @@ export default function PortfolioDrawer() {
 								<PortfolioDrawerTotals account={account} />
 								<PortfolioDrawerPositions account={account} />
 								<PortfolioDrawerSavings account={account} />
-								<PortfolioDrawerFps />
+								<PortfolioDrawerFcs />
 								<PortfolioDrawerWallet />
 								<PortfolioDrawerActivity account={account} />
 							</>

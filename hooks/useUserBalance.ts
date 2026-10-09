@@ -1,12 +1,13 @@
 import { useConnection, useReadContracts } from "wagmi";
 import { decodeBigIntCall } from "@utils";
-import { ADDRESS, BridgedFrankencoinABI, ChainId, EquityABI, FrankencoinABI } from "@frankencoin/zchf";
+import { ADDRESS, BridgedFrankencoinABI, ChainId, EquityABI, FCSABI, FrankencoinABI } from "@frankencoin/zchf";
 import { arbitrum, avalanche, base, gnosis, mainnet, optimism, polygon, sonic } from "viem/chains";
 import { Address, zeroAddress } from "viem";
 
 export type ChainBalance = {
 	frankencoin: bigint;
 	equity?: bigint; // optional if not all chains return equity
+	fcs?: bigint;
 };
 
 export type UserBalance = Record<ChainId, ChainBalance>;
@@ -84,6 +85,13 @@ export const useUserBalance = (account?: Address): UserBalance => {
 				functionName: "balanceOf",
 				args: [account],
 			},
+			{
+				address: ADDRESS[mainnet.id].fcs,
+				chainId: mainnet.id,
+				abi: FCSABI,
+				functionName: "balanceOf",
+				args: [account],
+			},
 		],
 	});
 
@@ -91,6 +99,7 @@ export const useUserBalance = (account?: Address): UserBalance => {
 		[mainnet.id]: {
 			frankencoin: data ? decodeBigIntCall(data[0]) : BigInt(0),
 			equity: data ? decodeBigIntCall(data[1]) : BigInt(0),
+			fcs: data ? decodeBigIntCall(data[9]) : BigInt(0),
 		},
 		[polygon.id]: {
 			frankencoin: data ? decodeBigIntCall(data[2]) : BigInt(0),

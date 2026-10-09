@@ -128,7 +128,7 @@ export default function Positions() {
 				<AppTitle title="Dashboard" />
 
 				<ConnectWalletPrompt
-					description="Connect your wallet to see your positions, savings, FPS, and wallet balances."
+					description="Connect your wallet to see your positions, savings, FCS, and wallet balances."
 					umamiEvent="wallet_connect_clicked_dashboard"
 				/>
 			</>
