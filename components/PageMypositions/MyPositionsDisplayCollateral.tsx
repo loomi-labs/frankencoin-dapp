@@ -42,7 +42,7 @@ export default function MyPositionsDisplayCollateral({ position, collateralPrice
 					<span className="ml-1 text-[11px] text-text-secondary">{position.version == 2 ? "v2" : "v1"}</span>
 				</span>
 				<span className="mt-0.5 font-mono text-[11px] text-text-secondary">
-					{formatCurrency(collateralValue, 2, 2)} ZCHF
+					{collateralPrice > 0 ? `${formatCurrency(collateralValue, 2, 2)} ZCHF` : "—"}
 				</span>
 			</div>
 		</div>

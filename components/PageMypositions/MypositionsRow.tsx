@@ -29,9 +29,11 @@ export default function MypositionsRow({ headers, tab, position }: Props) {
 
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	const challenges = useSelector((state: RootState) => state.challenges.positions);
-	const collTokenPrice = prices[normalizeAddress(position.collateral)]?.price?.usd;
+	const collTokenPrice = prices[normalizeAddress(position.collateral)]?.price?.usd ?? 0;
 	const zchfPrice = prices[normalizeAddress(position.zchf)]?.price?.usd;
-	if (!collTokenPrice || !zchfPrice) return null;
+	// @dev: wait for the ZCHF price only. A collateral without a market price (e.g. a new token) is still owned and must be listed.
+	if (!zchfPrice) return null;
+	const hasMarketPrice = collTokenPrice > 0;
 
 	const maturity: number = (position.expiration * 1000 - Date.now()) / 1000 / 60 / 60 / 24;
 
@@ -170,12 +172,14 @@ export default function MypositionsRow({ headers, tab, position }: Props) {
 
 			{/* Liquidation */}
 			<div className="flex flex-col items-end">
-				<span className={`text-[15px] ${liquidationPct < 110 ? "font-semibold text-text-warning" : "text-text-primary"}`}>
+				<span
+					className={`text-[15px] ${hasMarketPrice && liquidationPct < 110 ? "font-semibold text-text-warning" : "text-text-primary"}`}
+				>
 					<span className="font-mono">{formatCurrency(liquidationZCHF, 2, 2)}</span>
 					<span className="ml-1 font-mono text-[11px] text-text-secondary">ZCHF</span>
 				</span>
 				<span className="mt-0.5 font-mono text-[11px] text-text-secondary">
-					{formatCurrency(collTokenPrice / zchfPrice, 2, 2)} market
+					{hasMarketPrice ? `${formatCurrency(collTokenPrice / zchfPrice, 2, 2)} market` : "—"}
 				</span>
 			</div>
 
