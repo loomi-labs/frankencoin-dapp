@@ -103,7 +103,7 @@ export default function SavingsPage() {
 				/>
 			</AppTitle>
 
-			<SavingsInteractionCard />
+			<SavingsInteractionCard key={`${chainId}:${account}:${address ?? ""}`} account={account} />
 
 			{account === zeroAddress ? (
 				<ConnectWalletPrompt

@@ -10,6 +10,7 @@ import { SavingsBalance, SavingsBalanceChainIdMapping } from "@frankencoin/api";
 
 interface Props {
 	account: Address;
+	readOnly: boolean;
 	chain: SupportedChain;
 	balance: bigint;
 	change: bigint;
@@ -23,6 +24,7 @@ interface Props {
 
 export default function SavingsDetailsCard({
 	account,
+	readOnly,
 	chain,
 	balance,
 	change,
@@ -41,7 +43,7 @@ export default function SavingsDetailsCard({
 		entries = Object.values(savingsBalance)
 			.map((m) => Object.values(m))
 			.flat()
-			.filter((m) => BigInt(m.balance) > 0n);
+			.filter((m) => m.account.toLowerCase() === account.toLowerCase() && BigInt(m.balance) > 0n);
 	}
 
 	const activeBalance = entries.filter((i) => i.chainId == chain.id);
@@ -51,20 +53,42 @@ export default function SavingsDetailsCard({
 	const hasChange = interest > 0n || change !== 0n;
 	const resulting = balance + change + interest;
 
+	const referrerRow = (
+		<Row
+			label={
+				<>
+					Pay out to{" "}
+					<AppLink className="pr-2" label="referrer" href={ContractUrl(referrer, chain)} external={true} />(
+					{Math.round(Number(referralFeePPM / 1000n)) / 10}%)
+				</>
+			}
+			value={`- ${formatCurrency(formatUnits(referralFees, 18))} ZCHF`}
+		/>
+	);
+
 	return (
 		<AppCard className="p-8 flex flex-col gap-y-6">
-			<div className="text-base font-display font-semibold text-text-primary">Outcome</div>
+			<div className="text-base font-display font-semibold text-text-primary">{readOnly ? "Savings details" : "Outcome"}</div>
 
 			<section className="flex flex-col gap-3">
 				<SectionLabel>Position</SectionLabel>
-				<Row label="Your total balance" value={`${formatCurrency(formatUnits(totalBalance, 18))} ZCHF`} muted />
+				<Row
+					label={readOnly ? "Total saved balance" : "Your total balance"}
+					value={`${formatCurrency(formatUnits(totalBalance, 18))} ZCHF`}
+					muted
+				/>
 				{inactiveBalance.map((i, idx) => (
 					<SavingsSavedItem savings={i} key={`SavingsSavedItem_${idx}`} />
 				))}
-				<Row label="Your current balance" value={`${formatCurrency(formatUnits(balance, 18))} ZCHF`} />
+				<Row
+					label={readOnly ? "Current saved balance" : "Your current balance"}
+					value={`${formatCurrency(formatUnits(balance, 18))} ZCHF`}
+				/>
+				{readOnly && <Row label="Accrued interest" value={`${formatCurrency(formatUnits(interest, 18))} ZCHF`} />}
+				{readOnly && referrer != zeroAddress && referrerRow}
 			</section>
 
-			{hasChange && (
+			{!readOnly && hasChange && (
 				<section className="flex flex-col gap-3">
 					<SectionLabel>This adjustment</SectionLabel>
 					<Row label="Interest to be collected" value={`${formatCurrency(formatUnits(interest, 18))} ZCHF`} />
@@ -74,38 +98,33 @@ export default function SavingsDetailsCard({
 							formatUnits((change < 0n ? -change : change) - (referrer != zeroAddress ? referralFees : 0n), 18)
 						)} ZCHF`}
 					/>
-					{referrer != zeroAddress && (
-						<Row
-							label={
-								<>
-									Pay out to{" "}
-									<AppLink className="pr-2" label="referrer" href={ContractUrl(referrer, chain)} external={true} />(
-									{Math.round(Number(referralFeePPM / 1000n)) / 10}%)
-								</>
-							}
-							value={`- ${formatCurrency(formatUnits(referralFees, 18))} ZCHF`}
-						/>
-					)}
+					{referrer != zeroAddress && referrerRow}
 				</section>
 			)}
 
-			<div className="border-t border-card-input-border border-dashed" />
+			{!readOnly && (
+				<>
+					<div className="border-t border-card-input-border border-dashed" />
 
-			<div className="flex font-display font-semibold text-text-primary">
-				<div className="flex-1">Resulting balance</div>
-				<div className="font-mono">{formatCurrency(formatUnits(resulting, 18))} ZCHF</div>
-			</div>
+					<div className="flex font-display font-semibold text-text-primary">
+						<div className="flex-1">Resulting balance</div>
+						<div className="font-mono">{formatCurrency(formatUnits(resulting, 18))} ZCHF</div>
+					</div>
+				</>
+			)}
 
 			{locktime > 0 && (
 				<div className="text-text-secondary text-sm leading-relaxed">
-					Interest starts to continuously accrue after three days, in your case in{" "}
+					Interest starts to continuously accrue after three days, {readOnly ? "for this account" : "in your case"} in{" "}
 					{formatCurrency((parseFloat(locktime.toString()) / 60 / 60).toString())} hours.
 				</div>
 			)}
 
-			<div className="flex justify-end">
-				<SavingsActionRedeem />
-			</div>
+			{!readOnly && (
+				<div className="flex justify-end">
+					<SavingsActionRedeem owner={account} />
+				</div>
+			)}
 		</AppCard>
 	);
 }
