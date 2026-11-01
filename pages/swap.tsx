@@ -4,6 +4,7 @@ import { useContractUrl, useSwapVCHFStats, useSwapCHFAUStats } from "@hooks";
 import { useRouter } from "next/router";
 import { erc20Abi, formatUnits, maxUint256 } from "viem";
 import AppButton from "@components/AppButton";
+import AppApproveAction from "@components/AppApproveAction";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { toast } from "react-toastify";
 import { formatBigInt, formatCurrency, shortenAddress } from "@utils";
@@ -289,23 +290,16 @@ export default function Swap() {
 						<div className="mx-auto w-full flex-col">
 							<GuardSupportedChain chain={chain}>
 								{direction ? (
-									amount > swapStats.otherUserAllowance ? (
-										<AppButton
-											disabled={!activeMinter || !!error}
-											isLoading={isApproving}
-											onClick={() => handleApprove()}
-										>
-											Approve
-										</AppButton>
-									) : (
-										<AppButton
-											disabled={amount == 0n || !activeMinter || !!error}
-											isLoading={isMinting}
-											onClick={() => handleMint()}
-										>
-											Swap
-										</AppButton>
-									)
+									<AppApproveAction
+										tokenSymbol={fromSymbol}
+										actionLabel="Swap"
+										needsApproval={swapStats.otherUserAllowance == 0n || amount > swapStats.otherUserAllowance}
+										isApproving={isApproving}
+										isActing={isMinting}
+										disabled={amount == 0n || !activeMinter || !!error}
+										onApprove={() => handleApprove()}
+										onAction={() => handleMint()}
+									/>
 								) : (
 									<AppButton isLoading={isBurning} disabled={amount == 0n || !!error} onClick={() => handleBurn()}>
 										Swap

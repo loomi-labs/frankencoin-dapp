@@ -4,7 +4,7 @@ import { formatBigInt, shortenAddress } from "@utils";
 import { useConnection } from "wagmi";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { erc20Abi, formatUnits, zeroAddress } from "viem";
-import AppButton from "@components/AppButton";
+import AppApproveAction from "@components/AppApproveAction";
 import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import { track } from "@hooks";
 import { toast } from "react-toastify";
@@ -209,23 +209,16 @@ export default function EquityInteractionWithWFPSRedeem({ tokenFromTo, setTokenF
 			<div className="px-1 text-sm text-text-secondary font-mono min-h-[1.25rem]">{conversionNote()}</div>
 
 			<GuardSupportedChain chain={mainnet}>
-				{amount > wfpsAllowance ? (
-					<AppButton
-						isLoading={isApproving}
-						disabled={amount == 0n || !!error || !unlocked}
-						onClick={() => handleApprove()}
-					>
-						Approve
-					</AppButton>
-				) : (
-					<AppButton
-						isLoading={isRedeeming}
-						disabled={amount == 0n || !!error || !unlocked}
-						onClick={() => handleRedeem()}
-					>
-						Unwrap and Redeem
-					</AppButton>
-				)}
+				<AppApproveAction
+					tokenSymbol="WFPS"
+					actionLabel="Redeem"
+					needsApproval={wfpsAllowance == 0n || amount > wfpsAllowance}
+					isApproving={isApproving}
+					isActing={isRedeeming}
+					disabled={amount == 0n || !!error || !unlocked}
+					onApprove={() => handleApprove()}
+					onAction={() => handleRedeem()}
+				/>
 			</GuardSupportedChain>
 
 			<EquityHeroPositionStats

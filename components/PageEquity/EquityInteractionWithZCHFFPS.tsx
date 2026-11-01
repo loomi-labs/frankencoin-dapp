@@ -5,6 +5,7 @@ import { useConnection, useReadContract } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { erc20Abi, formatUnits, zeroAddress } from "viem";
 import AppButton from "@components/AppButton";
+import AppApproveAction from "@components/AppApproveAction";
 import { TxToast, renderErrorTxToast } from "@components/TxToast";
 import { track } from "@hooks";
 import { toast } from "react-toastify";
@@ -215,15 +216,16 @@ export default function EquityInteractionWithZCHFFPS({ tokenFromTo, setTokenFrom
 
 			<GuardSupportedChain chain={mainnet}>
 				{direction ? (
-					amount > poolStats.frankenAllowance ? (
-						<AppButton isLoading={isApproving} disabled={amount == 0n || !!error} onClick={() => handleApprove()}>
-							Approve
-						</AppButton>
-					) : (
-						<AppButton disabled={amount == 0n || !!error} isLoading={isInversting} onClick={() => handleInvest()}>
-							Mint
-						</AppButton>
-					)
+					<AppApproveAction
+						tokenSymbol="ZCHF"
+						actionLabel="Mint"
+						needsApproval={poolStats.frankenAllowance == 0n || amount > poolStats.frankenAllowance}
+						isApproving={isApproving}
+						isActing={isInversting}
+						disabled={amount == 0n || !!error}
+						onApprove={() => handleApprove()}
+						onAction={() => handleInvest()}
+					/>
 				) : (
 					<AppButton
 						isLoading={isRedeeming}
