@@ -90,92 +90,96 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 	const roeLabel = timeframe == "1Y" ? "Return on Equity" : "RoE (annualized)";
 
 	return (
-		<AppCard className="p-8 flex flex-col gap-y-6">
-			<div className="text-base font-display font-semibold text-text-primary">Pool overview</div>
+		<AppCard className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+			<div className="lg:col-span-3 text-base font-display font-semibold text-text-primary">Pool overview</div>
 
-			<div id="chart-timeline" className="flex flex-col gap-3">
+			<div id="chart-timeline" className="lg:col-span-2 flex flex-col gap-3">
 				<MetricPills options={TypeCharts} active={typechart} onChange={setTypechart} />
 
-				<div className="-m-2">
-					<ApexChart
-						type="area"
-						options={{
-							theme: { monochrome: { color: "#2F4356", enabled: true } },
-							chart: {
-								type: "area",
-								height: 300,
-								dropShadow: { enabled: false },
-								toolbar: { show: false },
-								zoom: { enabled: false },
-								background: "0",
-							},
-							stroke: { width: 3 },
-							dataLabels: { enabled: false },
-							grid: { show: false },
-							xaxis: {
-								type: "datetime",
-								labels: {
-									show: false,
-									formatter: (value) => {
-										const date = new Date(value);
-										const d = date.getDate();
-										const m = date.getMonth() + 1;
-										const y = date.getFullYear();
-										return `${d}.${m}.${y}`;
+				{/* @dev: the chart is absolutely positioned so it never dictates the row height. On wide screens the
+				stat sections on the right set the height and the chart fills the space between the pills. */}
+				<div className="relative h-[300px] lg:h-auto lg:flex-1 lg:min-h-[200px]">
+					<div className="absolute -inset-2">
+						<ApexChart
+							type="area"
+							height="100%"
+							options={{
+								theme: { monochrome: { color: "#2F4356", enabled: true } },
+								chart: {
+									type: "area",
+									dropShadow: { enabled: false },
+									toolbar: { show: false },
+									zoom: { enabled: false },
+									background: "0",
+								},
+								stroke: { width: 3 },
+								dataLabels: { enabled: false },
+								grid: { show: false },
+								xaxis: {
+									type: "datetime",
+									labels: {
+										show: false,
+										formatter: (value) => {
+											const date = new Date(value);
+											const d = date.getDate();
+											const m = date.getMonth() + 1;
+											const y = date.getFullYear();
+											return `${d}.${m}.${y}`;
+										},
+									},
+									axisBorder: { show: false },
+									axisTicks: { show: false },
+								},
+								yaxis: {
+									min: 0,
+									labels: {
+										show: true,
+										formatter: (value) => {
+											if (typechart == TypeCharts[2]) {
+												return `${Math.round(value / 100000) / 10} Mio`;
+											} else {
+												return value.toString();
+											}
+										},
+									},
+									axisBorder: { show: true },
+									axisTicks: { show: true },
+								},
+								fill: {
+									type: "gradient",
+									gradient: {
+										shadeIntensity: 0,
+										opacityTo: 0.2,
+										gradientToColors: ["#2F4356"],
 									},
 								},
-								axisBorder: { show: false },
-								axisTicks: { show: false },
-							},
-							yaxis: {
-								min: 0,
-								labels: {
-									show: true,
-									formatter: (value) => {
-										if (typechart == TypeCharts[2]) {
-											return `${Math.round(value / 100000) / 10} Mio`;
-										} else {
-											return value.toString();
-										}
-									},
+								annotations: {
+									points: tradeAnnotations,
 								},
-								axisBorder: { show: true },
-								axisTicks: { show: true },
-							},
-							fill: {
-								type: "gradient",
-								gradient: {
-									shadeIntensity: 0,
-									opacityTo: 0.2,
-									gradientToColors: ["#2F4356"],
+							}}
+							series={[
+								{
+									name: typechart,
+									data:
+										typechart == TypeCharts[2]
+											? matchingSupply.map((entry) => [parseFloat(String(entry.created)) * 1000, entry.supply])
+											: matchingLogs.map((entry) => {
+													if (typechart == TypeCharts[1]) {
+														return [
+															parseFloat(entry.timestamp) * 1000,
+															Math.round(parseFloat(formatUnits(entry.fpsTotalSupply, 16))) / 100,
+														];
+													} else {
+														return [
+															parseFloat(entry.timestamp) * 1000,
+															Math.round(parseFloat(formatUnits(entry.fpsPrice, 16))) / 100,
+														];
+													}
+											  }),
 								},
-							},
-							annotations: {
-								points: tradeAnnotations,
-							},
-						}}
-						series={[
-							{
-								name: typechart,
-								data:
-									typechart == TypeCharts[2]
-										? matchingSupply.map((entry) => [parseFloat(String(entry.created)) * 1000, entry.supply])
-										: matchingLogs.map((entry) => {
-												if (typechart == TypeCharts[1]) {
-													return [
-														parseFloat(entry.timestamp) * 1000,
-														Math.round(parseFloat(formatUnits(entry.fpsTotalSupply, 16))) / 100,
-													];
-												} else {
-													return [
-														parseFloat(entry.timestamp) * 1000,
-														Math.round(parseFloat(formatUnits(entry.fpsPrice, 16))) / 100,
-													];
-												}
-										  }),
-							},
-						]}
-					/>
+							]}
+						/>
+					</div>
 				</div>
 
 				{matchingLogs.length == 0 ? (
@@ -185,21 +189,23 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 				<MetricPills options={Timeframes} active={timeframe} onChange={setTimeframe} dense />
 			</div>
 
-			<section className="flex flex-col gap-3">
-				<SectionLabel>Pool</SectionLabel>
-				<Row label="FPS Price" amount={formatCurrency(formatUnits(poolStats.equityPrice, 18))} unit="ZCHF" token="ZCHF" />
-				<Row label="Total Supply" amount={formatCurrency(formatUnits(poolStats.equitySupply, 18))} unit="FPS" token="FPS" muted />
-				<Row label="Market Cap" amount={formatCurrency(formatUnits(marketCap, 18))} unit="ZCHF" token="ZCHF" muted />
-				<Row label="Equity Capital" amount={formatCurrency(formatUnits(poolStats.frankenEquity, 18))} unit="ZCHF" token="ZCHF" muted />
-			</section>
+			<div className="flex flex-col gap-6">
+				<section className="flex flex-col gap-3">
+					<SectionLabel>Pool</SectionLabel>
+					<Row label="FPS Price" amount={formatCurrency(formatUnits(poolStats.equityPrice, 18))} unit="ZCHF" token="ZCHF" />
+					<Row label="Total Supply" amount={formatCurrency(formatUnits(poolStats.equitySupply, 18))} unit="FPS" token="FPS" muted />
+					<Row label="Market Cap" amount={formatCurrency(formatUnits(marketCap, 18))} unit="ZCHF" token="ZCHF" muted />
+					<Row label="Equity Capital" amount={formatCurrency(formatUnits(poolStats.frankenEquity, 18))} unit="ZCHF" token="ZCHF" muted />
+				</section>
 
-			<div className="border-t border-card-input-border border-dashed" />
+				<div className="border-t border-card-input-border border-dashed" />
 
-			<section className="flex flex-col gap-3">
-				<SectionLabel>Performance ({timeframe})</SectionLabel>
-				<Row label="Net Income" amount={formatCurrency(formatUnits(netIncome, 18))} unit="ZCHF" token="ZCHF" />
-				<Row label={roeLabel} amount={roePct} unit="%" />
-			</section>
+				<section className="flex flex-col gap-3">
+					<SectionLabel>Performance ({timeframe})</SectionLabel>
+					<Row label="Net Income" amount={formatCurrency(formatUnits(netIncome, 18))} unit="ZCHF" token="ZCHF" />
+					<Row label={roeLabel} amount={roePct} unit="%" />
+				</section>
+			</div>
 		</AppCard>
 	);
 }
