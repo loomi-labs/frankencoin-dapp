@@ -41,4 +41,5 @@ export * from "./usePositionLive";
 export * from "./useUnannouncedMinter";
 
 export * from "./useCCIPLaneCapacity";
+export * from "./useCCIPSupportedLanes";
 export * from "./useLiveBlockNumber";
