@@ -14,7 +14,7 @@ const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const TokenLogo = dynamic(() => import("@components/TokenLogo"), { ssr: false });
 
 const Timeframes = ["All", "1Y", "1Q", "1M", "1W"];
-const TypeCharts = ["FPS Price", "FPS Supply", "ZCHF Supply"];
+const TypeCharts = ["FCS Price", "FCS Supply", "ZCHF Supply"];
 
 interface Props {
 	equityTrades: EquityTrade[];
@@ -192,8 +192,8 @@ export default function EquityFPSDetailsCard({ equityTrades }: Props) {
 			<div className="flex flex-col gap-6">
 				<section className="flex flex-col gap-3">
 					<SectionLabel>Pool</SectionLabel>
-					<Row label="FPS Price" amount={formatCurrency(formatUnits(poolStats.equityPrice, 18))} unit="ZCHF" token="ZCHF" />
-					<Row label="Total Supply" amount={formatCurrency(formatUnits(poolStats.equitySupply, 18))} unit="FPS" token="FPS" muted />
+					<Row label="FCS Price" amount={formatCurrency(formatUnits(poolStats.equityPrice, 18))} unit="ZCHF" token="ZCHF" />
+					<Row label="Total Supply" amount={formatCurrency(formatUnits(poolStats.equitySupply, 18))} unit="FCS" token="FCS" muted />
 					<Row label="Market Cap" amount={formatCurrency(formatUnits(marketCap, 18))} unit="ZCHF" token="ZCHF" muted />
 					<Row label="Equity Capital" amount={formatCurrency(formatUnits(poolStats.frankenEquity, 18))} unit="ZCHF" token="ZCHF" muted />
 				</section>
