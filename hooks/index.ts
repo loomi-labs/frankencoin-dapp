@@ -37,6 +37,7 @@ export * from "./useSavingsReferrerMappings";
 export * from "./useSavingsAccounts";
 
 export * from "./usePositionLive";
+export * from "./useRollPreview";
 
 export * from "./useUnannouncedMinter";
 
